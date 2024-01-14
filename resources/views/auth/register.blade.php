@@ -2,6 +2,15 @@
     <form method="POST" enctype="multipart/form-data" action="{{ route('register') }}">
         @csrf
 
+        <div class="grid gap-3 mb-4 mt-4 sm:grid-cols-2">
+
+        <!--FirstName -->
+        <div>
+            <x-input-label for="first_name" :value="__('Firstname')" />
+            <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required autofocus autocomplete="first_name" />
+            <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
+        </div>
+
         <!-- LastName -->
         <div>
             <x-input-label for="last_name" :value="__('Lastname')" />
@@ -9,12 +18,8 @@
             <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
         </div>
 
-         <!--FirstName -->
-         <div class="mt-4">
-            <x-input-label for="first_name" :value="__('Firstname')" />
-            <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required autofocus autocomplete="first_name" />
-            <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
-        </div>
+
+
 
         <!-- Department -->
         <div class="mt-4">
@@ -65,7 +70,7 @@
         <!-- EmployeeId -->
         <div class="mt-4">
             <x-input-label for="employee_id" :value="__('Employee ID')" />
-            <x-text-input id="employee_id" class="block mt-1 w-full" type="email" name="employee_id" :value="old('employee_id')" required autocomplete="username" />
+            <x-text-input id="employee_id" class="block mt-1 w-full" type="text" name="employee_id" :value="old('employee_id')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('employee_id')" class="mt-2" />
         </div>
 
@@ -98,6 +103,8 @@
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
+
+    </div>
 
         <!-- Photo -->
         <div class="mt-4">

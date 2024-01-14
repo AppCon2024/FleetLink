@@ -52,7 +52,7 @@ class AccountsController extends Controller
             'last_name' => $request->input('last_name'),
             'first_name' => $request->input('first_name'),
             'employee_id' => $request->input('employee_id'),
-            'name'=>'name',
+            'name'=> $request->first_name . ' ' . $request->last_name,
             'email' => $request->input('email'),
             'department' => $request->input('department'),
             'position' => $request->input('position'),
@@ -65,7 +65,7 @@ class AccountsController extends Controller
             'photo' => $accountsData["photo"], // Use the modified variable here
             'last_name' => $request->input('last_name'),
             'employee_id' => $request->input('employee_id'),
-            'name'=>'name',
+            'name'=> $request->first_name . ' ' . $request->last_name,
             'first_name' => $request->input('first_name'),
             'email' => $request->input('email'),
             'department' => $request->input('department'),

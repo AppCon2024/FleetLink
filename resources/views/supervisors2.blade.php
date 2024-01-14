@@ -167,14 +167,13 @@
                                     @method('patch')
 
                                     <div class="p-4 md:p-5 space-y-4">
-                                        <div class="flex justify-center">
-                                            <img src="{{ asset($supervisor->photo) }}" width='150'
-                                                height="150" class="mb-2 flex justify-center">
-                                            <input class="form-control" name="photo" type="file"
-                                                id="photo">
-                                        </div>
                                         <div class="grid gap-3 mb-4 sm:grid-cols-3">
-
+                                            <div>
+                                                <img src="{{ asset($supervisor->photo) }}" width='150'
+                                                    height="150" class="mb-2 flex justify-center">
+                                                <input class="form-control" name="photo" type="file"
+                                                    id="photo">
+                                            </div>
                                             <div>
                                                 <label for="UserID"
                                                     class="block mb-2 text-sm font-medium text-gray-900">UserID</label>
