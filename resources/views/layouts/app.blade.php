@@ -183,12 +183,21 @@
             } */
     </style>
 
+    <!-- Alphine from Youtube-->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
 </head>
 
 <body class="font-sans antialiased">
+    <x-modal1 name="modal2" title="Modal 2">
+        <x-slot:body>
+            @livewire('register')
+
+        </x-slot>
+    </x-modal1>
+
+
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
 
@@ -207,5 +216,4 @@
         </main>
     </div>
 </body>
-
 </html>

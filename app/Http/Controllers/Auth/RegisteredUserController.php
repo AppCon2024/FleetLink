@@ -53,10 +53,10 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'role' => 'admin',
             'photo' => $accountsData["photo"], // Use the modified variable here
-            'last_name' => $request->last_name,
             'first_name' => $request->first_name,
-            'employee_id' => $request->employee_id,
+            'last_name' => $request->last_name,
             'name' =>  $request->first_name . ' ' . $request->last_name,
+            'employee_id' => $request->employee_id,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'department' => $request->department,

@@ -14,12 +14,13 @@ class AccountsController extends Controller
 
     public function index() {
 
-        $accounts = Accounts::where('role', 'police')->get();
+        $accounts = User::where('role', 'police')->get();
 
-        return view('accounts', compact('accounts'));
+        return view('pages.accounts',
+        ['accounts' => $accounts]);
     }
 
-    public function destroy(Accounts $account){
+    public function destroy(User $account){
         $account->delete();
         return redirect('accounts')->with('message', 'Data was deleted successfully.');
     }
@@ -48,18 +49,7 @@ class AccountsController extends Controller
             $accountsData["photo"] = '/storage/'.$path;
         }
 
-        Accounts::create([
-            'last_name' => $request->input('last_name'),
-            'first_name' => $request->input('first_name'),
-            'employee_id' => $request->input('employee_id'),
-            'name'=> $request->first_name . ' ' . $request->last_name,
-            'email' => $request->input('email'),
-            'department' => $request->input('department'),
-            'position' => $request->input('position'),
-            'role' => 'police',
-            'phone' => $request->input('phone'),
-            'photo' => $accountsData["photo"], // Use the modified variable here
-        ]);
+
 
         User::create([
             'photo' => $accountsData["photo"], // Use the modified variable here
@@ -79,7 +69,7 @@ class AccountsController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = Accounts::find($id);
+        $data = User::find($id);
 
         if (!$data) {
             return redirect()->route('accounts')->with('error', 'User not found');

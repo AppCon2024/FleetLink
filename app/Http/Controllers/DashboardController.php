@@ -11,13 +11,13 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function countUsersByRole(){
-        $countSupervisor = Supervisors::where('role', 'supervisor')->count();
+        $countSupervisor = User::where('role', 'supervisor')->count();
         $countVehicle = Vehicles::where('role', 'vehicle')->count();
-        $countAccount = Accounts::where('role', 'police')->count();
+        $countAccount = User::where('role', 'police')->count();
         $countAvailable = Vehicles::where('status', '1')->count();
 
 
-        return view('dashboard',
+        return view('pages.dashboard',
         ['countSupervisor' => $countSupervisor,
         'countVehicle' => $countVehicle,
         'countAccount' => $countAccount,

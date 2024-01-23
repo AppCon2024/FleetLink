@@ -17,11 +17,12 @@
                         <tr>
                             <th>ID</th>
                             <th>Photo</th>
-                            <th>Lastname</th>
-                            <th>Firstname</th>
-                            <th>EmployeeID</th>
-                            <th>Email</th>
-                            <th>Deparment</th>
+                            {{-- <th>Lastname</th>
+                            <th>Firstname</th> --}}
+                            <th>Name</th>
+                            {{-- <th>EmployeeID</th>
+                            <th>Email</th> --}}
+                            <th>Department</th>
                             <th>Position</th>
                             {{-- <th>Phone #</th> --}}
                             <th>Actions</th>
@@ -33,15 +34,16 @@
                         @foreach ($data as $supervisor)
                             <tr x-on:click="itemToEdit = {{ $supervisor->id }};">
                                 <td class="text-center">{{ $supervisor->id }}</td>
-                                <td class="flex justify-center">
+                                <td class=" flex items-end justify-center">
                                     <img src="{{ asset($supervisor->photo) }}" width='30' height="30">
                                 </td>
-                                <td>{{ $supervisor->last_name }}</td>
-                                <td>{{ $supervisor->first_name }}</td>
-                                <td>{{ $supervisor->employee_id }}</td>
-                                <td>{{ $supervisor->email }}</td>
-                                <td>{{ $supervisor->department }}</td>
-                                <td>{{ $supervisor->position }}</td>
+                                {{-- <td>{{ $supervisor->last_name }}</td>
+                                <td>{{ $supervisor->first_name }}</td> --}}
+                                <td>{{ $supervisor->name }}</td>
+                                {{-- <td>{{ $supervisor->employee_id }}</td>
+                                <td>{{ $supervisor->email }}</td> --}}
+                                <td class="text-center">{{ $supervisor->department }}</td>
+                                <td class="text-center">{{ $supervisor->position }}</td>
                                 <td class="text-center">
                                     <button
                                     @click="supervisorEdit = true; itemToEdit = $event.target.getAttribute('data-item-id')"
@@ -152,7 +154,7 @@
                         x-transition:leave="ease-in duration-200"
                         x-transition:leave-start="opacity-100 transform scale-100"
                         x-transition:leave-end="opacity-0 transform scale-95"
-                        class="bg-white rounded-lg overflow-hidden transform transition-all sm:max-w-3xl sm:w-full">
+                        class="bg-white rounded-lg overflow-hidden transform transition-all sm:max-w-xl sm:w-full">
                         <div
                             class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white"><i
@@ -160,21 +162,22 @@
                                 Edit User Information
                             </h3>
                         </div>
-                        @foreach ($data as $item)
-                            <div x-show="itemToEdit === {{ $item->id }}">
+                        @foreach ($data as $supervisor)
+                            <div x-show="itemToEdit === {{ $supervisor->id }}">
                                 <form method="post" :action="`{{ route('supervisors.update', '') }}/${itemToEdit}`">
                                     @csrf
                                     @method('patch')
 
                                     <div class="p-4 md:p-5 space-y-4">
-                                        <div class="grid gap-3 mb-4 sm:grid-cols-3">
-                                            <div>
-                                                <img src="{{ asset($supervisor->photo) }}" width='150'
-                                                    height="150" class="mb-2 flex justify-center">
-                                                <input class="form-control" name="photo" type="file"
-                                                    id="photo">
-                                            </div>
-                                            <div>
+                                        <div class="flex justify-center">
+                                            <img src="{{ asset($supervisor->photo) }}" width='150'
+                                                height="150" class="mb-2 flex justify-center">
+                                            <input class="form-control" name="photo" type="file"
+                                                id="photo">
+                                        </div>
+                                        <div class="grid gap-4 mb-4 sm:grid-cols-2">
+
+                                            {{-- <div>
                                                 <label for="UserID"
                                                     class="block mb-2 text-sm font-medium text-gray-900">UserID</label>
                                                 <input type="text" name="id" value="{{ $item->id }}"
@@ -187,39 +190,47 @@
                                                 <input type="text" name="created_at"
                                                     value="{{ $item->created_at }}"
                                                     class="bg-gray-100 border border-gray-300 text-gray-900" disabled>
-                                            </div>
-                                            <div>
-                                                <label for="last_name">Lastname:</label>
-                                                <input type="text" name="last_name"
-                                                    value="{{ $item->last_name }}"
-                                                    oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
-                                                    class="bg-gray-100 border border-gray-600 text-gray-900" required>
-                                            </div>
+                                            </div> --}}
+
 
                                             <div>
-                                                <label for="first_name">Firstname</label>
+                                                <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">Firstname</label>
                                                 <input type="text" name="first_name"
-                                                    value="{{ $item->first_name }}"
+                                                    value="{{ $supervisor->first_name }}"
                                                     oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
-                                                    class="bg-gray-100 border border-gray-600 text-gray-900" required>
+                                                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white mb-2" required>
                                             </div>
 
                                             <div>
-                                                <label for="email">Email</label>
-                                                <input type="text" name="email" value="{{ $item->email }}"
-                                                    class="bg-gray-100 border border-gray-600 text-gray-900" required>
+                                                <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900">Lastname:</label>
+                                                <input type="text" name="last_name"
+                                                    value="{{ $supervisor->last_name }}"
+                                                    oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
+                                                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white mb-2" required>
+                                            </div>
+
+                                            <div>
+                                                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email Address</label>
+                                                <input type="text" name="email" value="{{ $supervisor->email }}"
+                                                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white mb-2" required>
+                                            </div>
+
+                                            <div>
+                                                <label for="employee_id" class="block mb-2 text-sm font-medium text-gray-900">Employee ID</label>
+                                                <input type="text" name="employee_id" value="{{ $supervisor->employee_id }}"
+                                                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white mb-2" required>
                                             </div>
 
 
-                                            <div>
+                                            {{-- <div>
                                                 <label for="phone">Phone Number</label>
                                                 <input type="text" name="phone" value="{{ $item->phone }}"
                                                     class="bg-gray-100 border border-gray-600 text-gray-900" required>
-                                            </div>
+                                            </div> --}}
 
                                             <div>
                                                 <label for="department"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Deparment</label>
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Department</label>
                                                     <select name="department" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white mb-2">
                                                         <option value="" {{$supervisor->department ==  "" ? 'selected' : ''}}></option>
                                                         <option value="Admin PNCO" {{$supervisor->department ==  "Admin PNCO" ? 'selected' : ''}}>Admin PNCO</option>
@@ -445,61 +456,63 @@
                         x-transition:leave="ease-in duration-200"
                         x-transition:leave-start="opacity-100 transform scale-100"
                         x-transition:leave-end="opacity-0 transform scale-95"
-                        class="bg-white rounded-lg overflow-hidden transform transition-all sm:max-w-lg sm:w-full">
-                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                        class="bg-white rounded-lg overflow-hidden transform transition-all sm:max-w-xl sm:w-full">
+                        <div
+                            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                             <h3 class="text-xl font-semibold text-gray-900"><i
-                                    class="ri-add-line mr-1 text-lg bg-blue-200 p-4 rounded-full"></i>
-                                Add New Supervisor
-                            </h3>
+                                class="ri-add-line mr-1 text-lg bg-blue-200 p-4 rounded-full"></i>
+                            Add New Supervisor
+                        </h3>
                         </div>
                         <hr class="bg-black w-[410px]">
                         <form action="{{ route('supervisors.create_supervisor') }}" method="post"
-                            enctype="multipart/form-data" class="pl-5 pr-5 pt-3 pb-3">
+                            enctype="multipart/form-data" class="pl-5 pr-5 pt-3">
                             @csrf
                             <div class="p-4 md:p-5 space-y-4">
                                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                                    <div>
-                                        <label for="last_name"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Lastname</label>
-                                        <input type="text" name="last_name"
-                                            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
-                                            class="bg-gray-100 border border-gray-300 text-gray-900" required>
-                                    </div>
 
                                     <div>
                                         <label for="first_name"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Firstname</label>
+                                            class="block mb-2 text-sm font-medium text-gray-900">Firstname :</label>
                                         <input type="text" name="first_name"
                                             oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
-                                            class="bg-gray-100 border border-gray-300 text-gray-900" required>
+                                            class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" required>
+                                    </div>
+
+                                    <div>
+                                        <label for="last_name"
+                                            class="block mb-2 text-sm font-medium text-gray-900">Lastname :</label>
+                                        <input type="text" name="last_name"
+                                            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
+                                            class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" required>
                                     </div>
 
                                     <div>
                                         <label for="employee_id"
-                                            class="block mb-2 text-sm font-medium text-gray-900">employee_id</label>
+                                            class="block mb-2 text-sm font-medium text-gray-900">Employee ID :</label>
                                         <input type="text" name="employee_id"
-                                            class="bg-gray-100 border border-gray-300 text-gray-900" required>
+                                            class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg" required>
                                     </div>
 
                                     <div>
                                         <label for="email"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                                            class="block mb-2 text-sm font-medium text-gray-900">Email Address :</label>
                                         <input type="text" name="email"
-                                            class="bg-gray-100 border border-gray-300 text-gray-900" required>
+                                            class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"  required>
                                     </div>
 
-                                    <div>
+                                    {{-- <div>
                                         <label for="phone"
                                             class="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
                                         <input type="tel" name="phone"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 11)"
                                             id="phone" data-default-country="ph"
                                             class="bg-gray-100 border border-gray-300 text-gray-900" required>
-                                    </div>
+                                    </div> --}}
 
                                     <div>
                                         <label for="department"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Deparment</label>
+                                            class="block mb-2 text-sm font-medium text-gray-900">Deparment :</label>
                                             <select name="department" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white mb-2">
                                                 <option value="" {{old('department') ==  "" ? 'selected' : ''}}></option>
                                                 <option value="Admin PNCO" {{old('department') ==  "Admin PNCO" ? 'selected' : ''}}>Admin PNCO</option>
@@ -519,7 +532,7 @@
 
                                     <div>
                                         <label for="position"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Position</label>
+                                            class="block mb-2 text-sm font-medium text-gray-900">Position :</label>
                                             <select name="position" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white  mb-2">
                                                 <option value="" {{old('position') ==  "" ? 'selected' : ''}}></option>
                                                 <option value="Police Captain Deputy" {{old('position') ==  "Police Captain Deputy" ? 'selected' : ''}}>Police Captain Deputy</option>
@@ -548,8 +561,8 @@
                                     <input class="form-control" name="photo" type="file" id="photo">
                                 </div>
                             </div>
-
-                            <div class="flex justify-end mt-3">
+                            <!--BUTTONS-->
+                            <div class="flex justify-end mt-3 p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                                 <button type="submit"
                                     class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                     Create

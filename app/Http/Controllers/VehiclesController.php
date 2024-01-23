@@ -18,13 +18,15 @@ class VehiclesController extends Controller
         $vehicles = Vehicles::where('role', 'vehicle')->get();
 
 
-        return view('vehicles', compact('vehicles'));
+        return view('pages.vehicles',
+        ['vehicles' => $vehicles]);
     }
 
     public function scan(Request $request){
         $data = Vehicles::where('plate')->get();
 
-        return view('scanner', compact('data'));
+        return view('scanner',
+        ['data' => $data]);
     }
 
     public function destroy(Vehicles $vehicle){
@@ -78,8 +80,6 @@ class VehiclesController extends Controller
         }
         return back();
     }
-
-
 
     public function create_vehicle(Request $request){
 

@@ -19,6 +19,9 @@
 
     @if (Auth::user()->role == 'admin')
     @include('includes.admin.menu')
+
+
+    {{-- <button x-data x-on:click="$dispatch('open-modal')" class="px-3 py-1 bg-teal-500 text-white rounded">Open Modal</button> --}}
         <!-- START MAIN -->
         <main
             class="fixed top-[86px] w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">

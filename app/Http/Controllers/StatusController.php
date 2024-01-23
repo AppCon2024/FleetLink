@@ -15,6 +15,6 @@ class StatusController extends Controller
         // Fetch users based on role (e.g., 'admin' role)
         $status = Borrows::where('time_in','data')->get();
 
-        return view('status', compact('status'));
+        return view('pages.status', ['status' => $status]);
     }
 }

@@ -21,14 +21,15 @@ class SupervisorsController extends Controller
         // $data = User::all(); // Replace YourModel with your actual model name
 
         // Fetch users based on role (e.g., 'admin' role)
-        $data = Supervisors::where('role', 'supervisor')->get();
+        $data = User::where('role', 'supervisor')->get();
 
-        return view('supervisors', compact('data'));
+        return view('pages.supervisors',
+        ['data' => $data]);
     }
 
     public function update(Request $request, $id)
     {
-        $data = Supervisors::find($id);
+        $data = User::find($id);
 
         if (!$data) {
             return redirect()->route('supervisors')->with('error', 'User not found');
@@ -36,8 +37,8 @@ class SupervisorsController extends Controller
 
         // Validate the request
         $request->validate([
-            'last_name' => 'string',
             'first_name' => 'string',
+            'last_name' => 'string',
             'email' => 'email',
             'phone' => 'string',
             'password' => 'nullable|string|min:6',
@@ -48,8 +49,9 @@ class SupervisorsController extends Controller
 
         // Update user information
         $data->update([
-            'last_name' => $request->input('last_name'),
             'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'name' =>  $request->first_name . ' ' . $request->last_name,
             'email' => $request->input('email'),
             'department' =>$request->input('department'),
             'position' => $request->input('position'),
@@ -62,7 +64,7 @@ class SupervisorsController extends Controller
     }
     //    return back()->with('message', 'User Account was successfully updated');
 
-    public function supervisor_delete(Supervisors $supervisor){
+    public function supervisor_delete(User $supervisor){
         $supervisor->delete();
 
          return redirect('supervisors')->with('message', 'Supervisor was deleted successfully.');
@@ -71,14 +73,15 @@ class SupervisorsController extends Controller
 
     public function create_supervisor(Request $request){
         $request->validate([
-            'photo' => 'image',
-            'last_name' => 'required|string',
             'first_name' => 'required|string',
+            'last_name' => 'required|string',
             'name' => 'string',
-            'phone' => 'string',
-            'role' => 'nullable|string|min:6',
             'email' => 'required', 'email', Rule::unique('supervisor', 'email'),
+            'department' => 'required',
+            'position' => 'required',
             'password' => 'nullable|string|min:6',
+            'photo' => 'image',
+
         ]);
 
         $accountsData = $request->all();
@@ -89,32 +92,18 @@ class SupervisorsController extends Controller
             $accountsData["photo"] = '/storage/'.$path;
         }
 
-        Supervisors::create([
-            'photo' => $accountsData["photo"], // Use the modified variable here
-            'last_name' => $request->input('last_name'),
-            'first_name' => $request->input('first_name'),
-            'employee_id' => $request->input('employee_id'),
-            'name' => 'name',
-            'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
-            'department' => $request->input('department'),
-            'position' => $request->input('position'),
-            'password' => '12345',
-            'role' => 'supervisor',
-        ]);
-
         User::create([
-            'photo' => $accountsData["photo"], // Use the modified variable here
-            'last_name' => $request->input('last_name'),
-            'first_name' => $request->input('first_name'),
-            'employee_id' => $request->input('employee_id'),
-            'name' => 'name',
-            'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
-            'department' => $request->input('department'),
-            'position' => $request->input('position'),
-            'password' => '12345',
+            // Use the modified variable here
             'role' => 'supervisor',
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'employee_id' => $request->employee_id,
+            'name' =>  $request->first_name . ' ' . $request->last_name,
+            'email' => $request->email,
+            'department' => $request->department,
+            'position' => $request->position,
+            'password' => '12345',
+            'photo' => $accountsData["photo"],
 
         ]);
 

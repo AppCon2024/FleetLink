@@ -21,14 +21,10 @@ use App\Http\Controllers\LocationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/welcome', function () {
+    return view('welcome');
+});
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/scanner', function () {
-//     return view('scanner');
-// });
 
 Route::get('/mobile', function () {
     return view('mobile');
@@ -45,8 +41,9 @@ Route::get('/calendar', function () {
 Route::redirect('/', destination: 'login');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('pages.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -61,7 +58,6 @@ Route::controller(SupervisorsController::class)->group(function(){
     Route::delete('/delete/{supervisor}','supervisor_delete')->name('supervisor_delete');
     Route::get('/sms','App\Http\Controllers\SmsController@sms')->name('sms.sms');
     Route::get('/messenger', 'messenger')->name('messenger.messenger');
-
 
 });
 
@@ -91,9 +87,7 @@ Route::controller(VehiclesController::class)->group(function(){
 
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::get('/dashboard', [DashboardController::class, 'countUsersByRole'])->middleware(['auth', 'verified'])->name('dashboard');
 
