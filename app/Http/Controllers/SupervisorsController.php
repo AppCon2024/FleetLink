@@ -10,17 +10,9 @@ use Illuminate\Validation\Rule;
 
 class SupervisorsController extends Controller
 {
-    // public function index(Request $request, Supervisors $supervisor) {
-    //     $data = Supervisors::where('role', 'supervisor')->get();
-
-    //     return view('supervisors', compact('data'));
-    // }
-
     public function index()
     {
-        // $data = User::all(); // Replace YourModel with your actual model name
 
-        // Fetch users based on role (e.g., 'admin' role)
         $data = User::where('role', 'supervisor')->get();
 
         return view('pages.supervisors',
