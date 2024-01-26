@@ -15,22 +15,13 @@
     </head>
     <body class="p-5">
 
-        <x-modal1 name="test" title="Modal 1">
-            <x-slot:body>
-                <span class="p-5">Test Modal</span>
-            </x-slot>
-        </x-modal1>
-
-        <x-modal1 name="modal2" title="Modal 2">
-            <x-slot:body>
-                @livewire('register')
-
-            </x-slot>
-        </x-modal1>
+        @include('includes.modal.try')
 
         <button x-data x-on:click="$dispatch('open-modal',{ name : 'test'})" class="px-3 py-1 bg-teal-500 text-white rounded">Modal 1</button>
 
         <button x-data x-on:click="$dispatch('open-modal',{ name : 'modal2'})" class="px-3 py-1 bg-teal-500 text-white rounded">Modal 2</button>
+
+        <button x-data x-on:click="$dispatch('open-modal',{ name : 'modal3'})" class="px-3 py-1 bg-teal-500 text-white rounded">Modal 2</button>
 
         @livewire('register')
 

@@ -84,7 +84,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data as $stts)
+                    @forelse ($data as $stts)
                     <tr wire:key="{{$stts->id}}" class="border-b dark:border-gray-700">
                         <th scope="row"
                             class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -116,7 +116,13 @@
                               </button>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr class="border-b dark:border-gray-700">
+                        <td colspan="3" class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                            No in-use vehicle/s found.
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

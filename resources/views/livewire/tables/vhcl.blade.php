@@ -68,7 +68,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data as $vhcl)
+                    @forelse ($data as $vhcl)
                     <tr wire:key="{{$vhcl->id}}" class="border-b dark:border-gray-700">
                         <th scope="row"
                             class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -81,10 +81,14 @@
                             {{ $vhcl->model }}</td>
                         <td class="px-4 py-3">
                             {{ $vhcl->vin }}</td>
-                        <td class="px-4 py-3">
-                            {{ $vhcl->unique_identifier }}</td>
-                        <td class="px-4 py-3">
-                            {{ $vhcl->status }}</td>
+                        <td class="px-4 py-3 justify-items-center">
+                            <button @click="qrcode = true" data-item-id="{{ $vhcl->id }}">
+                                {!! $vhcl->generateQRCode() !!}
+                            </button>
+                        <td class="px-4 py-3 text-black">
+                            <a href="/vehicle/{{ $vhcl->id }}" class="btn btn-sm btn-{{ $vhcl->status ? 'success bg-green-500' : 'danger bg-red-500' }} px-2 py-2 rounded">
+                                {{ $vhcl->status ? 'Available' : 'Unavailable' }}
+                            </a>
                         <td class="px-4 py-3 flex items-center justify-end">
                             <button wire:click="delete({{$vhcl->id}})" class="px-1 hover:bg-gray-200 text-black rounded"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
@@ -92,7 +96,13 @@
                               </button>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr class="border-b dark:border-gray-700">
+                        <td colspan="3" class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                            No in use vehicle/s found.
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

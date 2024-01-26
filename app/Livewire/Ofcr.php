@@ -24,7 +24,7 @@ class Ofcr extends Component
     public $sortBy = 'created_at';
 
     #[Url(history:true)]
-    public $sortDir = 'DESC';
+    public $sortDir = 'ASC';
 
     public function updatedSearch(){
         $this->resetPage();

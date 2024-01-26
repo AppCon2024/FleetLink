@@ -56,12 +56,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data as $ofcr)
+                    @forelse ($data as $ofcr)
                     <tr wire:key="{{$ofcr->id}}" class="border-b dark:border-gray-700">
                         <th scope="row"
                             class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $ofcr->id }}</th>
-                        <td class="px-4 py-3">
+                        <td class="px-4 py-3 flex items-center">
                             <img src="{{ asset($ofcr->photo) }}" width='30' height="30"
                             ></td>
                         <td class="px-4 py-3 text-green-500">
@@ -75,7 +75,13 @@
                               </button>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                                    <tr class="border-b dark:border-gray-700">
+                                        <td colspan="3" class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            No officer/s found.
+                                        </td>
+                                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
