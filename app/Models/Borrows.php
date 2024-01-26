@@ -22,4 +22,8 @@ class Borrows extends Model
         'time_in',
         'time_out',
     ];
+
+    public function scopeSearch($query, $value){
+        $query->where('last_name','like',"%{$value}%")->orWhere('department','like',"%{$value}%");
+    }
 }

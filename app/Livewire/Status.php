@@ -2,13 +2,15 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
+use App\Models\Borrows;
+use App\Models\Vehicles;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
-class Supv extends Component
+class Status extends Component
 {
+
     use WithPagination;
 
 
@@ -22,12 +24,11 @@ class Supv extends Component
     public $sortBy = 'created_at';
 
     #[Url(history:true)]
-    public $sortDir = 'DESC';
+    public $sortDir = 'ASC';
 
     public function updatedSearch(){
         $this->resetPage();
     }
-
 
     public function setSortBy($sortByField){
 
@@ -40,18 +41,16 @@ class Supv extends Component
         $this->sortDir = 'DESC';
     }
 
-    public function delete(User $user){
-        $user->delete();
+    public function delete(Borrows $borrows){
+        $borrows->delete();
     }
 
     public function render()
     {
-        $data = User::search($this->search)
-        ->where('role', 'supervisor')
+        $data = Borrows::search($this->search)
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
-
-        return view('livewire.tables.supv',
+        return view('livewire.tables.status',
         ['data' => $data]);
     }
 }

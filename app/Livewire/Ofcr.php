@@ -7,8 +7,10 @@ use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
-class Supv extends Component
+
+class Ofcr extends Component
 {
+
     use WithPagination;
 
 
@@ -28,7 +30,6 @@ class Supv extends Component
         $this->resetPage();
     }
 
-
     public function setSortBy($sortByField){
 
         if($this->sortBy === $sortByField){
@@ -47,11 +48,10 @@ class Supv extends Component
     public function render()
     {
         $data = User::search($this->search)
-        ->where('role', 'supervisor')
+        ->where('role', 'police')
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
-
-        return view('livewire.tables.supv',
+        return view('livewire.tables.ofcr',
         ['data' => $data]);
     }
 }

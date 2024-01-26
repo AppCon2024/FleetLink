@@ -2,12 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
+use App\Models\Vehicles;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
-class Supv extends Component
+
+class Vhcl extends Component
 {
     use WithPagination;
 
@@ -28,7 +29,6 @@ class Supv extends Component
         $this->resetPage();
     }
 
-
     public function setSortBy($sortByField){
 
         if($this->sortBy === $sortByField){
@@ -40,18 +40,15 @@ class Supv extends Component
         $this->sortDir = 'DESC';
     }
 
-    public function delete(User $user){
-        $user->delete();
+    public function delete(Vehicles $vehicle){
+        $vehicle->delete();
     }
-
     public function render()
     {
-        $data = User::search($this->search)
-        ->where('role', 'supervisor')
+        $data = Vehicles::search($this->search)
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
-
-        return view('livewire.tables.supv',
+        return view('livewire.tables.vhcl',
         ['data' => $data]);
     }
 }

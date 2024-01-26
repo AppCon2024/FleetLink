@@ -35,4 +35,8 @@ class Vehicles extends Model
     public function size() {
         return QrCode::size(200)->color(0,0,0)->generate($this->plate. ' ' .$this->model. ' ' .$this->brand. ' ' . $this->vin);
     }
+
+    public function scopeSearch($query, $value){
+        $query->where('plate','like',"%{$value}%")->orWhere('model','like',"%{$value}%");
+    }
 }
