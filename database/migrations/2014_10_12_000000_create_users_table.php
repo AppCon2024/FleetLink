@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('position');
             $table->string('password');
             $table->string('photo', 255);
+            $table->string('last_seen')->nullable();
+            $table->string('status')->default('offline');
             $table->rememberToken();
             $table->timestamps();
         });

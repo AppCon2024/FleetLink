@@ -20,14 +20,21 @@
             </div>
             <div class="flex space-x-3">
                 <div class="flex space-x-3 items-center">
-                    <label class="w-40 text-sm font-medium text-gray-900">User Type :</label>
-                    <select
+                    <label class="w-40 text-sm font-medium text-gray-900">User Status :</label>
+                    <select wire:model.live="last_seen"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                         <option value="">All</option>
-                        <option value="0">User</option>
-                        <option value="1">Admin</option>
+                        <option value="0">Online</option>
+                        <option value="1">Offline</option>
                     </select>
                 </div>
+                <button
+                    class=" text-white border border-gray-300 bg-blue-500 uppercase rounded-lg text-xs p-2  text-center"><i
+                        class="ri-add-line text-sm"></i>
+                    Add Supervisor</button>
+                <button
+                    class=" text-white border border-gray-300 bg-gray-900 uppercase rounded-lg text-xs p-2  text-center">
+                    Export</button>
             </div>
         </div>
         <div class="overflow-x-auto">
@@ -48,6 +55,14 @@
                             'tablesadb' => 'position',
                             'displayName' => 'Position',
                         ])
+                        {{-- @include('livewire.includes.table-sortable-th', [
+                            'tablesadb' => 'last_seen',
+                            'displayName' => 'Last Seen',
+                        ]) --}}
+                        @include('livewire.includes.table-sortable-th', [
+                            'tablesadb' => 'last_seen',
+                            'displayName' => 'Status',
+                        ])
                         <th scope="col" class="px-4 py-3">
                             <span class="sr-only">Actions</span>
                         </th>
@@ -65,13 +80,20 @@
                                 {{ $supv->name }}</td>
                             <td class="px-4 py-3">{{ $supv->department }}</td>
                             <td class="px-4 py-3">{{ $supv->position }}</td>
-                            <td class="px-4 py-3 flex items-center justify-end">
-                                <button wire:click="delete({{ $supv->id }})"
-                                    class="px-3 py-1 bg-blue-500 text-white rounded">Edit</button>
-                                    <button x-data x-on:click="$dispatch('open-modal',{ name : 'modal3'})" class="px-3 py-1 ml-1 bg-blue-500 text-white rounded">Add New</button>
+                            {{-- <td class="px-4 py-3">{{ Carbon\Carbon::parse($supv->last_seen)->diffForHumans() }}</td> --}}
+                            <td class="px-4 py-3">
+                                <span
+                                    class="bg-{{ $supv->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-sm">
+                                    {{ $supv->last_seen >= now()->subMinutes(1) ? 'Online' : 'Offline' }}
+                                </span>
+                            </td>
+                            <td wire:key.live="{{ $supv->id }}" class="px-4 py-3 flex items-center justify-end">
+                                <button x-data
+                                    x-on:click="$dispatch('open-modal',{ name : 'modal3', id : {{ $supv->id }}})"
+                                    class="px-3 py-1 ml-1 bg-blue-500 text-white rounded">Edit</button>
                             </td>
                         </tr>
-                        @empty
+                    @empty
                         <tr class="border-b dark:border-gray-700">
                             <td colspan="3" class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                 No supervisor/s found.

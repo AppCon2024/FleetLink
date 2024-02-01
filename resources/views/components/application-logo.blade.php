@@ -3,4 +3,5 @@
 </svg> --}}
 
 <img name="img" src="{{ asset('images/Logo.png') }}" alt="img" class="h-[50px] w-[50px]" >
-
+{{-- <img src="{{ asset('image/FleetLink_Logo.png') }}" width='30' height="30"
+                                            class="justify-items-center"> --}}

@@ -1,6 +1,6 @@
 <x-modal1 name="modal2" title="Modal 2">
     <x-slot:body>
-        @livewire('edit-supv')
+        @livewire('register')
     </x-slot>
 </x-modal1>
 <x-modal1 name="test" title="Modal 1">
@@ -10,7 +10,12 @@
 </x-modal1>
 <x-modal1 name="modal3" title="Modal 3">
     <x-slot:body>
-        @livewire('edit-supv')
+        @livewire('qrcode')
+    </x-slot>
+</x-modal1>
+<x-modal1 name="qrcode" title="Modal 3">
+    <x-slot:body>
+        @livewire('qrcode')
     </x-slot>
 </x-modal1>
 

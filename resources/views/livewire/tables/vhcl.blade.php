@@ -82,7 +82,7 @@
                         <td class="px-4 py-3">
                             {{ $vhcl->vin }}</td>
                         <td class="px-4 py-3 justify-items-center">
-                            <button @click="qrcode = true" data-item-id="{{ $vhcl->id }}">
+                            <button x-data x-on:click="$dispatch('open-modal',{ name : 'qrcode'})">
                                 {!! $vhcl->generateQRCode() !!}
                             </button>
                         <td class="px-4 py-3 text-black">

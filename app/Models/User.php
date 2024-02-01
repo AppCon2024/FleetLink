@@ -28,6 +28,7 @@ class User extends Authenticatable
         'position',
         'password',
         'photo',
+        'last_seen',
     ];
 
     /**
