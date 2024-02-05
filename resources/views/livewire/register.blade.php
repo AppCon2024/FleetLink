@@ -34,5 +34,6 @@
 
     @foreach ($users as $user)
         <h3> {{ $user->name }} </h3>
+        <button class="text-white bg-teal-500 px-3 py-1 rounded-full">View</button>
     @endforeach
 </div>

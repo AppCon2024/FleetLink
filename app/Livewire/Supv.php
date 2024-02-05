@@ -56,6 +56,8 @@ class Supv extends Component
     #[Rule('required|min:2')]
     public $password;
 
+    public User $selectedUser;
+
     public function updatedSearch(){
         $this->resetPage();
     }
@@ -72,6 +74,14 @@ class Supv extends Component
     }
 
     public function delete(User $user){
+        $this->selectedUser = $user;
+
+        $this->dispatch('open-modal', name: 'delete');
+    }
+
+    public function delete_copy(User $user){
+        $this->selectedUser = $user;
+
         $user->delete();
     }
 
