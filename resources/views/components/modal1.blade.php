@@ -9,9 +9,9 @@
     <!--Gray Background-->
     <div x-on:click="show = false" class="fixed inset-0 bg-gray-800 opacity-40"></div>
     <!--Modal Body-->
-    <div class="bg-white rounded-xl m-auto fixed inset-0 sm:max-w-2xl sm:w-full" style="max-height:450px">
+    <div class="fixed inset-0 overflow-y-auto flex items-center justify-center">
 
-        @if (isset($title))
+        {{-- @if (isset($title))
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white"><i
                     class="ri-add-line mr-1 text-lg bg-blue-200 p-4 rounded-full"></i>
@@ -28,7 +28,7 @@
                     <span class="sr-only">Close modal</span>
                 </button>
             </div>
-        @endif
+        @endif --}}
 
         <div>
             {{ $body }}

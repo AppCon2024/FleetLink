@@ -9,9 +9,7 @@
     <!--Gray Background-->
     <div x-on:click="show = false" class="fixed inset-0 bg-gray-800 opacity-40"></div>
     <!--Modal Body-->
-    <div class="fixed inset-0 overflow-y-auto flex items-center justify-center z-20">
-
-
+    <div class="fixed inset-0 overflow-y-auto flex items-center justify-center">
         <div>
             {{ $body }}
         </div>

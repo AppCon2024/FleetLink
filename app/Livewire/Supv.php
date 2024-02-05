@@ -83,6 +83,8 @@ class Supv extends Component
         $this->selectedUser = $user;
 
         $user->delete();
+
+        return redirect()->route('supervisors')->with('message', 'User was deleted successfully.');
     }
 
     public function create(){

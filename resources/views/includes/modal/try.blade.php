@@ -11,12 +11,10 @@
 
 </x-modal1>
 
-
 <x-modal1 name="add-supv" title="Add a Supervisor">
     <x-slot:body>
         @livewire('add-supv')
-        </x-slot:body>
-
+    </x-slot:body>
 </x-modal1>
 
 
