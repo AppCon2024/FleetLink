@@ -94,15 +94,15 @@
                                 </span>
                             </td>
                             <td class="px-1 py-3">
-                                <button wire:click="delete({{ $supv->id }})"
+                                <button wire:click="delete({{ $supv }})"
                                     class="px-3 py-1 ml-1 bg-red-500 text-white rounded">Delete</button>
                             </td>
                             <td class="px-1 py-3">
-                                <button wire:click="preview({{ $supv->id }})"
+                                <button wire:click="preview({{ $supv }})"
                                     class="px-3 py-1 ml-1 bg-blue-500 text-white rounded">Preview</button>
                             </td>
                             <td class="px-1 py-3">
-                                <button wire:click="edit({{ $supv->id }})"
+                                <button wire:click="edit({{ $supv}})"
                                     class="px-3 py-1 ml-1 bg-yellow-500 text-white rounded">Edit</button>
                             </td>
                         </tr>

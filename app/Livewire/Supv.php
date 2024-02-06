@@ -91,13 +91,15 @@ class Supv extends Component
         $this->selectedUser = $user;
         $this->dispatch('open-modal', name: 'preview');
     }
-
+    public $editing;
     public function edit(User $user){
         $this->selectedUser = $user;
+        $this->first_name = $user->first_name;
+        $this->last_name = $user->last_name;
         $this->dispatch('open-modal', name: 'edit');
     }
 
-    public $editing;
+
 
     public function edit_copy(User $user){
         $this->selectedUser = $user;
