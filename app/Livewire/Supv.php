@@ -57,6 +57,8 @@ class Supv extends Component
     public $password;
 
     public User $selectedUser;
+    public $last_seen = '';
+    public $online = '0';
 
     public function updatedSearch(){
         $this->resetPage();
@@ -75,10 +77,8 @@ class Supv extends Component
 
     public function delete(User $user){
         $this->selectedUser = $user;
-
         $this->dispatch('open-modal', name: 'delete');
     }
-
     public function delete_copy(User $user){
         $this->selectedUser = $user;
 
@@ -86,6 +86,65 @@ class Supv extends Component
 
         return redirect()->route('supervisors')->with('message', 'User was deleted successfully.');
     }
+
+    public function preview(User $user){
+        $this->selectedUser = $user;
+        $this->dispatch('open-modal', name: 'preview');
+    }
+
+    public function edit(User $user){
+        $this->selectedUser = $user;
+        $this->dispatch('open-modal', name: 'edit');
+    }
+
+    public $editing;
+
+    public function edit_copy(User $user){
+        $this->selectedUser = $user;
+
+        $user->update([
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'name' => $this->first_name . ' ' . $this->last_name,
+        ]);
+
+
+
+
+        // $this->validate([
+        //     'first_name' => 'required|min:2|max:50',
+        //     'last_name' => 'required|min:2|max:50',
+        //     'department' => 'required',
+        //     'position' => 'required',
+        //     'employee_id' => 'required|int|min:6',
+        //     'email' => 'required|email|unique:users',
+        // ]);
+
+        // $this->update([
+        //     'first_name' => $this->first_name,
+        //     'last_name' => $this->last_name,
+        //     'name' => $this->first_name . ' ' . $this->last_name,
+        //     'employee_id' => $this->employee_id,
+        //     'email' => $this->email,
+        //     'department' => $this->department,
+        //     'position' => $this->position,
+        // ]);
+
+        return redirect()->route('supervisors')->with('message', 'User was updated successfully');
+
+    }
+
+
+
+
+   public function resetInput(){
+    $this->first_name = '';
+    $this->last_name = '';
+    $this->employee_id = '';
+    $this->email = '';
+    $this->department = '';
+    $this->position = '';
+   }
 
     public function create(){
 
@@ -95,8 +154,7 @@ class Supv extends Component
         $this->dispatch('close-modal');
     }
 
-    public $last_seen = '';
-    public $online = '0';
+
 
     public function render()
     {

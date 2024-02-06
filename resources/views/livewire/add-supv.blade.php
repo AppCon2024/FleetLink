@@ -18,9 +18,6 @@
         </div>
 
         <div class="grid gap-3 mb-4 mt-4 sm:grid-cols-2 px-4">
-
-
-
             <!--FirstName -->
             <div>
                 <x-input-label for="first_name" :value="__('Firstname')" />

@@ -12,7 +12,6 @@ class SupervisorsController extends Controller
 {
     public function index()
     {
-
         $data = User::where('role', 'supervisor')->get();
 
         return view('pages.supervisors',
