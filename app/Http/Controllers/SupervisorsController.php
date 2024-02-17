@@ -13,9 +13,11 @@ class SupervisorsController extends Controller
     public function index()
     {
         $data = User::where('role', 'supervisor')->get();
-
-        return view('pages.supervisors',
-        ['data' => $data]);
+        $title = 'Supervisor';
+        return view('pages.supervisors',[
+            'data' => $data,
+            'title' => $title,
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -64,7 +66,7 @@ class SupervisorsController extends Controller
 
     public function create_supervisor(Request $request){
         $request->validate([
-            'first_name' => 'required|string',
+            'first_name' => 'required|string|min:2',
             'last_name' => 'required|string',
             'name' => 'string',
             'email' => 'required', 'email', Rule::unique('supervisor', 'email'),

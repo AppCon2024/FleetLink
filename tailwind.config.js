@@ -19,7 +19,8 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
                 'poppins':['Poppins'],
-
+                'boo':['Black Ops One'],
+                'abnes':['abnes']
             },
         },
     },

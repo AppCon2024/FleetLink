@@ -3,8 +3,8 @@
     @include('includes.modal.try')
     @include('includes.supervisor.menu')
 
+    <!--Container-->
 
-   <!--DataTable-->
-   <livewire:supv />
+    @livewire('supv')
 
 </x-app-layout>

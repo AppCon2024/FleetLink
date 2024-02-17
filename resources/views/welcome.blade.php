@@ -23,6 +23,8 @@
 
         <button x-data x-on:click="$dispatch('open-modal',{ name : 'modal3'})" class="px-3 py-1 bg-teal-500 text-white rounded">Modal 2</button>
 
+        <button x-data x-on:click="$dispatch('open-modal',{ name : 'okay'})" class="px-3 py-1 bg-teal-500 text-white rounded">ahh</button>
+
         @livewire('register')
 
     </body>

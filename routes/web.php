@@ -10,6 +10,7 @@ use App\Models\Supervisors;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SmsController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\SupvController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,11 @@ Route::get('/calendar', function () {
     return view('calendar');
 });
 
-Route::redirect('/', destination: 'login');
+Route::redirect('/', destination: 'landing-page');
+
+Route::get('/landing-page', function(){
+    return view('landing-page');
+});
 
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
@@ -60,6 +65,12 @@ Route::controller(SupervisorsController::class)->group(function(){
     Route::get('/messenger', 'messenger')->name('messenger.messenger');
 
 });
+
+Route::get('/supervisor', [SupvController::class, 'index'])->name('supervisor');
+Route::post('/supervisor/create', [SupvController::class,'create'])->name('supv.create');
+
+
+
 
 Route::controller(AccountsController::class)->group(function(){
     Route::get('/accounts','index')->middleware(['auth', 'verified'])->name('accounts');
@@ -83,7 +94,7 @@ Route::controller(VehiclesController::class)->group(function(){
 
 });
 
-    Route::get('/status', [StatusController::class, 'index']);
+    Route::get('/status', [StatusController::class, 'index'])->name('vehicle.status');
 
 
 

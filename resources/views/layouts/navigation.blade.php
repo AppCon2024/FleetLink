@@ -1,16 +1,16 @@
 <nav x-data="{ open: false }" class="fixed w-[98%] left-3 bg-blue-200 mt-3 rounded-3xl dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 z-10">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex ">
+            <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
-
+                <!--Text-->
                     <a href="{{ route('dashboard') }}">
-                    <h3 name="logo" class="ml-[2px] font-poppins font-bold text-4xl text-blue-600 ">FLEETLINK</h3>
+                    <h3 name="logo" class="mt-2 ml-2 font-abnes font-bold text-2xl text-blue-600 ">FLEETLINK</h3>
                     </a>
                 </div>
 
@@ -79,8 +79,20 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('supervisors')" :active="request()->routeIs('supervisors')">
+            <x-responsive-nav-link :href="route('supervisors')" wire:navigate :active="request()->routeIs('supervisors')">
                 {{ __('Supervisor') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('accounts')" wire:navigate :active="request()->routeIs('accounts')">
+                {{ __('Officers') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('vehicles')" wire:navigate :active="request()->routeIs('vehicles')">
+                {{ __('Vehicles') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('vehicle.status')" wire:navigate :active="request()->routeIs('vehicle.status')">
+                {{ __('Occupied Vehicles') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('messenger.messenger')" wire:navigate :active="request()->routeIs('messenger.messenger')">
+                {{ __('Messages') }}
             </x-responsive-nav-link>
         </div>
 
@@ -92,7 +104,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link wire:navigate :href="route('profile.edit')" >
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 

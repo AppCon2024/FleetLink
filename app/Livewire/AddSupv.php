@@ -16,7 +16,7 @@ class AddSupv extends Component
             'last_name' => 'required|min:2|max:50',
             'department' => 'required',
             'position' => 'required',
-            'employee_id' => 'required|int|min:6',
+            'employee_id' => 'required|int',
             'email' => 'required|email|unique:users',
         ]);
 
