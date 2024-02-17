@@ -112,6 +112,14 @@ class Supv extends Component
     {
         if ($this->postId) {
             $post = User::findOrFail($this->postId);
+            $this->validate([
+                'first_name' => 'required|min:2|max:50',
+                'last_name' => 'required|min:2|max:50',
+                'department' => 'required',
+                'position' => 'required',
+                'employee_id' => 'required|int',
+            ]);
+
             $post->update([
                 'first_name' => $this->first_name,
                 'last_name' => $this->last_name,
