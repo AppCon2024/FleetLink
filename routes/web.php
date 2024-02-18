@@ -10,6 +10,8 @@ use App\Models\Supervisors;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SmsController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\GeolocationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -117,3 +119,4 @@ Route::get('/chat', function () {
 
     require __DIR__.'/auth.php';
 
+    Route::post('/geolocations', [GeolocationController::class, 'saveGeolocation']);

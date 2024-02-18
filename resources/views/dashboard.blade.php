@@ -1,5 +1,51 @@
 <x-app-layout>
 <style>
+     #map {
+        margin-top: 54%;
+            width:100%;
+            height: 40vh; /* Adjust the height as needed */
+        }
+
+        /* #details {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%; /* Use full width on small screens */
+            /* max-width: 210px; /* Limit the width on larger screens */
+            /* height: 100vh; */
+            /* background-color: #f8f8f8; */
+            /* padding: 10px; */
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+            /* overflow-y: auto; Enable scrolling if the content exceeds the height */
+            /* color: #333; */
+        /* } */ 
+
+        #details h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        #details p {
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        #details hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 10px 0;
+        }
+
+        #weather {
+            margin-top: 20px;
+        }
+
+        #weather p {
+            margin-bottom: 8px;
+            display: block;
+        }
 /* CSS for mobile screens */
 @media (max-width: 768px) {
     /* Hide the web menu on smaller screens */
@@ -11,6 +57,14 @@
     .md\:hidden {
         display: block;
     }
+    #map {
+        margin-top: 54%;
+            width:140%;
+            height: 20vh; /* Adjust the height as needed */
+            right: 10px;
+        }
+
+   
 
     /* Adjust styles for mobile menu */
     /* ... (your responsive styles for mobile) ... */
@@ -628,7 +682,101 @@
             <input type="text" name="plate" id="plate" readonly=""
                 placeholder="Plate Number" class="form-control">
         </div>
+        <div id="map"></div>
+        <script>
+            navigator.geolocation.getCurrentPosition(position => {
+                const { latitude, longitude } = position.coords;
+                document.getElementById('map').innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
+        
+                // // Fetch weather data based on the current location
+                // fetchWeather(latitude, longitude);
+            });
+        </script>
+        
+        <div id="details" style="display: none;">
+            <h2>Location Details</h2>
+            <p id="accuracy"></p>
+            <p id="latitude"></p>
+            <p id="longitude"></p>
+            <p id="reqCount"></p>
+            <hr>
+        </div>
+        
+        <script>
+            var reqcount = 0;
+        
+            var options = {
+                enableHighAccuracy: true,
+                timeout: 1000,
+                maximumAge: 0
+            };
+        
+            navigator.geolocation.watchPosition(successCallback, errorCallback, options);
+        
+            function successCallback(position) {
+                const { accuracy, latitude, longitude, altitude, heading, speed } = position.coords;
+        
+                reqcount++;
+                document.getElementById('accuracy').innerText = "Accuracy: " + accuracy;
+                document.getElementById('latitude').innerText = "Latitude: " + latitude;
+                document.getElementById('longitude').innerText = "Longitude: " + longitude;
+                // document.getElementById('altitude').innerText = "Altitude: " + altitude;
+                // document.getElementById('heading').innerText = "Heading: " + heading;
+                // document.getElementById('speed').innerText = "Speed: " + speed;
+                document.getElementById('reqCount').innerText = "Req Count: " + reqcount;
+        
+                // // Fetch weather data based on the updated location
+                // fetchWeather(latitude, longitude);
+        
+                // Save geolocation data to the server
+                saveGeolocation(position.coords);
+            }
+        
+            function errorCallback(error) {
+                // Handle error if needed
+                console.error('Error getting geolocation:', error);
+            }
+        
+            function saveGeolocation(coords) {
+                // Assuming you are using jQuery for simplicity
+                $.ajax({
+                    url: '/geolocations',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        accuracy: coords.accuracy,
+                        latitude: coords.latitude,
+                        longitude: coords.longitude,
+                        // Add other fields as needed
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    },
+                    // error: function(error) {
+                    //     console.error('Error saving geolocation:', error);
+                    // }
+                });
+            }
+        
+        //     function fetchWeather(latitude, longitude) {
+        //         // Replace 'YOUR_API_KEY' with your actual Weatherbit API key
+        //         const apiKey = '0e7745fca6e547509af3f85b53fd73bb';
+        //         const apiUrl = `http://api.weatherbit.io/v2.0/current?lat=${latitude}&lon=${longitude}&key=${apiKey}`;
+        
+        //         fetch(apiUrl)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 const temperature = data.data[0].temp;
+        //                 const weatherDescription = data.data[0].weather.description;
+        
+        //                 document.getElementById('details').innerHTML += `<div id='weather'><p><strong>Temperature:</strong><br>${temperature}°C</p>`;
+        //                 document.getElementById('details').innerHTML += `<p><strong>Weather:</strong><br>${weatherDescription}</p></div>`;
+        //             })
+        //             .catch(error => console.log(error));
+        //     }
+        // </script>
     </div>
+            
 
 
 
@@ -687,7 +835,7 @@
         <!----Resize  web----->
 
 
-        <script src="https://cdn.jsdelivr.net/npm/@zxing/library@3.0.0/build/zxing.min.js"></script>
+        
         <script>
             document.getElementById('scanButton').addEventListener('click', function () {
                 openDefaultCamera();
