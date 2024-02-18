@@ -1,7 +1,5 @@
 <x-app-layout>
 <x-message />
-@include('includes.modal.try')
-
 
 @if (Auth::user()->role == 'admin')
     <div class="fixed left-3 top-[86px] w-[240px] h-[86%] bg-blue-200 rounded-3xl p-4">

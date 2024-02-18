@@ -29,8 +29,6 @@
             <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
         </div>
 
-
-
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
@@ -63,8 +61,8 @@
                     x-data="{ show: true }"
                     x-show="show"
                     x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
+                    x-init="setTimeout(() => show = false, 5000)"
+                    class="text-sm text-bold text-green-600 dark:text-gray-400"
                 >{{ __('Saved.') }}</p>
             @endif
         </div>

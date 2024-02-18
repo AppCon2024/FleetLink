@@ -54,7 +54,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
+
+Route::patch('/profile_address', [ProfileController::class, 'addressUpdate'])->name('profile.addressUpdate');
+
 
 Route::controller(SupervisorsController::class)->group(function(){
     Route::get('/supervisors','index')->middleware(['auth', 'verified'])->name('supervisors');
@@ -65,12 +69,6 @@ Route::controller(SupervisorsController::class)->group(function(){
     Route::get('/messenger', 'messenger')->name('messenger.messenger');
 
 });
-
-Route::get('/supervisor', [SupvController::class, 'index'])->name('supervisor');
-Route::post('/supervisor/create', [SupvController::class,'create'])->name('supv.create');
-
-
-
 
 Route::controller(AccountsController::class)->group(function(){
     Route::get('/accounts','index')->middleware(['auth', 'verified'])->name('accounts');
@@ -95,9 +93,6 @@ Route::controller(VehiclesController::class)->group(function(){
 });
 
     Route::get('/status', [StatusController::class, 'index'])->name('vehicle.status');
-
-
-
 
 
 Route::get('/dashboard', [DashboardController::class, 'countUsersByRole'])->middleware(['auth', 'verified'])->name('dashboard');

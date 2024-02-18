@@ -29,7 +29,12 @@ class User extends Authenticatable
         'password',
         'photo',
         'last_seen',
-        ''
+        'region',
+        'province',
+        'city',
+        'barangay',
+        'street',
+        'zip_code',
     ];
 
     /**
