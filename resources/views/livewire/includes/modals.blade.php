@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-    @endif
+@endif
 
     @if ($isOpen)
         <div class="fixed inset-0 flex items-center justify-center z-50">
@@ -109,9 +109,9 @@
                                     {{ old('position') == 'Police Executive Master Sergeant' ? 'selected' : '' }}>
                                     Police Executive
                                     Master Sergeant</option>
-                                <option value="Station's Support and Services Officer"
-                                    {{ old('position') == "Station's Support and Services Officer" ? 'selected' : '' }}>
-                                    Station's
+                                <option value="Station Support and Services Officer"
+                                    {{ old('position') == "Station Support and Services Officer" ? 'selected' : '' }}>
+                                    Station
                                     Support and Services Officer</option>
                                 <option value="Police Lieutenant"
                                     {{ old('position') == 'Police Lieutenant' ? 'selected' : '' }}>
@@ -209,3 +209,4 @@
             </div>
         </div>
     @endif
+

@@ -17,10 +17,10 @@ class AddressUpdateRequest extends FormRequest
     {
         return [
             //
-            'region' => ['required', 'string'],
-            'province' => ['required', 'string'],
-            'city' => ['required', 'string'],
-            'barangay' => ['required', 'string'],
+            'region_text' => ['required', 'string'],
+            'province_text' => ['required', 'string'],
+            'city_text' => ['required', 'string'],
+            'barangay_text' => ['required', 'string'],
             'street' => ['required', 'string', 'max:255'],
             'zip_code' => ['required', 'int', 'min:4'],
         ];

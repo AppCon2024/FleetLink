@@ -5,7 +5,18 @@
     <div class="bg-white dark:bg-gray-800  shadow-md sm:rounded-lg overflow-hidden p-5">
         <div class="flex items-center justify-between p-4">
             @include('livewire.includes.search-bar')
-            @include('livewire.includes.user-status')
+            <div class="flex space-x-3">
+                @include('livewire.includes.user-status')
+                <button wire:click="create"
+                    class=" text-white border border-gray-300 bg-gray-500 uppercase rounded-lg text-xs p-2  text-center"><i
+                        class="ri-add-line text-sm"></i>
+                    Add Supervisor
+                </button>
+                <button
+                    class="text-white border border-gray-300 bg-gray-500 uppercase rounded-lg text-xs p-2  text-center">
+                    Export
+                </button>
+            </div>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -40,9 +51,12 @@
                             <th scope="row"
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $supv->id }}</th>
-                            <td class="px-4 py-3"><img src="{{ asset($supv->photo) }}" width='30' height="30">
+                            <td class="px-4 py-3">
+                                <button>
+                                <img src="{{ asset($supv->photo) }}" width='30' height="30">
+                                </button>
                             </td>
-                            <td class="px-4 py-3 text-blue-500">{{ $supv->name }}</td>
+                            <td class="px-4 py-3 text-blue-700">{{ $supv->name }}</td>
                             <td class="px-4 py-3">{{ $supv->department }}</td>
                             <td class="px-4 py-3">{{ $supv->position }}</td>
                             <td class="px-4 py-3 ">

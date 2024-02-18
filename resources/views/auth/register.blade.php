@@ -140,6 +140,12 @@
             @enderror
         </div>
 
+        <div class="flex items-center justify-between">
+            <a href="{{ asset('/') }}" class=" mt-4 text-white border border-gray-300 bg-gray-900 uppercase rounded-lg text-xs px-3 py-2  text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                  </svg>
+            </a>
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                 href="{{ route('login') }}">
@@ -150,5 +156,6 @@
                 {{ __('Register') }}
             </x-primary-button>
         </div>
+    </div>
     </form>
 </x-guest-layout>

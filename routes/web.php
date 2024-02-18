@@ -22,10 +22,6 @@ use App\Http\Controllers\SupvController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-
 
 Route::get('/mobile', function () {
     return view('mobile');
@@ -35,14 +31,10 @@ Route::get('/qr', function () {
     return view('qr');
 });
 
-Route::get('/calendar', function () {
-    return view('calendar');
-});
-
 Route::redirect('/', destination: 'landing-page');
 
 Route::get('/landing-page', function(){
-    return view('landing-page');
+    return view('pages.landing-page');
 });
 
 Route::get('/dashboard', function () {

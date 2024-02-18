@@ -12,7 +12,6 @@ class Supv extends Component
 {
     use WithPagination;
 
-
     #[Url(history:true)]
     public $search = '';
 
@@ -23,8 +22,6 @@ class Supv extends Component
     public $sortBy = 'created_at';
     #[Url(history:true)]
     public $sortDir = 'ASC';
-
-
 
     public $role = "supervisor";
     public $first_name;
@@ -37,20 +34,17 @@ class Supv extends Component
     public $photo = 12345;
     public $password = 12345;
 
-
-
     public $isOpen = 0;
     public $deleteOpen = 0;
     public $postId;
 
-
-
-    public function create(){
+    public function create()
+    {
         $this->reset('first_name','last_name','employee_id','email','department','position','postId');
         $this->openModal();
     }
-
-    public function store(){
+    public function store()
+    {
         $this->validate([
             'first_name' => 'required|min:2|max:50',
             'last_name' => 'required|min:2|max:50',
@@ -76,16 +70,16 @@ class Supv extends Component
         $this->reset('first_name','last_name','employee_id','email','department','position');
         $this->closeModal();
     }
-
-    public function delete($id){
+    public function delete($id)
+    {
         $post = User::find($id);
         $this->postId = $id;
         $this->name = $post->name;
-    
+
         $this->deleteOpenModal();
     }
-
-    public function remove(){
+    public function remove()
+    {
         if ($this->postId){
             $post = User::find($this->postId);
             $post->delete();
@@ -94,7 +88,6 @@ class Supv extends Component
             $this->deleteCloseModal();
         }
     }
-
     public function edit($id)
     {
         $post = User::findOrFail($id);
@@ -134,29 +127,28 @@ class Supv extends Component
             $this->reset('first_name', 'last_name' ,'employee_id','email','department','position', 'postId');
         }
     }
-
-    public function openModal(){
+    public function openModal()
+    {
         $this->isOpen = true;
         $this->resetValidation();
     }
-
     public function closeModal(){
         $this->isOpen = false;
     }
-
-    public function deleteOpenModal(){
+    public function deleteOpenModal()
+    {
         $this->deleteOpen = true;
     }
-
-    public function deleteCloseModal(){
+    public function deleteCloseModal()
+    {
         $this->deleteOpen = false;
     }
-
-    public function updatedSearch(){
+    public function updatedSearch()
+    {
         $this->resetPage();
     }
-
-    public function setSortBy($sortByField){
+    public function setSortBy($sortByField)
+    {
 
         if($this->sortBy === $sortByField){
             $this->sortDir = ($this->sortDir == "ASC") ? 'DESC' : "ASC";
@@ -166,7 +158,6 @@ class Supv extends Component
         $this->sortBy = $sortByField;
         $this->sortDir = 'DESC';
     }
-
     public function render()
     {
         $data = User::search($this->search)

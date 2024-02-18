@@ -26,10 +26,10 @@ return new class extends Migration
             $table->string('photo', 255);
             $table->string('last_seen')->nullable();
             $table->string('status')->default('offline');
-            $table->string('region')->nullable();
-            $table->string('province')->nullable();
-            $table->string('city')->nullable();
-            $table->string('barangay')->nullable();
+            $table->string('region_text')->nullable();
+            $table->string('province_text')->nullable();
+            $table->string('city_text')->nullable();
+            $table->string('barangay_text')->nullable();
             $table->string('street')->nullable();
             $table->string('zip_code')->nullable();
             $table->rememberToken();

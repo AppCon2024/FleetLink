@@ -1,4 +1,4 @@
 <x-app-layout>
-    @include('includes.supervisor.menu')
+    @include('includes.sidebar.supervisor')
     @livewire('supv')
 </x-app-layout>

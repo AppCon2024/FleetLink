@@ -28,7 +28,7 @@
                     <a href="{{ asset('accounts') }}"
                         class="flex items-center py-2 px-4 text-black hover:bg-blue-400 hover:text-gray-100 rounded-md group-[.active]:bg-blue-700 group-[.active]:text-white group-[.selected]:bg-blue-500 group-[.selected]:text-white">
                         <i class="ri-account-pin-box-line mr-3 text-lg"></i>
-                        <span class="font-poppins">Accounts</span>
+                        <span class="font-poppins">Officers</span>
                     </a>
                 </li>
                 <li class="mb-1 group">
@@ -36,6 +36,13 @@
                         class="flex items-center py-2 px-4 text-black hover:bg-blue-400 hover:text-gray-100 rounded-md group-[.active]:bg-blue-700 group-[.active]:text-white group-[.selected]:bg-blue-500 group-[.selected]:text-white">
                         <i class="ri-user-fill mr-3 text-lg"></i>
                         <span class="font-poppins">Vehicles</span>
+                    </a>
+                </li>
+                <li class="mb-1 group">
+                    <a href="{{ asset('chatify') }}"
+                        class="flex items-center py-2 px-4 text-black hover:bg-blue-400 hover:text-gray-100 rounded-md group-[.active]:bg-blue-700 group-[.active]:text-white group-[.selected]:bg-blue-500 group-[.selected]:text-white">
+                        <i class="ri-calendar-2-fill mr-3 text-lg"></i>
+                        <span class="font-poppins">Messages</span>
                     </a>
                 </li>
             </ul>
@@ -223,162 +230,143 @@
 
 
     @if (Auth::user()->role == 'supervisor')
-        <div class="fixed left-3 top-[87px] w-[240px] h-[86%] bg-blue-200 rounded-3xl p-4">
-            <ul class="mt-2">
-                <li class="mb-1 group">
-                    <a href="{{ asset('dashboard') }}"
-                        class="flex items-center py-2 px-4 text-black hover:bg-blue-400 hover:text-gray-100 rounded-md group-[.active]:bg-blue-700 group-[.active]:text-white group-[.selected]:bg-blue-500 group-[.selected]:text-white">
-                        <i class="ri-dashboard-fill mr-3 text-lg"></i>
-                        <span class="font-poppins">Dashboard</span>
-                    </a>
-                </li>
-                <li class="mb-1 group">
-                    <a href="{{ asset('accounts') }}"
-                        class="flex items-center py-2 px-4 text-black hover:bg-blue-400 hover:text-gray-100 rounded-md group-[.active]:bg-blue-700 group-[.active]:text-white group-[.selected]:bg-blue-500 group-[.selected]:text-white">
-                        <i class="ri-admin-fill mr-3 text-lg"></i>
-                        <span class="font-poppins">Accounts</span>
-                    </a>
-                </li>
-                <li class="mb-1 group">
+        @include('includes.supv-sidebar.tracking')
 
-                    <a href="{{ asset('tracking') }}"
-                        class="flex items-center py-2 px-4 text-black hover:bg-blue-400 hover:text-gray-100 rounded-md group-[.active]:bg-blue-700 group-[.active]:text-white group-[.selected]:bg-blue-500 group-[.selected]:text-white">
-                        <i class="ri-account-pin-box-line mr-3 text-lg"></i>
-                        <span class="font-poppins">Tracking</span>
-                    </a>
-                </li>
-                {{-- <li class="mb-1 group">
-                <a href="{{ asset('calendar')}}" class="flex items-center py-2 px-4 text-black hover:bg-blue-400 hover:text-gray-100 rounded-md group-[.active]:bg-blue-700 group-[.active]:text-white group-[.selected]:bg-blue-500 group-[.selected]:text-white">
-                    <i class="ri-user-fill mr-3 text-lg"></i>
-                    <span class="font-poppins">Calendar</span>
-                </a>
-            </li> --}}
-                <li class="mb-1 group active">
-                    <a href="{{ asset('chat') }}"
-                        class="flex items-center py-2 px-4 text-black hover:bg-blue-400 hover:text-gray-100 rounded-md group-[.active]:bg-blue-700 group-[.active]:text-white group-[.selected]:bg-blue-500 group-[.selected]:text-white">
-                        <i class="ri-calendar-2-fill mr-3 text-lg"></i>
-                        <span class="font-poppins">Messages</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        {{-- <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot> --}}
-        {{-- <div class="fixed py-12 top-[60px] left-[240px]">
-        <div class="max-w-5xl sm:px-6 lg:px-8">
-            <div class="bg-white mx-auto dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in as Supervisor!") }}
-                </div>
-            </div>
-        </div>
-    </div> --}}
     <body>
-        <div class="p-9 sm:ml-64 flex h-[33rem]">
-            <!-- First Chat Container -->
-            <div class="w-80">
-                <div class="p-4 border-2 h-[37rem] border-neutral-300 rounded-2xl dark:border-neutral-300 rounded-r-none mt-14">
-                    <!-- Chat Container -->
-                    <div class="border-neutral-300 rounded-r-none max-h-[38rem] overflow-y-auto">
-                        <span class="ml-5 text-3xl font-semibold whitespace-nowrap">Chats</span>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 mt-3 flex pl-2 pointer-events-none">
-                                <svg class="w-5 h-6 ml-6 text-blue-700 dark:text-blue-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                </svg>
-                            </div>
-                            <input type="search" id="default-search" class="block w-[17rem] ml-0 mt-2 p-2 pl-5 text-x text-gray-900 text-center border border-neutral-100 rounded-full bg-neutral-200 focus:ring-blue-500 focus:border-nuetral-200 dark:bg-neutral-200 dark:border-neutral-200 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Message" required>
-                        </div>
+        <main class="fixed top-[84px] w-full md:w-[calc(100%-256px)] md:ml-64 min-h-screen mt-1 transition-all main">
+            <!-- START DASHBOARD -->
+            <div class="bg-slate-200 h-screen w-1/6 overflow-y-auto rounded-2xl ml-2">
+                <!-- Tailwind UI Search Bar -->
+                <div class=" mt-8 mb-4 px-4">
+                    <label for="search" class="sr-only">Search</label>
+                    <div class="relative text-gray-600 focus-within:text-gray-400">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current">
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                            </svg>
+                        </span>
+                        <input type="search" id="searchInput" class="py-2 text-base pl-8 pr-2 rounded-md w-full border border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Search...">
+                    </div>
+                </div>
+                <!-- End of Tailwind UI Search Bar -->
 
-                        <!-- Chat list items -->
-                        <ul>
-                            <li class="">
-                                <a href="#" class="flex items-center justify-center w-full px-4 py-3 hover:bg-blue-50 dark:hover:bg-gray-800">
-                                    <img class="mr-3 rounded-full w-11 h-11" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
-                                    <div>
-                                        <span class="font-medium text-black-900 dark:text-black hover:text-white-800 dark:hover:text-white-800">Leah Oquindo</span>
-                                        <p class="text-sm text-gray-500 dark:text-black-400">Kurt: I have arrived.......<span class="text-sm text-gray-500 dark:text-black-400">2:10pm</span></p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="#" class="flex items-center justify-center w-full px-4 py-3 hover:bg-blue-50 dark:hover:bg-gray-800">
-                                    <img class="mr-3 rounded-full w-11 h-11" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
-                                    <div>
-                                        <span class="font-medium text-black-900 dark:text-black hover:text-white-800 dark:hover:text-white-800">Kurt Axel Nanalis</span>
-                                        <p class="text-sm text-gray-500 dark:text-black-400">Kurt: I have arrived.......<span class="text-sm text-gray-500 dark:text-black-400">2:10pm</span></p>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
+                <div id="side-container">
+                    <div id="location-details">
+                        @foreach($locations as $loc)
+                            <p>{{ $loc->vehiclePlate }}</p>
+                        @endforeach
                     </div>
                 </div>
             </div>
-
-
-            <!-- Second Chat Container -->
-            <div class="w-4/5">
-                <div class="p-6 border-2 h-[6rem] border-neutral-300 rounded-2xl dark:border-neutral-300 rounded-l-none  rounded-b-none mt-14">
-                    <!-- Chat Container -->
-                    <div class="rounded-l-none max-h-[38rem] overflow-y-auto flex items-center">
-                        <img class="mr-3 rounded-full w-11 h-13" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
-                        <div>
-                            <span class="text-2xl font-semibolddark:text-black hover:text-white-800 dark:hover:text-white-800">Leah Oquindo</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="p-4 border-2  pt-5 h-[27rem] border-neutral-300 rounded-2xl dark:border-neutral-300 rounded-l-none rounded-b-none rounded-t-none">
-                    <!-- Chat Container -->
-                    <div class="rounded-l-none max-h-[14rem] overflow-y-auto flex items-center">
-                        <img class="mr-3 rounded-full w-11 h-11" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
-                                    <div>
-                                        <span class="font-medium text-black-900 dark:text-black hover:text-white-800 dark:hover:text-white-800">Kurt</span>
-                                        <p class="text-sm text-gray-500 dark:text-black-400">I have arrived at the target location<span class="text-sm text-gray-500 dark:text-black-400">2:10pm</span></p>
-                                    </div>
-                                </div>
-                            </div>
-
-                <div class="border-2 h-[4rem] border-neutral-300 rounded-2xl dark:border-neutral-300 rounded-l-none rounded-t-none">
-                <!-- Chat Container -->
-
-                <form>
-                <label for="chat" class="sr-only">Your message</label>
-                <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
-                    <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                            <path fill="currentColor" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z"/>
-                        </svg>
-                <span class="sr-only">Upload image</span>
-                </button>
-                     <button type="button" class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.408 7.5h.01m-6.876 0h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM4.6 11a5.5 5.5 0 0 0 10.81 0H4.6Z"/>
-                         </svg>
-                <span class="sr-only">Add emoji</span>
-                </button>
-                <textarea id="chat" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your message..."></textarea>
-                     <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                        <svg class="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                            <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
-                        </svg>
-                        <span class="sr-only">Send message</span>
-                    </button>
-                </div>
-                </form>
-
-                    </div>
-                </div>
-            </div>
-        </body>
-
+</div>
+</div>
+</div>
+<div id="map" class="fixed"></div>
     @endif
 
+    <script>
+    var locations = @json($locations);
 
+    var map = L.map('map').setView([51.505, -0.09], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    locations.forEach(function(location) {
+        L.marker([location.latitude, location.longitude])
+            .bindPopup(`<b>${location.vehicle_name}</b><br>${location.vehiclePlate}`)
+            .addTo(map);
+    });
+
+
+        let marker, circle, zoomed;
+
+        navigator.geolocation.getCurrentPosition(success, error);
+
+        function success(pos) {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            const accuracy = pos.coords.accuracy;
+
+            if (marker) {
+                map.removeLayer(marker);
+                map.removeLayer(circle);
+            }
+
+            marker = L.marker([lat, lng]).addTo(map);
+            circle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
+
+            if (!zoomed) {
+                zoomed = map.fitBounds(circle.getBounds());
+            }
+
+            map.setView([lat, lng]);
+        }
+
+        function error(err) {
+            if (err.code === 1) {
+                alert("Please allow geolocation access");
+            } else {
+                alert("Cannot get current location");
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('click', function () {
+            const query = document.getElementById('searchInput').value;
+            searchLocation(query);
+        });
+
+        function searchLocation(query) {
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        const lat = parseFloat(data[0].lat);
+                        const lon = parseFloat(data[0].lon);
+                        const displayName = data[0].display_name;
+
+                        if (marker) {
+                            map.removeLayer(marker);
+                        }
+
+                        marker = L.marker([lat, lon]).addTo(map);
+                        marker.bindPopup(displayName).openPopup();
+                        map.setView([lat, lon], 13);
+                    } else {
+                        alert("Location not found");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Error fetching location data");
+                });
+
+
+            }
+
+
+        </script>
+        <script>
+
+            document.getElementById('side-container').addEventListener('click', function(event) {
+        if (event.target.tagName === 'P') {
+            var selectedName = event.target.textContent.trim();
+            var selectedLocation = locations.find(function(location) {
+                return location.vehiclePlate === selectedName;
+            });
+            if (selectedLocation) {
+                updateMarker(selectedLocation);
+            }
+                }
+            });
+
+            function updateMarker(selectedLocation) {
+        map.setView([selectedLocation.latitude, selectedLocation.longitude], 13);
+        marker.setLatLng([selectedLocation.latitude, selectedLocation.longitude]);
+        marker.bindPopup(`<b>${selectedLocation.vehicle_name}</b><br>${selectedLocation.vehiclePlate}`).openPopup();
+    }
+</script>
 
 </x-app-layout>
