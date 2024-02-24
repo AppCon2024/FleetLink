@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('status');
             $table->string('unique_identifier')->unique();
             $table->string('role');
+            $table->string('qrcode')->nullable();
             $table->timestamps();
         });
     }

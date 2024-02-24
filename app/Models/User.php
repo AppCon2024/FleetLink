@@ -27,7 +27,7 @@ class User extends Authenticatable
         'department',
         'position',
         'password',
-        'photo',
+        'image',
         'last_seen',
         'region_text',
         'province_text',

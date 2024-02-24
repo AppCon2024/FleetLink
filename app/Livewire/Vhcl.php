@@ -6,7 +6,9 @@ use App\Models\Vehicles;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
-use Milon\Barcode\Facades\DNS1DFacade as DNS2D;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
+
 
 
 
@@ -33,7 +35,7 @@ class Vhcl extends Component
     public $model;
     public $vin;
     public $user;
-    public $unique_identifier;
+    public $qrcode;
     public $name = "Vehicle";
     public $status = 1;
 
@@ -41,16 +43,27 @@ class Vhcl extends Component
 
     public $isOpen = 0;
     public $deleteOpen = 0;
+    public $qrOpen = 0;
     public $postId;
 
+    public function generateQRCode()
+    {
+        $fileName = 'qrcode_' . $this->plate . '.svg';
+        $filePath = public_path('qrcodes/' . $fileName); // Define the file path
+    
+        QrCode::size(200)->color(0, 0, 0)->generate($this->plate . ' ' . $this->model . ' ' . $this->brand . ' ' . $this->vin, $filePath);
+    
+        return '/qrcodes/' . $fileName; // Return the file path relative to the public directory
+    }
 
-
-    public function create(){
+    public function create()
+    {
         $this->reset('plate','brand','model','vin','postId');
         $this->openModal();
     }
 
-    public function store(){
+    public function store()
+    {
         $uniqueIdentifier = uniqid();
 
         $this->validate([
@@ -59,6 +72,9 @@ class Vhcl extends Component
             'model' => 'required',
             'vin' => 'required|max:255|unique:vehicles',
         ]);
+
+        $qrcodeData = $this->generateQRCode();
+
         Vehicles::create([
             'plate' => $this->plate,
             'brand' => $this->brand,
@@ -68,6 +84,7 @@ class Vhcl extends Component
             'name' => $this->name,
             'status' => $this->status,
             'unique_identifier' => $uniqueIdentifier,
+            'qrcode' => $qrcodeData,
 
         ]);
         session()->flash('message', 'Vehicle added successfully.');
@@ -83,15 +100,27 @@ class Vhcl extends Component
         $this->deleteOpenModal();
     }
 
-    public function remove(){
+    public function remove()
+    {
         if ($this->postId){
             $post = Vehicles::find($this->postId);
             $post->delete();
 
-            session()->flash('message', 'Supervisor deleted successfully.');
+            session()->flash('message', 'Vehicle deleted successfully.');
             $this->deleteCloseModal();
         }
     }
+    public function view($id)
+    {
+        $post = Vehicles::find($id);
+        $this->postId = $id;
+        $this->plate = $post->plate;
+        $this->qrcode = $post->qrcode;
+
+
+        $this->openQrModal();
+    }
+
 
     public function edit($id)
     {
@@ -108,17 +137,21 @@ class Vhcl extends Component
         if ($this->postId) {
             $post = Vehicles::findOrFail($this->postId);
             $this->validate([
-                'plate' => 'required|min:6|max:50',
+                'plate' => 'required|min:6|max:50|unique:vehicles,plate,'.$post->id,
                 'brand' => 'required|min:2|max:50',
                 'model' => 'required',
                 'vin' => 'required',
             ]);
+
+            $qrcodeData = $this->generateQRCode();
+
 
             $post->update([
                 'plate' => $this->plate,
                 'brand' => $this->brand,
                 'model' => $this->model,
                 'vin' => $this->vin,
+                'qrcode' => $qrcodeData,
             ]);
             session()->flash('message', 'Vehicle updated successfully.');
             $this->closeModal();
@@ -141,6 +174,14 @@ class Vhcl extends Component
     public function deleteCloseModal()
     {
         $this->deleteOpen = false;
+    }
+    public function openQrModal()
+    {
+        $this->qrOpen = true;
+    }
+    public function closeQrModal()
+    {
+        $this->qrOpen = false;
     }
     public function updatedSearch()
     {

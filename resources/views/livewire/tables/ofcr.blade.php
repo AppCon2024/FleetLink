@@ -7,12 +7,12 @@
             <div class="flex space-x-3">
                 @include('livewire.includes.user-status')
                 <button wire:click="create"
-                    class=" text-white border border-gray-300 bg-gray-500 uppercase rounded-lg text-xs p-2  text-center"><i
+                    class=" text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs p-2  text-center"><i
                         class="ri-add-line text-sm"></i>
                     Add a Officer
                 </button>
                 <button
-                    class="text-white border border-gray-300 bg-gray-500 uppercase rounded-lg text-xs p-2  text-center">
+                    class="text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs p-2  text-center">
                     Export
                 </button>
             </div>
@@ -22,7 +22,7 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">ID</th>
-                        <th scope="col" class="px-4 py-3">Photo</th>
+                        <th scope="col" class="px-4 py-3">Image</th>
                         @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'name',
                             'displayName' => 'Name',
@@ -51,7 +51,9 @@
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $ofcr->id }}</th>
                             <td class="px-4 py-3 flex items-center">
-                                <img src="{{ asset($ofcr->photo) }}" width='30' height="30">
+                                <button wire:click="view({{ $ofcr->id }})">
+                                <img src="{{ asset($ofcr->image) }}" width='30' height="30">
+                                </button>
                             </td>
                             <td class="px-4 py-3 text-blue-700">
                                 {{ $ofcr->name }}</td>

@@ -7,12 +7,12 @@
             <div class="flex space-x-3">
                 @include('livewire.includes.user-status')
                 <button wire:click="create"
-                    class=" text-white border border-gray-300 bg-gray-500 uppercase rounded-lg text-xs p-2  text-center"><i
+                    class=" text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs p-2  text-center"><i
                         class="ri-add-line text-sm"></i>
                     Add a Vehicle
                 </button>
                 <button
-                    class="text-white border border-gray-300 bg-gray-500 uppercase rounded-lg text-xs p-2  text-center">
+                    class="text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs p-2  text-center">
                     Export
                 </button>
             </div>
@@ -39,7 +39,7 @@
                             'displayName' => 'VIN Number'
                         ])
                         @include('livewire.includes.table-sortable-th',[
-                            'tablesadb' => 'unique_identifier',
+                            'tablesadb' => 'qrcode',
                             'displayName' => 'QrCode'
                         ])
                         @include('livewire.includes.table-sortable-th',[
@@ -66,9 +66,9 @@
                             {{ $vhcl->model }}</td>
                         <td class="px-4 py-3">
                             {{ $vhcl->vin }}</td>
-                        <td class="px-4 py-3 justify-items-center">
-                            <button
-                                {!! $vhcl->generateQRCode() !!}
+                        <td class="px-4 py-3">
+                            <button wire:click="view({{ $vhcl->id }})">
+                                <img src="{{ asset($vhcl->qrcode) }}" width='30' height="30">
                             </button>
                         </td>
                         <td class="px-4 py-3 text-black">
@@ -114,7 +114,7 @@
         </div>
 
         @include('livewire.includes.perpage')
-    
+
         {{ $data->links() }}
     </div>
 

@@ -8,12 +8,12 @@
             <div class="flex space-x-3">
                 @include('livewire.includes.user-status')
                 <button wire:click="create"
-                    class=" text-white border border-gray-300 bg-gray-500 uppercase rounded-lg text-xs p-2  text-center"><i
+                    class=" text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs p-2  text-center"><i
                         class="ri-add-line text-sm"></i>
                     Add Supervisor
                 </button>
                 <button
-                    class="text-white border border-gray-300 bg-gray-500 uppercase rounded-lg text-xs p-2  text-center">
+                    class="text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs p-2  text-center">
                     Export
                 </button>
             </div>
@@ -23,7 +23,7 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">ID</th>
-                        <th scope="col" class="px-4 py-3 ml-1">Photo</th>
+                        <th scope="col" class="px-4 py-3 ml-1">Image</th>
                         @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'name',
                             'displayName' => 'Name',
@@ -52,8 +52,8 @@
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $supv->id }}</th>
                             <td class="px-4 py-3">
-                                <button>
-                                <img src="{{ asset($supv->photo) }}" width='30' height="30">
+                                <button wire:click="view({{ $supv->id }})">
+                                <img src="{{ asset($supv->image) }}" width='30' height="30">
                                 </button>
                             </td>
                             <td class="px-4 py-3 text-blue-700">{{ $supv->name }}</td>

@@ -6,11 +6,13 @@ use App\Models\User;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\Attributes\Url;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class Supv extends Component
 {
     use WithPagination;
+    use WithFileUploads;
 
     #[Url(history:true)]
     public $search = '';
@@ -31,12 +33,14 @@ class Supv extends Component
     public $email;
     public $department;
     public $position;
-    public $photo = 12345;
     public $password = 12345;
 
     public $isOpen = 0;
     public $deleteOpen = 0;
+    public $imageOpen = 0;
     public $postId;
+
+    public $image;
 
     public function create()
     {
@@ -50,9 +54,19 @@ class Supv extends Component
             'last_name' => 'required|min:2|max:50',
             'department' => 'required',
             'position' => 'required',
-            'employee_id' => 'required|int',
+            'employee_id' => 'required|int|unique:users',
             'email' => 'required|email|unique:users',
+            'image' => 'required|image|max:1024',
         ]);
+
+        if($this->image){
+            $fileName = 'fleetlink_' . $this->first_name . '_' . $this->last_name .'.png';
+
+            $this->image = $this->image->storeAs('images', $fileName, 'public');
+
+            $this->image = '/storage/'.$this->image;
+        }
+
         User::create([
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
@@ -62,10 +76,11 @@ class Supv extends Component
             'department' => $this->department,
             'position' => $this->position,
             'role' => $this->role,
-            'photo' => $this->photo,
             'password' => $this->password,
-            'last_seen' => null
+            'last_seen' => null,
+            'image' => $this->image,
         ]);
+
         session()->flash('message', 'Supervisor created successfully.');
         $this->reset('first_name','last_name','employee_id','email','department','position');
         $this->closeModal();
@@ -87,6 +102,14 @@ class Supv extends Component
             session()->flash('message', 'Supervisor deleted successfully.');
             $this->deleteCloseModal();
         }
+    }
+    public function view($id){
+        $post = User::find($id);
+        $this->postId = $id;
+        $this->image = $post->image;
+        $this->name = $post->name;
+
+        $this->openImageModal();
     }
     public function edit($id)
     {
@@ -110,7 +133,8 @@ class Supv extends Component
                 'last_name' => 'required|min:2|max:50',
                 'department' => 'required',
                 'position' => 'required',
-                'employee_id' => 'required|int',
+                'email' => 'required|email|unique:users,email,' .$post->id,
+                'employee_id' => 'required|int|unique:users,employee_id,'.$post->id,
             ]);
 
             $post->update([
@@ -142,6 +166,14 @@ class Supv extends Component
     public function deleteCloseModal()
     {
         $this->deleteOpen = false;
+    }
+    public function openImageModal()
+    {
+        $this->imageOpen = true;
+    }
+    public function closeImageModal()
+    {
+        $this->imageOpen = false;
     }
     public function updatedSearch()
     {

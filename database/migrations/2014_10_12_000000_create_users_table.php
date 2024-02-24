@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('department');
             $table->string('position');
             $table->string('password');
-            $table->string('photo', 255);
+            $table->string('image', 255);
             $table->string('last_seen')->nullable();
             $table->string('status')->default('offline');
             $table->string('region_text')->nullable();

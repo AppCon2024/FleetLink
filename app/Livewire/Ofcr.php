@@ -41,6 +41,7 @@ class Ofcr extends Component
 
     public $isOpen = 0;
     public $deleteOpen = 0;
+    public $imageOpen = 0;
     public $postId;
 
 
@@ -93,6 +94,14 @@ class Ofcr extends Component
             session()->flash('message', 'Officer account deleted successfully.');
             $this->deleteCloseModal();
         }
+    }
+    public function view($id){
+        $post = User::find($id);
+        $this->postId = $id;
+        $this->photo = $post->photo;
+        $this->name = $post->name;
+
+        $this->openImageModal();
     }
 
     public function edit($id)
@@ -152,6 +161,14 @@ class Ofcr extends Component
     public function deleteCloseModal()
     {
         $this->deleteOpen = false;
+    }
+    public function openImageModal()
+    {
+        $this->imageOpen = true;
+    }
+    public function closeImageModal()
+    {
+        $this->imageOpen = false;
     }
 
     public function updatedSearch()

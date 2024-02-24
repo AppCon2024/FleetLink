@@ -34,16 +34,7 @@ class VehiclesFactory extends Factory
             'vin' => $this->faker->vin,
             'unique_identifier' => fake()->numerify('##########'),
             'status' => fake()->randomElement([0,1]),
-            // 'phone' => fake()->numerify('09#########'),
-            // 'employee_id' => fake()->numerify('###-###-###'),
-            // 'gender' => fake()->randomElement(['Male', 'Female']),
-            // 'address' => fake()->address(),
 
-            // 'shift' => fake()->randomElement(['Day', 'Night']),
-            // 'password' => Hash::make('12345'),
-            // 'emergency_phone' =>fake()->numerify('09#########'),
-            // 'position' => fake()->randomElement(['PMAJ Chief of Police', 'PCPT Deputy Chief', 'PEMS SESPO', 'Admin PNCO', 'Operation PNCO', 'Investigation PNCO', 'Logistic PNCO', 'PCR PNCO', 'Intel PNCO']),
-            // 'age' => fake()->numberBetween($min = 18, $max = 22),
         ];
     }
 }

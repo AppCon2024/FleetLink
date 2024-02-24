@@ -23,13 +23,6 @@ use App\Http\Controllers\SupvController;
 |
 */
 
-Route::get('/mobile', function () {
-    return view('mobile');
-});
-
-Route::get('/qr', function () {
-    return view('qr');
-});
 
 Route::redirect('/', destination: 'landing-page');
 
@@ -48,9 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 });
-
-Route::patch('/profile_address', [ProfileController::class, 'addressUpdate'])->name('profile.addressUpdate');
-
 
 Route::controller(SupervisorsController::class)->group(function(){
     Route::get('/supervisors','index')->middleware(['auth', 'verified'])->name('supervisors');
@@ -84,28 +74,10 @@ Route::controller(VehiclesController::class)->group(function(){
 
 });
 
-    Route::get('/status', [StatusController::class, 'index'])->name('vehicle.status');
-
-
+Route::get('/status', [StatusController::class, 'index'])->name('vehicle.status');
 Route::get('/dashboard', [DashboardController::class, 'countUsersByRole'])->middleware(['auth', 'verified'])->name('dashboard');
-
-
-Route::get('/maps', function () {
-    return view('maps');
-});
-
-
 Route::get('/tracking', [LocationController::class, 'index'])->name('tracking');
+Route::patch('/profile_address', [ProfileController::class, 'addressUpdate'])->name('profile.addressUpdate');
 
-Route::get('/chat', function () {
-        return view('chat'); // Assumes "AboutUs.blade.php" is in the "resources/views" directory.
-    })->name('chat');
-
-    Route::get('/user_home', function () {
-        return view('user_home'); // Assumes "AboutUs.blade.php" is in the "resources/views" directory.
-    })->name('user_home');
-
-
-
-    require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
 
