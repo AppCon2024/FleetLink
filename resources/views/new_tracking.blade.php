@@ -1,58 +1,4 @@
 <x-app-layout>
-    <style>
-        #map {
-           
-        
-             
-               width:63%;
-               height: 80vh; /* Adjust the height as needed */
-           }
-   
-         
-   
-           #details h2 {
-               font-size: 1.0em;
-               margin-bottom: 10px;
-               color: #555;
-           }
-   
-           #details p {
-               margin-bottom: 8px;
-               display: block;
-           }
-   
-           #details hr {
-               border: 0;
-               height: 1px;
-               background: #ddd;
-               margin: 10px 0;
-           }
-   
-        
-   /* CSS for mobile screens */
-   @media (max-width: 768px) {
-       /* Hide the web menu on smaller screens */
-       .md\:block {
-           display: none;
-       }
-   
-       /* Show the mobile menu */
-       .md\:hidden {
-           display: block;
-       }
-       #map {
-           margin-top: 54%;
-               width:140%;
-               height: 20vh; /* Adjust the height as needed */
-               right: 10px;
-           }
-   
-      
-   
-       /* Adjust styles for mobile menu */
-       /* ... (your responsive styles for mobile) ... */
-   }
-   </style>
 
     @if (Auth::user()->role == 'admin')
         <div class="fixed left-3 top-[87px] w-[240px] h-[86%] bg-blue-200 rounded-3xl p-4">
@@ -352,106 +298,71 @@
                         </span>
                         <input type="search" id="searchInput" class="py-2 text-base pl-8 pr-2 rounded-md w-full border border-gray-300 focus:outline-none focus:border-blue-500" placeholder="Search...">
                     </div>
-                       <!-- End of Tailwind UI Search Bar -->
+                </div>
+                <!-- End of Tailwind UI Search Bar -->
 
-               
-                       <div id="side-container">
-                        <div id="location-details">
-                            @foreach($borrows as $bor)
-                                <p>{{ $bor->plate }}</p>
-                            @endforeach
-                        </div>
+                <div id="side-container">
+                    <div id="location-details">
+                        @foreach($locations as $loc)
+                            <p>{{ $loc->vehiclePlate }}</p>
+                        @endforeach
                     </div>
-        
-    </div>
-    </div>
-    </div>
-    <div id="map" class="fixed"></div>
-                    @endif
-                        <h2>Location Details</h2>
-                        <p id="accuracy"></p>
-                        <p id="latitude"></p>
-                        <p id="longitude"></p>
-                        <p id="reqCount"></p>
-                        <hr>
-                    </div>
-                    
-                    <div id="error-message"></div>
-
                 </div>
             </div>
-        
+</div>
+</div>
+</div>
+<div id="map" class="fixed"></div>
+    @endif
 
     <script>
-         var reqcount = 0;
-            var watchID;  // Variable to store the watch position ID
-        
-            var options = {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-            };
-        
-            navigator.geolocation.getCurrentPosition(initialPositionSuccess, errorCallback, options);
-        
-            function initialPositionSuccess(position) {
-                const { latitude, longitude } = position.coords;
-                document.getElementById('map').innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
-        
-                watchID = navigator.geolocation.watchPosition(successCallback, errorCallback, options);
+    var locations = @json($locations);
+
+    var map = L.map('map').setView([51.505, -0.09], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    locations.forEach(function(location) {
+        L.marker([location.latitude, location.longitude])
+            .bindPopup(`<b>${location.vehicle_name}</b><br>${location.vehiclePlate}`)
+            .addTo(map);
+    });
+
+
+        let marker, circle, zoomed;
+
+        navigator.geolocation.getCurrentPosition(success, error);
+
+        function success(pos) {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            const accuracy = pos.coords.accuracy;
+
+            if (marker) {
+                map.removeLayer(marker);
+                map.removeLayer(circle);
             }
-        
-            function successCallback(position) {
-                const { accuracy, latitude, longitude } = position.coords;
-        
-                reqcount++;
-                document.getElementById('accuracy').innerText = "Accuracy: " + accuracy;
-                document.getElementById('latitude').innerText = "Latitude: " + latitude;
-                document.getElementById('longitude').innerText = "Longitude: " + longitude;
-                document.getElementById('reqCount').innerText = "Req Count: " + reqcount;
-        
-                // Update the map URL dynamically
-                updateMap(latitude, longitude);
-        
-                // Save geolocation data to the server
-                saveGeolocation(position.coords);
+
+            marker = L.marker([lat, lng]).addTo(map);
+            circle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
+
+            if (!zoomed) {
+                zoomed = map.fitBounds(circle.getBounds());
             }
-        
-            function errorCallback(error) {
-                console.error('Error getting geolocation:', error.code, error.message);
-        
-                // Display a user-friendly message on the page
-                document.getElementById('error-message').innerText = 'Error getting geolocation. Please enable location services and try again.';
-        
-                // Optionally, stop watching for geolocation updates on specific errors
-                if (error.code === 1 || error.code === 3) {  // Permission denied or timeout
-                    navigator.geolocation.clearWatch(watchID);
-                }
+
+            map.setView([lat, lng]);
+        }
+
+        function error(err) {
+            if (err.code === 1) {
+                alert("Please allow geolocation access");
+            } else {
+                alert("Cannot get current location");
             }
-        
-            function updateMap(latitude, longitude) {
-                // Update the map URL with the new coordinates
-                const mapElement = document.getElementById('map');
-                mapElement.innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
-            }
-        
-            function saveGeolocation(coords) {
-                // Assuming you are using jQuery for simplicity
-                $.ajax({
-                    url: '/geolocations',
-                    type: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        accuracy: coords.accuracy,
-                        latitude: coords.latitude,
-                        longitude: coords.longitude,
-                        // Add other fields as needed
-                    },
-                    success: function(response) {
-                        console.log(response.message);
-                    },
-                });
-            } 
+        }
+
         document.getElementById('searchInput').addEventListener('click', function () {
             const query = document.getElementById('searchInput').value;
             searchLocation(query);

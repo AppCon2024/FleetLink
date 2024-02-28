@@ -58,11 +58,13 @@
         }
 
         #map {
-            height: 590px;
+            width:63%;
+               height: 80vh; 
+            /* height: 590px; */
             position: absolute;
             top: 89px;
             right: 20px;
-            width: 54rem;
+            /* width: 54rem; */
             z-index: 1;
         }
 
@@ -83,7 +85,7 @@
             width: 200px;
 
             padding: 10px;
-            height: 580px;
+            height: 400px;
 
         }
 

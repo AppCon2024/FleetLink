@@ -120,3 +120,7 @@ Route::get('/chat', function () {
     require __DIR__.'/auth.php';
 
     Route::post('/geolocations', [GeolocationController::class, 'saveGeolocation']);
+    Route::get('/new_tracking', function () {
+        return view('new_tracking');
+    })->middleware(['auth', 'verified'])->name('new_tracking');
+    

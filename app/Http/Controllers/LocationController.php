@@ -8,8 +8,8 @@ class LocationController extends Controller
 {
     public function index()
     {
-        $locations = Location::all(); // Fetch locations
-        return view('tracking', compact('locations'));
+        $borrows = Location::all(); // Fetch locations
+        return view('tracking', compact('borrows'));
     }
         
     

@@ -631,8 +631,9 @@
             </div>
         </main>
     @endif
+    @if (Auth::check() && Auth::user()->role == 'police')
 
-    @if (Auth::user()->role == 'police')
+    {{-- @if (Auth::user()->role == 'police') --}}
     <div class="fixed left-1/2 transform -translate-x-1/2 top-[97px] md:top-[120px] w-full md:w-[100%] max-w-[280px] flex justify-center flex-col items-center">
         <div class="flex justify-between gap-2 w-full">
             <div class="flex flex-col items-center justify-center bg-blue-200 rounded-lg shadow-xl min-h-[80px] w-full p-4">
@@ -683,16 +684,7 @@
                 placeholder="Plate Number" class="form-control">
         </div>
         <div id="map"></div>
-        <script>
-            navigator.geolocation.getCurrentPosition(position => {
-                const { latitude, longitude } = position.coords;
-                document.getElementById('map').innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
-        
-                // // Fetch weather data based on the current location
-                // fetchWeather(latitude, longitude);
-            });
-        </script>
-        
+
         <div id="details" style="display: none;">
             <h2>Location Details</h2>
             <p id="accuracy"></p>
@@ -702,39 +694,59 @@
             <hr>
         </div>
         
+        <div id="error-message"></div>
+        
         <script>
             var reqcount = 0;
+            var watchID;  // Variable to store the watch position ID
         
             var options = {
                 enableHighAccuracy: true,
-                timeout: 1000,
+                timeout: 100000,
                 maximumAge: 0
             };
         
-            navigator.geolocation.watchPosition(successCallback, errorCallback, options);
+            navigator.geolocation.getCurrentPosition(initialPositionSuccess, errorCallback, options);
+        
+            function initialPositionSuccess(position) {
+                const { latitude, longitude } = position.coords;
+                document.getElementById('map').innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
+        
+                watchID = navigator.geolocation.watchPosition(successCallback, errorCallback, options);
+            }
         
             function successCallback(position) {
-                const { accuracy, latitude, longitude, altitude, heading, speed } = position.coords;
+                const { accuracy, latitude, longitude } = position.coords;
         
                 reqcount++;
                 document.getElementById('accuracy').innerText = "Accuracy: " + accuracy;
                 document.getElementById('latitude').innerText = "Latitude: " + latitude;
                 document.getElementById('longitude').innerText = "Longitude: " + longitude;
-                // document.getElementById('altitude').innerText = "Altitude: " + altitude;
-                // document.getElementById('heading').innerText = "Heading: " + heading;
-                // document.getElementById('speed').innerText = "Speed: " + speed;
                 document.getElementById('reqCount').innerText = "Req Count: " + reqcount;
         
-                // // Fetch weather data based on the updated location
-                // fetchWeather(latitude, longitude);
+                // Update the map URL dynamically
+                updateMap(latitude, longitude);
         
                 // Save geolocation data to the server
                 saveGeolocation(position.coords);
             }
         
             function errorCallback(error) {
-                // Handle error if needed
-                console.error('Error getting geolocation:', error);
+                console.error('Error getting geolocation:', error.code, error.message);
+        
+                // Display a user-friendly message on the page
+                document.getElementById('error-message').innerText = 'Error getting geolocation. Please enable location services and try again.';
+        
+                // Optionally, stop watching for geolocation updates on specific errors
+                if (error.code === 1 || error.code === 3) {  // Permission denied or timeout
+                    navigator.geolocation.clearWatch(watchID);
+                }
+            }
+        
+            function updateMap(latitude, longitude) {
+                // Update the map URL with the new coordinates
+                const mapElement = document.getElementById('map');
+                mapElement.innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
             }
         
             function saveGeolocation(coords) {
@@ -752,12 +764,8 @@
                     success: function(response) {
                         console.log(response.message);
                     },
-                    // error: function(error) {
-                    //     console.error('Error saving geolocation:', error);
-                    // }
                 });
-            }
-        
+            } 
         //     function fetchWeather(latitude, longitude) {
         //         // Replace 'YOUR_API_KEY' with your actual Weatherbit API key
         //         const apiKey = '0e7745fca6e547509af3f85b53fd73bb';

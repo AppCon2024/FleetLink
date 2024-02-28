@@ -16,10 +16,19 @@ class GeolocationController extends Controller
             'longitude' => 'required',
             // Add other fields as needed
         ]);
-
-        // Create a new Geolocation record
-        Geolocation::create($request->all());
-
+    
+        // Check if a record for the user already exists
+        $existingRecord = Geolocation::first();
+    
+        if ($existingRecord) {
+            // If a record exists, update it
+            $existingRecord->update($request->all());
+        } else {
+            // If no record exists, create a new one
+            Geolocation::create($request->all());
+        }
+    
         return response()->json(['message' => 'Geolocation saved successfully']);
     }
+    
 }

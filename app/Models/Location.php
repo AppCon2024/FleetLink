@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
-    protected $table = 'location'; // Define the table name
+    protected $table = 'borrows'; // Define the table name
 
     protected $fillable = [
-        'vehicle_name', 'latitude', 'longitude', 'vehiclePlate'
+        'lastname', 'employee_id', 'brand', 'plate'
         // Add other fields from your locations table as needed
     ];
 
