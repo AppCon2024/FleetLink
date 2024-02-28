@@ -699,11 +699,13 @@
         <script>
             var reqcount = 0;
             var watchID;  // Variable to store the watch position ID
+            var employeeId = {{ auth()->id() }};
         
             var options = {
                 enableHighAccuracy: true,
                 timeout: 100000,
                 maximumAge: 0
+                
             };
         
             navigator.geolocation.getCurrentPosition(initialPositionSuccess, errorCallback, options);
@@ -759,6 +761,7 @@
                         accuracy: coords.accuracy,
                         latitude: coords.latitude,
                         longitude: coords.longitude,
+                        employee_id: employeeId,
                         // Add other fields as needed
                     },
                     success: function(response) {

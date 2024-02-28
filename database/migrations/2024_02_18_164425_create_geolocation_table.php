@@ -11,12 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
+        
+
         Schema::create('geolocations', function (Blueprint $table) {
             $table->id();
-            $table->double('accuracy');
-            $table->double('latitude');
-            $table->double('longitude');
-            $table->timestamps();
+        $table->double('accuracy');
+        $table->double('latitude');
+        $table->double('longitude');
+        $table->unsignedBigInteger('employee_id'); // Add the employee_id column
+        $table->timestamps();
+
+        $table->foreign('employee_id')->references('employee_id')->on('borrows')->onDelete('cascade');
+
+      
         });
     }
 
@@ -25,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('geolocation');
+        Schema::dropIfExists('geolocations');
     }
 };

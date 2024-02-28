@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Geolocation extends Model
 {
-    protected $fillable = ['accuracy', 'latitude', 'longitude'];
-    protected $table = 'geolocations'; // Set the table name if different from default
+    protected $fillable = ['accuracy', 'latitude', 'longitude', 'employee_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'employee_id');
+        return $this->belongsTo(User::class, 'employee_id');
+    }
 }
