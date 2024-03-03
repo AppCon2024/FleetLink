@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Borrows extends Model
 {
-    use HasFactory;
+    // use HasFactory;
 
     protected $fillable = [
         'last_name',

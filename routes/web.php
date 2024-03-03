@@ -9,7 +9,7 @@ use App\Http\Controllers\VehiclesController;
 use App\Models\Supervisors;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SmsController;
-use App\Http\Controllers\LocationController;
+use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\GeolocationController;
 
 
@@ -105,7 +105,7 @@ Route::get('/maps', function () {
 });
 
 
-Route::get('/tracking', [LocationController::class, 'index'])->name('tracking');
+
 
 Route::get('/chat', function () {
         return view('chat'); // Assumes "AboutUs.blade.php" is in the "resources/views" directory.
@@ -123,4 +123,6 @@ Route::get('/chat', function () {
     Route::get('/new_tracking', function () {
         return view('new_tracking');
     })->middleware(['auth', 'verified'])->name('new_tracking');
+
+    Route::get('/tracking', [TrackingController::class, 'index'])->name('tracking');
     

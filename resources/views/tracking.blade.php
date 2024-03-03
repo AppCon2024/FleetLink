@@ -354,17 +354,47 @@
                     </div>
                        <!-- End of Tailwind UI Search Bar -->
 
-               
-                       <div id="side-container">
-                        <div id="location-details">
-                            @foreach($borrows as $bor)
-                                <p>{{ $bor->plate }}</p>
-                            @endforeach
-                        </div>
-                    </div>
-        
-    </div>
-    </div>
+            
+                       
+                                <div id="side-container">
+                                    <div id="location-details">
+                                        @foreach($borrowsData as $borrow)
+                                            <div>
+                                                {{-- Hide last name, first name, and employee ID --}}
+                                                <div style="display: none;">
+                                                    <p>Last Name: {{ $borrow->last_name ?? $borrow->other_last_name_field }}</p>
+                                                    <p>First Name: {{ $borrow->first_name ?? $borrow->other_first_name_field }}</p>
+                                                    <p>Employee ID: {{ $borrow->employee_id ?? $borrow->other_employee_id_field }}</p>
+                                                </div>
+                                
+                                                {{-- Check if the 'plate' field exists before displaying it --}}
+                                        
+                                                @if(isset($borrow->plate))
+                                                <p class="location-info" data-plate="{{ $borrow->plate }}">Plate: {{ $borrow->plate }}</p>
+                                          
+                                                @endif
+                                
+                                                <!-- Add other borrow fields as needed -->
+                                
+                                                {{-- Find corresponding geolocation data for the current borrow record --}}
+                                                @php
+                                                    $matchingGeolocation = $geolocationData->firstWhere('user_id', $borrow->user_id);
+                                                @endphp
+                                
+                                                @if($matchingGeolocation)
+                                                    {{-- Add other geolocation fields as needed --}}
+                                                    <div style="display: none;">
+                                                        <p>Geolocation: {{ $matchingGeolocation->latitude }}, {{ $matchingGeolocation->longitude }}</p>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                
+                                                
+                                </div>
+                    
     </div>
     <div id="map" class="fixed"></div>
                     @endif
@@ -382,130 +412,164 @@
             </div>
         
 
-    <script>
-         var reqcount = 0;
-            var watchID;  // Variable to store the watch position ID
-        
-            var options = {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-            };
-        
-            navigator.geolocation.getCurrentPosition(initialPositionSuccess, errorCallback, options);
-        
-            function initialPositionSuccess(position) {
-                const { latitude, longitude } = position.coords;
-                document.getElementById('map').innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
-        
-                watchID = navigator.geolocation.watchPosition(successCallback, errorCallback, options);
-            }
-        
-            function successCallback(position) {
-                const { accuracy, latitude, longitude } = position.coords;
-        
-                reqcount++;
-                document.getElementById('accuracy').innerText = "Accuracy: " + accuracy;
-                document.getElementById('latitude').innerText = "Latitude: " + latitude;
-                document.getElementById('longitude').innerText = "Longitude: " + longitude;
-                document.getElementById('reqCount').innerText = "Req Count: " + reqcount;
-        
-                // Update the map URL dynamically
-                updateMap(latitude, longitude);
-        
-                // Save geolocation data to the server
-                saveGeolocation(position.coords);
-            }
-        
-            function errorCallback(error) {
-                console.error('Error getting geolocation:', error.code, error.message);
-        
-                // Display a user-friendly message on the page
-                document.getElementById('error-message').innerText = 'Error getting geolocation. Please enable location services and try again.';
-        
-                // Optionally, stop watching for geolocation updates on specific errors
-                if (error.code === 1 || error.code === 3) {  // Permission denied or timeout
-                    navigator.geolocation.clearWatch(watchID);
+            <script>
+                var reqcount = 0;
+                var watchID; // Variable to store the watch position ID
+                var map;
+                var marker;
+            
+                var options = {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                };
+            
+                navigator.geolocation.getCurrentPosition(initialPositionSuccess, errorCallback, options);
+            
+                function initialPositionSuccess(position) {
+    const { latitude, longitude } = position.coords;
+
+    // Initialize the map
+    map = L.map('map').setView([latitude, longitude], 15);
+
+    // Add a base map layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Create a marker for the initial position
+    marker = L.marker([latitude, longitude]).addTo(map);
+
+    // Construct the popup content using JavaScript
+    const popupContent = `
+        <div>
+            <p class="full-name">
+         {{ $borrow->first_name ?? $borrow->other_first_name_field }} {{ $borrow->last_name ?? $borrow->other_last_name_field }}
+    </p>
+    <p>Plate: {{ $borrow->plate }}</p>
+        </div>
+    `;
+ 
+
+    marker.bindPopup(popupContent).openPopup();
+
+    // Watch for geolocation updates
+    watchID = navigator.geolocation.watchPosition(successCallback, errorCallback, options);
+}
+
+            
+                function successCallback(position) {
+                    const { accuracy, latitude, longitude } = position.coords;
+            
+                    reqcount++;
+                    document.getElementById('accuracy').innerText = "Accuracy: " + accuracy;
+                    document.getElementById('latitude').innerText = "Latitude: " + latitude;
+                    document.getElementById('longitude').innerText = "Longitude: " + longitude;
+                    document.getElementById('reqCount').innerText = "Req Count: " + reqcount;
+            
+                    // Update the map dynamically with the new coordinates
+                    updateMap(latitude, longitude);
+            
+                    // Save geolocation data to the server
+                    saveGeolocation(position.coords);
                 }
-            }
-        
-            function updateMap(latitude, longitude) {
-                // Update the map URL with the new coordinates
-                const mapElement = document.getElementById('map');
-                mapElement.innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
-            }
-        
-            function saveGeolocation(coords) {
-                // Assuming you are using jQuery for simplicity
-                $.ajax({
-                    url: '/geolocations',
-                    type: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        accuracy: coords.accuracy,
-                        latitude: coords.latitude,
-                        longitude: coords.longitude,
-                        // Add other fields as needed
-                    },
-                    success: function(response) {
-                        console.log(response.message);
-                    },
-                });
-            } 
-        document.getElementById('searchInput').addEventListener('click', function () {
-            const query = document.getElementById('searchInput').value;
-            searchLocation(query);
-        });
-
-        function searchLocation(query) {
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.length > 0) {
-                        const lat = parseFloat(data[0].lat);
-                        const lon = parseFloat(data[0].lon);
-                        const displayName = data[0].display_name;
-
-                        if (marker) {
-                            map.removeLayer(marker);
-                        }
-
-                        marker = L.marker([lat, lon]).addTo(map);
-                        marker.bindPopup(displayName).openPopup();
-                        map.setView([lat, lon], 13);
-                    } else {
-                        alert("Location not found");
+            
+                function errorCallback(error) {
+                    console.error('Error getting geolocation:', error.code, error.message);
+            
+                    // Display a user-friendly message on the page
+                    document.getElementById('error-message').innerText = 'Error getting geolocation. Please enable location services and try again.';
+            
+                    // Optionally, stop watching for geolocation updates on specific errors
+                    if (error.code === 1 || error.code === 3) { // Permission denied or timeout
+                        navigator.geolocation.clearWatch(watchID);
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert("Error fetching location data");
+                }
+            
+                function updateMap(latitude, longitude) {
+                    // Update the marker's position on the map
+                    marker.setLatLng([latitude, longitude]).update();
+                    map.setView([latitude, longitude], 15);
+                }
+            
+                function saveGeolocation(coords) {
+                    // Assuming you are using jQuery for simplicity
+                    $.ajax({
+                        url: '/geolocations',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            accuracy: coords.accuracy,
+                            latitude: coords.latitude,
+                            longitude: coords.longitude,
+                            // Add other fields as needed
+                        },
+                        success: function (response) {
+                            console.log(response.message);
+                        },
+                    });
+                }
+            
+                document.getElementById('searchInput').addEventListener('click', function () {
+                    const query = document.getElementById('searchInput').value;
+                    searchLocation(query);
                 });
-
-
-            }
-
-
-        </script>
+            
+                function searchLocation(query) {
+                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data && data.length > 0) {
+                                const lat = parseFloat(data[0].lat);
+                                const lon = parseFloat(data[0].lon);
+                                const displayName = data[0].display_name;
+            
+                                // Update the marker's position on the map
+                                marker.setLatLng([lat, lon]).update();
+                                map.setView([lat, lon], 15);
+            
+                                // Open a popup with location information
+                                marker.bindPopup(displayName).openPopup();
+                            } else {
+                                alert("Location not found");
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert("Error fetching location data");
+                        });
+                }
+            </script>
+            
         <script>
 
-            document.getElementById('side-container').addEventListener('click', function(event) {
-        if (event.target.tagName === 'P') {
-            var selectedName = event.target.textContent.trim();
-            var selectedLocation = locations.find(function(location) {
-                return location.vehiclePlate === selectedName;
-            });
-            if (selectedLocation) {
-                updateMarker(selectedLocation);
-            }
-                }
-            });
+document.getElementById('side-container').addEventListener('click', function (event) {
+    // Check if the clicked element or its ancestor has a user ID attribute
+    const userId = event.target.dataset.userId || event.target.closest('[data-user-id]').dataset.userId;
 
-            function updateMarker(selectedLocation) {
-        map.setView([selectedLocation.latitude, selectedLocation.longitude], 13);
-        marker.setLatLng([selectedLocation.latitude, selectedLocation.longitude]);
-        marker.bindPopup(`<b>${selectedLocation.vehicle_name}</b><br>${selectedLocation.vehiclePlate}`).openPopup();
+    if (userId) {
+        // Find the location based on the user ID
+        const selectedLocation = locations.find(location => location.user_id === userId);
+
+        if (selectedLocation) {
+            updateMarker(selectedLocation);
+        }
     }
+});
+
+function updateMarker(selectedLocation) {
+    const latitude = selectedLocation.latitude;
+    const longitude = selectedLocation.longitude;
+
+    // Update the marker's position on the map
+    marker.setLatLng([latitude, longitude]).update();
+    map.setView([latitude, longitude], 13);
+
+    // Display a popup with the selected location's plate information
+    const popupContent = `Plate: ${selectedLocation.plate}`;
+    marker.bindPopup(popupContent).openPopup();
+}
+
 </script>
 
 </x-app-layout>
