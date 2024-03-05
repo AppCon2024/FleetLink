@@ -34,7 +34,7 @@
 </head>
 <body>
   <div class="container">
-    <img src="{{ asset('image/FleetLink_Logo.png') }}" alt="Your Logo" class="logo">
+    <img src="{{ asset('storage/images/Logo.png') }}" alt="Your Logo" class="logo">
   </div>
 
   <div class="login-container" style="display: none;">

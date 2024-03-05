@@ -32,27 +32,27 @@ class RegisteredUserController extends Controller
     {
         $accountsData = $request->all();
 
-        if ($request->hasFile('photo')) {
-            $fileName = time().$request->file('photo')->getClientOriginalName();
-            $path = $request->file('photo')->storeAs('images', $fileName, 'public');
-            $accountsData["photo"] = '/storage/'.$path;
-        }
-
-
         $request->validate([
-            'photo' => ['image', 'required'], // Use the modified variable here
-            'last_name' => ['required', 'string', 'max:255'],
-            'first_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'image' => ['image', 'required'], // Use the modified variable here
+            'last_name' => ['required', 'alpha', 'max:50'],
+            'first_name' => ['required', 'alpha', 'max:50'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:50', 'unique:'.User::class],
+            'employee_id' => ['required', 'numeric', 'digits:6'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             // 'role' => ['required', 'string', 'max: 10'],
             'department' => ['required'],
             'position' => ['required'],
         ]);
 
+        if ($request->hasFile('image')) {
+            $fileName = 'fleetlink_' . $request->first_name . $request->last_name. '.jpg';
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $accountsData["image"] = '/storage/'.$path;
+        }
+
         $user = User::create([
-            'role' => 'admin',
-            'photo' => $accountsData["photo"], // Use the modified variable here
+            'role' => 'police',
+            'image' => $accountsData["image"], // Use the modified variable here
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'name' =>  $request->first_name . ' ' . $request->last_name,

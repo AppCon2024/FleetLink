@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\Attributes\Url;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
 
 
@@ -12,6 +13,7 @@ class Ofcr extends Component
 {
 
     use WithPagination;
+    use WithFileUploads;
 
 
     #[Url(history:true)]
@@ -34,7 +36,7 @@ class Ofcr extends Component
     public $email;
     public $department;
     public $position;
-    public $photo = 12345;
+    public $image;
     public $password = 12345;
 
 
@@ -69,7 +71,7 @@ class Ofcr extends Component
             'department' => $this->department,
             'position' => $this->position,
             'role' => $this->role,
-            'photo' => $this->photo,
+            'image' => $this->image,
             'password' => $this->password,
             'last_seen' => null
         ]);
@@ -98,7 +100,7 @@ class Ofcr extends Component
     public function view($id){
         $post = User::find($id);
         $this->postId = $id;
-        $this->photo = $post->photo;
+        $this->image = $post->image;
         $this->name = $post->name;
 
         $this->openImageModal();
@@ -196,5 +198,19 @@ class Ofcr extends Component
         ->paginate($this->perPage);
         return view('livewire.tables.ofcr',
         ['data' => $data]);
+    }
+    public function status($ofcrId)
+    {
+        $data = User::find($ofcrId);
+        if($data){
+            if($data->status){
+                $data->status = 0;
+            }
+        else{
+            $data->status = 1;
+        }
+        $data->save();
+        }
+        return back();
     }
 }

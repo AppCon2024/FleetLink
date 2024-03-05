@@ -39,6 +39,10 @@
                             'tablesadb' => 'last_seen',
                             'displayName' => 'Status',
                         ])
+                        @include('livewire.includes.table-sortable-th', [
+                            'tablesadb' => 'status',
+                            'displayName' => 'Account',
+                        ])
                         <th scope="col" class="px-4 py-3">
                             <span class="sr-only">Actions</span>
                         </th>
@@ -50,7 +54,7 @@
                             <th scope="row"
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $ofcr->id }}</th>
-                            <td class="px-4 py-3 flex items-center">
+                            <td class="px-4 py-2" style="text-align: center;">
                                 <button wire:click="view({{ $ofcr->id }})">
                                 <img src="{{ asset($ofcr->image) }}" width='30' height="30">
                                 </button>
@@ -65,7 +69,11 @@
                                     {{ $ofcr->last_seen >= now()->subMinutes(2) ? 'Online' : 'Offline' }}
                                 </span>
                             </td>
-
+                            <td class="px-4 py-3 text-center">
+                                <a wire:navigate href="ofcr/{{$ofcr->id}}" class= "bg-{{ $ofcr->status ? 'green' : 'red'}}-500 text-white py-1 px-3 rounded text-sm">
+                                    {{ $ofcr->status ? 'Enabled' : 'Disabled'}}
+                                </a>
+                            </td>
                             <td class="px-1 py-4">
                                 <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -109,6 +117,6 @@
 
     </div>
 
-    @include('livewire.includes.modals')
+    @include('livewire.includes.ofcr-modal')
 
 </div>

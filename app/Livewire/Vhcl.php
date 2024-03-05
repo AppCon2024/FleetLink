@@ -50,9 +50,9 @@ class Vhcl extends Component
     {
         $fileName = 'qrcode_' . $this->plate . '.svg';
         $filePath = public_path('qrcodes/' . $fileName); // Define the file path
-    
+
         QrCode::size(200)->color(0, 0, 0)->generate($this->plate . ' ' . $this->model . ' ' . $this->brand . ' ' . $this->vin, $filePath);
-    
+
         return '/qrcodes/' . $fileName; // Return the file path relative to the public directory
     }
 
@@ -204,6 +204,6 @@ class Vhcl extends Component
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
         return view('livewire.tables.vhcl',
-        ['data' => $data]);
+        ['data' => $data,]);
     }
 }

@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SmsController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SupvController;
+use App\Livewire\Ofcr;
+use App\Livewire\Supv;
+use App\Livewire\Vhcl;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +45,9 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::get('supv/{id}',[Supv::class, 'status']);
+Route::get('ofcr/{id}',[Ofcr::class, 'status']);
+
 Route::controller(SupervisorsController::class)->group(function(){
     Route::get('/supervisors','index')->middleware(['auth', 'verified'])->name('supervisors');
     Route::patch('/supervisors/update/{id}','update')->name('supervisors.update');
@@ -59,6 +65,7 @@ Route::controller(AccountsController::class)->group(function(){
     Route::delete('/delete1/{account}','destroy')->name('accounts.delete');
     Route::get('mobile', 'mobile')->name('mobile.mobile');
 });
+
 
 Route::controller(VehiclesController::class)->group(function(){
     Route::get('/vehicles','index')->middleware(['auth', 'verified'])->name('vehicles');

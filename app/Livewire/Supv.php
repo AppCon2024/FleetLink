@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\Attributes\Url;
@@ -41,10 +42,11 @@ class Supv extends Component
     public $postId;
 
     public $image;
+    public $newImage;
 
     public function create()
     {
-        $this->reset('first_name','last_name','employee_id','email','department','position','postId');
+        $this->reset('first_name','last_name','employee_id','email','department','position','postId', 'image', 'newImage');
         $this->openModal();
     }
     public function store()
@@ -54,17 +56,17 @@ class Supv extends Component
             'last_name' => 'required|min:2|max:50',
             'department' => 'required',
             'position' => 'required',
-            'employee_id' => 'required|int|unique:users',
+            'employee_id' => 'required|numeric|digits:6|unique:users',
             'email' => 'required|email|unique:users',
             'image' => 'required|image|max:1024',
         ]);
 
         if($this->image){
-            $fileName = 'fleetlink_' . $this->first_name . '_' . $this->last_name .'.png';
+            $fileName = 'fleetlink_' . $this->first_name .  $this->last_name .'.jpg';
 
             $this->image = $this->image->storeAs('images', $fileName, 'public');
 
-            $this->image = '/storage/'.$this->image;
+            $this->image = 'storage/'.$this->image;
         }
 
         User::create([
@@ -82,7 +84,7 @@ class Supv extends Component
         ]);
 
         session()->flash('message', 'Supervisor created successfully.');
-        $this->reset('first_name','last_name','employee_id','email','department','position');
+        $this->reset('first_name','last_name','employee_id','email','department','position','image');
         $this->closeModal();
     }
     public function delete($id)
@@ -90,6 +92,7 @@ class Supv extends Component
         $post = User::find($id);
         $this->postId = $id;
         $this->name = $post->name;
+        $this->image = $post->image;
 
         $this->deleteOpenModal();
     }
@@ -97,13 +100,15 @@ class Supv extends Component
     {
         if ($this->postId){
             $post = User::find($this->postId);
+            Storage::delete($post->image);
             $post->delete();
 
             session()->flash('message', 'Supervisor deleted successfully.');
             $this->deleteCloseModal();
         }
     }
-    public function view($id){
+    public function view($id)
+    {
         $post = User::find($id);
         $this->postId = $id;
         $this->image = $post->image;
@@ -113,28 +118,40 @@ class Supv extends Component
     }
     public function edit($id)
     {
+
         $post = User::findOrFail($id);
         $this->postId = $id;
         $this->first_name = $post->first_name;
         $this->last_name = $post->last_name;
+        $this->name = $post->name;
         $this->employee_id = $post->employee_id;
         $this->email = $post->email;
+        $this->image = $post->image;
         $this->department = $post->department;
         $this->position = $post->position;
 
+        $this->reset('newImage');
         $this->openModal();
     }
     public function update()
     {
         if ($this->postId) {
             $post = User::findOrFail($this->postId);
+            $newImage = $post->image;
+            if($this->newImage)
+            {
+                Storage::delete($post->image);
+                $fileName = 'fleetlink_' . $this->first_name .  $this->last_name .'.jpg';
+                $newImage = $this->newImage->storeAs('images', $fileName, 'public');
+                $newImage = 'storage/'.$newImage;
+            }
             $this->validate([
                 'first_name' => 'required|min:2|max:50',
                 'last_name' => 'required|min:2|max:50',
                 'department' => 'required',
                 'position' => 'required',
                 'email' => 'required|email|unique:users,email,' .$post->id,
-                'employee_id' => 'required|int|unique:users,employee_id,'.$post->id,
+                'employee_id' => 'required|numeric|digits:6|unique:users,employee_id,'.$post->id,
             ]);
 
             $post->update([
@@ -145,10 +162,13 @@ class Supv extends Component
                 'email' => $this->email,
                 'department' => $this->department,
                 'position' => $this->position,
+                'image' => $newImage,
             ]);
+
             session()->flash('message', 'Supervisor updated successfully.');
             $this->closeModal();
             $this->reset('first_name', 'last_name' ,'employee_id','email','department','position', 'postId');
+            return redirect()->route('supervisors');
         }
     }
     public function openModal()
@@ -156,7 +176,8 @@ class Supv extends Component
         $this->isOpen = true;
         $this->resetValidation();
     }
-    public function closeModal(){
+    public function closeModal()
+    {
         $this->isOpen = false;
     }
     public function deleteOpenModal()
@@ -199,5 +220,20 @@ class Supv extends Component
 
         return view('livewire.tables.supv',
         ['data' => $data]);
+    }
+
+    public function status($supvId)
+    {
+        $data = User::find($supvId);
+        if($data){
+            if($data->status){
+                $data->status = 0;
+            }
+        else{
+            $data->status = 1;
+        }
+        $data->save();
+        }
+        return back();
     }
 }

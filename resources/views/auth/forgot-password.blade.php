@@ -16,17 +16,16 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-between mt-4">
-            
-            <a href="{{ asset('/') }}" class=" text-white border border-gray-300 bg-gray-900 uppercase rounded-lg text-xs px-3 py-2  text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                  </svg>
-            </a>
-        
-            <x-primary-button>
+        <div class="flex items-center justify-center mt-4">
+            <x-primary-button class="sm:w-9/12 w-full flex items-center justify-center">
                 {{ __('Email Password Reset Link') }}
             </x-primary-button>
+        </div>
+
+        <div class="flex items-center justify-center mt-3">
+            <a href="{{ asset('/') }}" class="text-gray-800 uppercase sm:text-sm text-xs hover:underline">
+                Back
+            </a>
         </div>
     </form>
 </x-guest-layout>

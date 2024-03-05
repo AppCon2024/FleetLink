@@ -8,12 +8,12 @@
             <div class="flex space-x-3">
                 @include('livewire.includes.user-status')
                 <button wire:click="create"
-                    class=" text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs p-2  text-center"><i
+                    class=" text-white border border-gray-300 bg-blue-600 uppercase rounded-lg text-xs p-2  text-center"><i
                         class="ri-add-line text-sm"></i>
                     Add Supervisor
                 </button>
                 <button
-                    class="text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs p-2  text-center">
+                    class="text-white border border-gray-300 bg-blue-600 uppercase rounded-lg text-xs p-2  text-center">
                     Export
                 </button>
             </div>
@@ -40,6 +40,10 @@
                             'tablesadb' => 'last_seen',
                             'displayName' => 'Status',
                         ])
+                        @include('livewire.includes.table-sortable-th', [
+                            'tablesadb' => 'status',
+                            'displayName' => 'Account',
+                        ])
                         <th scope="col" class="px-4 py-3">
                             <span class="sr-only">Actions</span>
                         </th>
@@ -51,7 +55,7 @@
                             <th scope="row"
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $supv->id }}</th>
-                            <td class="px-4 py-3">
+                            <td class="px-4 py-1" style="text-align: center;">
                                 <button wire:click="view({{ $supv->id }})">
                                 <img src="{{ asset($supv->image) }}" width='30' height="30">
                                 </button>
@@ -60,10 +64,14 @@
                             <td class="px-4 py-3">{{ $supv->department }}</td>
                             <td class="px-4 py-3">{{ $supv->position }}</td>
                             <td class="px-4 py-3 ">
-                                <span
-                                    class="bg-{{ $supv->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-sm">
+                                <span class="bg-{{ $supv->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-xs">
                                     {{ $supv->last_seen >= now()->subMinutes(2) ? 'Online' : 'Offline' }}
                                 </span>
+                            </td>
+                            <td class="px-4 py-3 text-center ">
+                                <a wire:navigate href="supv/{{$supv->id}}" class= "bg-{{ $supv->status ? 'green' : 'red'}}-500 text-white py-1 px-3 rounded text-sm">
+                                    {{ $supv->status ? 'Enabled' : 'Disabled'}}
+                                </a>
                             </td>
                             <td class="px-1 py-3">
                                 <button>
@@ -108,6 +116,6 @@
         {{ $data->links() }}
     </div>
 
-    @include('livewire.includes.modals')
+    @include('livewire.includes.supv-modal')
 
 </div>

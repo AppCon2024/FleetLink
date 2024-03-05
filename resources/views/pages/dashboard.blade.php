@@ -36,7 +36,7 @@
                                     <div class="ml-4">
                                         <h6
                                             class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light">
-                                            Supervisors
+                                            Supervisor accounts
                                         </h6>
                                         <span class="text-xl hover:text-2xl font-semibold">{{ $countSupervisor }}</span>
                                         {{-- <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
@@ -46,7 +46,7 @@
                                     <div>
                                         <span>
                                             <i
-                                                class="ri-shield-user-fill ml-3 text-6xl text-blue-500 hover:text-black hover:text7xl"></i>
+                                                class="ri-shield-user-fill ml-3 text-6xl text-blue-500"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -130,7 +130,7 @@
                             <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
                                 <!-- Card header -->
                                 <div class="flex items-center justify-between p-4 border-b dark:border-primary">
-                                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Bar Chart</h4>
+                                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Total Enabled Users</h4>
                                     <div class="flex items-center space-x-2">
 
                                     </div>
@@ -150,13 +150,13 @@
                                         new Chart(barchart, {
                                             type: 'bar',
                                             data: {
-                                                labels: ['Supervisors', 'Administrators', 'Officers'],
+                                                labels: ['Administrators', 'Supervisors', 'Officers'],
                                                 datasets: [{
-                                                    label: 'Admin',
+                                                    label: 'Enabled Users',
                                                     data: [
-                                                        {{ $countSupervisor }},
-                                                        {{ $countAccount }},
-                                                        {{ $countVehicle }}
+                                                        {{ $enabledAdmin }},
+                                                        {{ $enabledSupervisor }},
+                                                        {{ $enabledAccount }},
                                                     ],
                                                     backgroundColor: [
                                                         'rgba(255, 99, 132, 0.2)',
@@ -289,7 +289,7 @@
 
     @if (Auth::user()->role == 'supervisor')
         @include('includes.supv-sidebar.dashboard')
-        
+
         <main
             class="fixed top-[86px] w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
             <!-- START DASHBOARD -->

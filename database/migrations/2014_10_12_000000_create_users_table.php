@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->integer('status')->default(0); //0:disable 1:enabled
             $table->string('role');
             $table->string('first_name');
             $table->string('last_name');
@@ -25,7 +26,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('image', 255);
             $table->string('last_seen')->nullable();
-            $table->string('status')->default('offline');
             $table->string('region_text')->nullable();
             $table->string('province_text')->nullable();
             $table->string('city_text')->nullable();

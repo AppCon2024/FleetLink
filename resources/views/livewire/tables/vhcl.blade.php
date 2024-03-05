@@ -66,7 +66,7 @@
                             {{ $vhcl->model }}</td>
                         <td class="px-4 py-3">
                             {{ $vhcl->vin }}</td>
-                        <td class="px-4 py-3">
+                        <td class="px-4 py-3" style="text-align: center;">
                             <button wire:click="view({{ $vhcl->id }})">
                                 <img src="{{ asset($vhcl->qrcode) }}" width='30' height="30">
                             </button>

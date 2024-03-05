@@ -6,25 +6,25 @@
 
             <!--FirstName -->
             <div>
-                <x-input-label for="first_name" :value="__('Firstname')" />
-                <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')"
-                    required autofocus autocomplete="first_name" />
-                <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
+                <x-input-label for="first_name" :value="__('Firstname')" class="sm:text-sm text-xs" />
+                <x-text-input id="first_name" class="block mt-[2px] w-full sm:text-sm text-xs" type="text"
+                    name="first_name" :value="old('first_name')" required autofocus autocomplete="first_name" />
+                <x-input-error :messages="$errors->get('first_name')" class="p-1" />
             </div>
 
             <!-- LastName -->
             <div>
-                <x-input-label for="last_name" :value="__('Lastname')" />
-                <x-text-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')"
+                <x-input-label for="last_name" :value="__('Lastname')" class="sm:text-sm text-xs" />
+                <x-text-input id="last_name" class="block mt-[2px] w-full sm:text-sm text-xs" type="text" name="last_name" :value="old('last_name')"
                     required autofocus autocomplete="last_name" />
-                <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
+                <x-input-error :messages="$errors->get('last_name')" class="p-1" />
             </div>
 
             <!-- Department -->
-            <div class="mt-2">
-                <label for="department" class="block mb-2 text-sm font-medium text-gray-900">Deparment</label>
+            <div>
+                <label for="department" class="block mb-[2px] w-full sm:text-sm text-xs" font-medium text-gray-900">Deparment</label>
                 <select name="department"
-                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white mb-2">
+                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white mb-2">
                     <option value="" {{ old('department') == '' ? 'selected' : '' }}></option>
                     <option value="Admin PNCO" {{ old('department') == 'Admin PNCO' ? 'selected' : '' }}>Admin PNCO
                     </option>
@@ -50,10 +50,10 @@
             </div>
 
             <!-- Positions -->
-            <div class="mt-2">
-                <label for="position" class="block mb-2 text-sm font-medium text-gray-900">Position</label>
+            <div>
+                <label for="position" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Position</label>
                 <select name="position"
-                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white  mb-2">
+                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white  mb-2">
                     <option value="" {{ old('position') == '' ? 'selected' : '' }}></option>
                     <option value="Police Captain Deputy"
                         {{ old('position') == 'Police Captain Deputy' ? 'selected' : '' }}>Police Captain Deputy
@@ -92,70 +92,70 @@
             </div>
 
             <!-- EmployeeId -->
-            <div class="mt-2">
-                <x-input-label for="employee_id" :value="__('Employee ID')" />
-                <x-text-input id="employee_id" class="block mt-1 w-full" type="text" name="employee_id"
+            <div>
+                <x-input-label for="employee_id" :value="__('Employee ID')" class="sm:text-sm text-xs" />
+                <x-text-input id="employee_id" class="block mt-[2px] w-full sm:text-sm text-xs" type="text" name="employee_id"
                     :value="old('employee_id')" required autocomplete="username" />
-                <x-input-error :messages="$errors->get('employee_id')" class="mt-2" />
+                <x-input-error :messages="$errors->get('employee_id')" class="p-1" />
             </div>
 
             <!-- Email Address -->
-            <div class="mt-2">
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+            <div>
+                <x-input-label for="email" :value="__('Email')" class="sm:text-sm text-xs" />
+                <x-text-input id="email" class="block mt-[2px] w-full sm:text-sm text-xs" type="email" name="email" :value="old('email')"
                     required autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                <x-input-error :messages="$errors->get('email')" class="p-1" />
             </div>
 
             <!-- Password -->
-            <div class="mt-2">
-                <x-input-label for="password" :value="__('Password')" />
+            <div>
+                <x-input-label for="password" :value="__('Password')" class="sm:text-sm text-xs" />
 
-                <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                <x-text-input id="password" class="block mt-[2px] w-full sm:text-sm text-xs" type="password" name="password" required
                     autocomplete="new-password" />
 
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                <x-input-error :messages="$errors->get('password')" class="p-1" />
             </div>
 
             <!-- Confirm Password -->
-            <div class="mt-2">
-                <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <div>
+                <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="sm:text-sm text-xs" />
 
-                <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
+                <x-text-input id="password_confirmation" class="block mt-[2px] w-full sm:text-sm text-xs" type="password"
                     name="password_confirmation" required autocomplete="new-password" />
 
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                <x-input-error :messages="$errors->get('password_confirmation')" class="p-1" />
             </div>
 
         </div>
 
         <!-- Photo -->
-        <div class="mt-2">
-            <x-input-label for="password_confirmation" :value="__('Your Photo')" />
-            <input class="form-control" name="photo" type="file" id="photo">
-            @error('photo')
+        <div>
+            <x-input-label for="password_confirmation" :value="__('Your Photo')" class="sm:text-sm text-xs" />
+            <input class="form-control sm:text-sm text-xs rounded-md w-full bg-gray-50" name="image" type="file" id="image">
+            @error('image')
                 <p class="text-red-500 text-xs p-1">
                     {{ $message }}
                 </p>
             @enderror
         </div>
 
-        <div class="flex items-center justify-between">
-            <a href="{{ asset('/') }}" class=" mt-4 text-white border border-gray-300 bg-gray-900 uppercase rounded-lg text-xs px-3 py-2  text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                  </svg>
+        <div class="flex items-center justify-center mt-4">
+                <x-primary-button class="sm:w-9/12 w-full flex items-center justify-center">
+                    {{ __('Register') }}
+                </x-primary-button>
+        </div>
+
+        <div class="flex items-center justify-between mt-2">
+            <a href="{{ asset('/') }}"
+                class="text-gray-600 sm:text-sm text-xs hover:underline">
+                Back
             </a>
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+            <a class="underline sm:text-sm text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                 href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
         </div>
-    </div>
+
     </form>
 </x-guest-layout>
