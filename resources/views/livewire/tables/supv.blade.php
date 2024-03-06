@@ -57,7 +57,7 @@
                                 {{ $supv->id }}</th>
                             <td class="px-4 py-1" style="text-align: center;">
                                 <button wire:click="view({{ $supv->id }})">
-                                <img src="{{ asset($supv->image) }}" width='30' height="30">
+                                    <img src="{{ asset($supv->image) }}" width='30' height="30">
                                 </button>
                             </td>
                             <td class="px-4 py-3 text-blue-700">{{ $supv->name }}</td>
