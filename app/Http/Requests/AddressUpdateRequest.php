@@ -22,7 +22,7 @@ class AddressUpdateRequest extends FormRequest
             'city_text' => ['required', 'string'],
             'barangay_text' => ['required', 'string'],
             'street' => ['required', 'string', 'max:255'],
-            'zip_code' => ['required', 'int', 'min:4'],
+            'zip_code' => ['required', 'numeric', 'digits:4'],
         ];
     }
 }

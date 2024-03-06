@@ -54,7 +54,7 @@
                             <th scope="row"
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $ofcr->id }}</th>
-                            <td class="px-4 py-2" style="text-align: center;">
+                            <td class="px-4 py-1" style="text-align: center;">
                                 <button wire:click="view({{ $ofcr->id }})">
                                 <img src="{{ asset($ofcr->image) }}" width='30' height="30">
                                 </button>
@@ -65,7 +65,7 @@
                             <td class="px-4 py-3">{{ $ofcr->position }}</td>
                             <td class="px-4 py-3 ">
                                 <span
-                                    class="bg-{{ $ofcr->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-sm">
+                                    class="bg-{{ $ofcr->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-xs">
                                     {{ $ofcr->last_seen >= now()->subMinutes(2) ? 'Online' : 'Offline' }}
                                 </span>
                             </td>

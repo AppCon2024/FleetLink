@@ -211,9 +211,13 @@ class Supv extends Component
         $this->sortBy = $sortByField;
         $this->sortDir = 'DESC';
     }
+    public $status = '';
     public function render()
     {
         $data = User::search($this->search)
+        ->when($this->status !== '',function($query){
+            $query->where('status', $this->status);
+        })
         ->where('role', 'supervisor')
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
