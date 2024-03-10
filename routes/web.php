@@ -119,4 +119,6 @@ Route::get('/chat', function () {
 
     require __DIR__.'/auth.php';
 
-    Route::post('/geolocations', [GeolocationController::class, 'saveGeolocation']);
+
+    Route::post('/geolocations', 'GeolocationController@saveGeolocation');
+

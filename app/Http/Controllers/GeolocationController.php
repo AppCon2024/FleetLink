@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Geolocation;
+use Illuminate\Support\Facades\Auth;
 
 class GeolocationController extends Controller
 {
@@ -16,10 +17,22 @@ class GeolocationController extends Controller
             'longitude' => 'required',
             // Add other fields as needed
         ]);
+    
+        // Get the authenticated user's ID
+        $employeeId = Auth::id();
 
-        // Create a new Geolocation record
-        Geolocation::create($request->all());
-
+        // Check if a record for the user already exists
+        $existingRecord = Geolocation::where('employee_id', $employeeId)->first();
+    
+        if ($existingRecord) {
+            // If a record exists, update it
+            $existingRecord->update($request->all());
+        } else {
+            // If no record exists, create a new one
+            Geolocation::create(array_merge($request->all(), ['employee_id' => $employeeId]));
+        }
+    
         return response()->json(['message' => 'Geolocation saved successfully']);
     }
+    
 }

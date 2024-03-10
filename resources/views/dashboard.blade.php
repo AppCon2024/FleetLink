@@ -682,16 +682,8 @@
             <input type="text" name="plate" id="plate" readonly=""
                 placeholder="Plate Number" class="form-control">
         </div>
-  
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <div id="map"></div>
-        <script>
-            navigator.geolocation.getCurrentPosition(position => {
-                const { latitude, longitude } = position.coords;
-                const mapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near`;
-                document.getElementById('map').innerHTML = `<iframe width="100%" height="100%" src="${mapUrl}"></iframe>`;
-            });
-        </script>
-        
         <div id="details">
             <h2>Location Details</h2>
             <p id="accuracy"></p>
@@ -719,10 +711,10 @@
                 document.getElementById('accuracy').innerText = "Accuracy: " + accuracy;
                 document.getElementById('latitude').innerText = "Latitude: " + latitude;
                 document.getElementById('longitude').innerText = "Longitude: " + longitude;
-                // document.getElementById('altitude').innerText = "Altitude: " + altitude;
-                // document.getElementById('heading').innerText = "Heading: " + heading;
-                // document.getElementById('speed').innerText = "Speed: " + speed;
                 document.getElementById('reqCount').innerText = "Req Count: " + reqcount;
+        
+                // Update the map URL dynamically
+                updateMap(latitude, longitude);
         
                 // Fetch weather data based on the updated location
                 // fetchWeather(latitude, longitude);
@@ -736,29 +728,37 @@
                 console.error('Error getting geolocation:', error);
             }
         
-            function saveGeolocation(coords) {
-                // Assuming you are using jQuery for simplicity
-                $.ajax({
-                    url: '/geolocations',
-                    type: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        accuracy: coords.accuracy,
-                        latitude: coords.latitude,
-                        longitude: coords.longitude,
-                        // Add other fields as needed
-                    },
-                    success: function(response) {
-                        console.log(response.message);
-                    },
-                    // error: function(error) {
-                    //     console.error('Error saving geolocation:', error);
-                    // }
-                });
+            function updateMap(latitude, longitude) {
+                // Update the map URL with the new coordinates
+                const mapElement = document.getElementById('map');
+                const mapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near`;
+                mapElement.innerHTML = `<iframe width="100%" height="100%" src="${mapUrl}"></iframe>`;
             }
+        
+            function saveGeolocation(coords) {
+    var csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
+    $.ajax({
+        url: '/geolocations',
+        type: 'POST',
+        data: {
+            _token: csrfToken,
+            accuracy: coords.accuracy,
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            // Add other fields as needed
+        },
+        success: function(response) {
+            console.log(response.message);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error saving geolocation:', textStatus, errorThrown);
+        },
+    });
+}
+
         </script>
         
-      
 
            
 

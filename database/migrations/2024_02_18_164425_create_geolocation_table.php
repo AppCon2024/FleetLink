@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('geolocations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('employee_id')->constrained('users'); // Assuming users table is used for employees
             $table->double('accuracy');
             $table->double('latitude');
             $table->double('longitude');
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('geolocation');
+        Schema::dropIfExists('geolocations');
     }
 };
