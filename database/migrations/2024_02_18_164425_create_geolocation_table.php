@@ -21,7 +21,7 @@ return new class extends Migration
         $table->unsignedBigInteger('employee_id'); // Add the employee_id column
         $table->timestamps();
 
-        $table->foreign('employee_id')->references('employee_id')->on('borrows')->onDelete('cascade');
+      
 
       
         });

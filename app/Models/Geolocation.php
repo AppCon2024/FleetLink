@@ -12,6 +12,5 @@ class Geolocation extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'employee_id');
-        return $this->belongsTo(User::class, 'employee_id');
     }
 }

@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserAccounts::class,
-            Location::class,
         ]);
 
     }

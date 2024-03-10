@@ -438,7 +438,7 @@
             function saveGeolocation(coords) {
                 // Assuming you are using jQuery for simplicity
                 $.ajax({
-                    url: '/geolocations',
+                    url: '/location',
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -487,25 +487,6 @@
 
 
         </script>
-        <script>
-
-            document.getElementById('side-container').addEventListener('click', function(event) {
-        if (event.target.tagName === 'P') {
-            var selectedName = event.target.textContent.trim();
-            var selectedLocation = locations.find(function(location) {
-                return location.vehiclePlate === selectedName;
-            });
-            if (selectedLocation) {
-                updateMarker(selectedLocation);
-            }
-                }
-            });
-
-            function updateMarker(selectedLocation) {
-        map.setView([selectedLocation.latitude, selectedLocation.longitude], 13);
-        marker.setLatLng([selectedLocation.latitude, selectedLocation.longitude]);
-        marker.bindPopup(`<b>${selectedLocation.vehicle_name}</b><br>${selectedLocation.vehiclePlate}`).openPopup();
-    }
-</script>
+      
 
 </x-app-layout>
