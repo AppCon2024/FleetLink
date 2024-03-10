@@ -682,18 +682,17 @@
             <input type="text" name="plate" id="plate" readonly=""
                 placeholder="Plate Number" class="form-control">
         </div>
+  
         <div id="map"></div>
         <script>
             navigator.geolocation.getCurrentPosition(position => {
                 const { latitude, longitude } = position.coords;
-                document.getElementById('map').innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
-        
-                // // Fetch weather data based on the current location
-                // fetchWeather(latitude, longitude);
+                const mapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near`;
+                document.getElementById('map').innerHTML = `<iframe width="100%" height="100%" src="${mapUrl}"></iframe>`;
             });
         </script>
         
-        <div id="details" style="display: none;">
+        <div id="details">
             <h2>Location Details</h2>
             <p id="accuracy"></p>
             <p id="latitude"></p>
@@ -725,7 +724,7 @@
                 // document.getElementById('speed').innerText = "Speed: " + speed;
                 document.getElementById('reqCount').innerText = "Req Count: " + reqcount;
         
-                // // Fetch weather data based on the updated location
+                // Fetch weather data based on the updated location
                 // fetchWeather(latitude, longitude);
         
                 // Save geolocation data to the server
@@ -757,26 +756,11 @@
                     // }
                 });
             }
+        </script>
         
-        //     function fetchWeather(latitude, longitude) {
-        //         // Replace 'YOUR_API_KEY' with your actual Weatherbit API key
-        //         const apiKey = '0e7745fca6e547509af3f85b53fd73bb';
-        //         const apiUrl = `http://api.weatherbit.io/v2.0/current?lat=${latitude}&lon=${longitude}&key=${apiKey}`;
-        
-        //         fetch(apiUrl)
-        //             .then(response => response.json())
-        //             .then(data => {
-        //                 const temperature = data.data[0].temp;
-        //                 const weatherDescription = data.data[0].weather.description;
-        
-        //                 document.getElementById('details').innerHTML += `<div id='weather'><p><strong>Temperature:</strong><br>${temperature}°C</p>`;
-        //                 document.getElementById('details').innerHTML += `<p><strong>Weather:</strong><br>${weatherDescription}</p></div>`;
-        //             })
-        //             .catch(error => console.log(error));
-        //     }
-        // </script>
-    </div>
-            
+      
+
+           
 
 
 
