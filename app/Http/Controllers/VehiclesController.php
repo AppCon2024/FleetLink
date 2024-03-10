@@ -132,29 +132,48 @@ class VehiclesController extends Controller
         return response(base64_decode($QrCode))->withHeaders($headers);
     }
 
-    public function borrow( Request $request){
-        $data = Borrows::create([
-        'last_name' => $request->input('last_name'),
-        'first_name' => $request->input('first_name'),
-        'employee_id' => $request->input('employee_id'),
-        'position' => $request->input('position'),
-        'vin' => $request->input('vin'),
-        'department' => $request->input('department'),
-        'plate' => $request->input('plate'),
-        'brand' => $request->input('brand'),
-        'model' => $request->input('model'),
-        'time_in' => 'data',
-        'time_out' => 'data',
-        ]);
+    public function borrow(Request $request){
 
-        // $data = Borrows::find($id);
+        $plate = $request->input('plate');
+        $existingBorrow = Borrows::where('plate', $plate)
+        ->where('time_out','- - -')
+        ->first();// Check if the plate is already in use
 
-        // $data->update([
-        //     'time_in' => $request->input('created_at'),
-        //     'time_out' => $request->input('updated_at'),
-        // ]);
+        //problem if user done using vehicle then he scan again
 
+        if ($existingBorrow)
+        {
+            $finish = Auth::user()->employee_id;
+            $update = Borrows::where('employee_id', $finish);
 
-        return redirect()->route('scanner')->with('message', 'You are now connected into the vehicle.');
+            if($update)
+            {
+                $update->update([
+                            'time_out' => now(),
+                        ]);
+                return redirect()->route('scanner')->with('message', 'You are now disconnected from the vehicle.');
+            }
+            else
+            {
+                return redirect()->route('scanner')->with('message', 'This vehicle is currently in use.');
+            }
+        }
+        else
+        {
+            $data = Borrows::create([
+                'last_name' => $request->input('last_name'),
+                'first_name' => $request->input('first_name'),
+                'employee_id' => $request->input('employee_id'),
+                'position' => $request->input('position'),
+                'vin' => $request->input('vin'),
+                'department' => $request->input('department'),
+                'plate' => $plate,
+                'brand' => $request->input('brand'),
+                'model' => $request->input('model'),
+                'time_in' => now(),
+                'time_out' => '- - -',
+            ]);
+            return redirect()->route('scanner')->with('message', 'You are now connected to the vehicle.');
+        }
     }
 }

@@ -6,16 +6,14 @@
             <div class="flex">
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                            fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
+                            viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
-                    <input
-                        wire:model.live.debounce.300ms = "search"
-                        type="text"
+                    <input wire:model.live.debounce.300ms = "search" type="text"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 "
                         placeholder="Search" required="">
                 </div>
@@ -37,45 +35,45 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">ID</th>
-                        @include('livewire.includes.table-sortable-th',[
+                        @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'last_name',
-                            'displayName' => 'Lastname'
+                            'displayName' => 'Lastname',
                         ])
-                        @include('livewire.includes.table-sortable-th',[
+                        @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'employee_id',
-                            'displayName' => 'EmployeeID'
+                            'displayName' => 'EmployeeID',
                         ])
-                        @include('livewire.includes.table-sortable-th',[
+                        @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'position',
-                            'displayName' => 'position'
+                            'displayName' => 'position',
                         ])
-                        @include('livewire.includes.table-sortable-th',[
+                        @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'department',
-                            'displayName' => 'Department'
+                            'displayName' => 'Department',
                         ])
-                        @include('livewire.includes.table-sortable-th',[
+                        @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'plate',
-                            'displayName' => 'plate'
+                            'displayName' => 'plate',
                         ])
-                        @include('livewire.includes.table-sortable-th',[
-                            'tablesadb' => 'vin',
-                            'displayName' => 'VIN NUMBER'
-                        ])
-                        @include('livewire.includes.table-sortable-th',[
+                        @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'brand',
-                            'displayName' => 'Brand'
+                            'displayName' => 'Brand',
                         ])
-                        @include('livewire.includes.table-sortable-th',[
+                        @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'model',
-                            'displayName' => 'Model'
+                            'displayName' => 'Model',
                         ])
-                        @include('livewire.includes.table-sortable-th',[
-                            'tablesadb' => 'created_at',
-                            'displayName' => 'TimeIn'
+                        @include('livewire.includes.table-sortable-th', [
+                            'tablesadb' => 'vin',
+                            'displayName' => 'VIN NUMBER',
                         ])
-                        @include('livewire.includes.table-sortable-th',[
-                            'tablesadb' => 'updated_at',
-                            'displayName' => 'TimeOut'
+                        @include('livewire.includes.table-sortable-th', [
+                            'tablesadb' => 'time_in',
+                            'displayName' => 'TimeIn',
+                        ])
+                        @include('livewire.includes.table-sortable-th', [
+                            'tablesadb' => 'time_out',
+                            'displayName' => 'TimeOut',
                         ])
 
                         <th scope="col" class="px-4 py-3">
@@ -85,43 +83,47 @@
                 </thead>
                 <tbody>
                     @forelse ($data as $stts)
-                    <tr wire:key="{{$stts->id}}" class="border-b dark:border-gray-700">
-                        <th scope="row"
-                            class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $stts->id }}</th>
-                        <td class="px-4 py-3">
-                            {{ $stts->last_name }}</td>
-                        <td class="px-4 py-3">
-                            {{ $stts->employee_id }}</td>
-                        <td class="px-4 py-3 text-green-500">
-                            {{ $stts->position }}</td>
-                        <td class="px-4 py-3">
-                            {{ $stts->department }}</td>
-                        <td class="px-4 py-3">
-                            {{ $stts->plate }}</td>
-                        <td class="px-4 py-3">
-                            {{ $stts->vin }}</td>
-                        <td class="px-4 py-3">
-                            {{ $stts->brand }}</td>
-                        <td class="px-4 py-3">
-                            {{ $stts->model }}</td>
-                        <td class="px-4 py-3">
-                            {{ $stts->created_at }}</td>
-                        <td class="px-4 py-3">
-                            {{ $stts->updated_at }}</td>
-                        <td class="px-4 py-3 flex items-center justify-end">
-                            <button wire:click="delete({{$stts->id}})" class="px-1 hover:bg-gray-200 text-black rounded"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                              </svg>
-                              </button>
-                        </td>
-                    </tr>
+                        <tr wire:key="{{ $stts->id }}" class="border-b dark:border-gray-700">
+                            <th scope="row"
+                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $stts->id }}</th>
+                            <td class="px-4 py-3">
+                                {{ $stts->last_name }}</td>
+                            <td class="px-4 py-3">
+                                {{ $stts->employee_id }}</td>
+                            <td class="px-4 py-3 text-green-500">
+                                {{ $stts->position }}</td>
+                            <td class="px-4 py-3">
+                                {{ $stts->department }}</td>
+                            <td class="px-4 py-3">
+                                {{ $stts->plate }}</td>
+                            <td class="px-4 py-3">
+                                {{ $stts->brand }}</td>
+                            <td class="px-4 py-3">
+                                {{ $stts->model }}</td>
+                            <td class="px-4 py-3">
+                                {{ $stts->vin }}</td>
+                            <td class="px-4 py-3">
+                                {{ $stts->time_in }}</td>
+                            <td class="px-4 py-3 text-center">
+                                {{ $stts->time_out }}</td>
+                            <td class="px-4 py-3 flex items-center justify-end">
+                                <button wire:click="delete({{ $stts->id }})"
+                                    class="px-1 hover:bg-gray-200 text-black rounded"><svg
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
                     @empty
-                    <tr class="border-b dark:border-gray-700">
-                        <td colspan="3" class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                            No in-use vehicle/s found.
-                        </td>
-                    </tr>
+                        <tr class="border-b dark:border-gray-700">
+                            <td colspan="3" class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                No in-use vehicle/s found.
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -131,8 +133,7 @@
             <div class="flex ">
                 <div class="flex space-x-4 items-center mb-3">
                     <label class="w-32 text-sm font-medium text-gray-900">Per Page</label>
-                    <select
-                        wire:model.live='perPage'
+                    <select wire:model.live='perPage'
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                         <option value="5">5</option>
                         <option value="10">10</option>
