@@ -38,14 +38,9 @@
                             'tablesadb' => 'vin',
                             'displayName' => 'VIN Number'
                         ])
-                        @include('livewire.includes.table-sortable-th',[
-                            'tablesadb' => 'qrcode',
-                            'displayName' => 'QrCode'
-                        ])
-                        @include('livewire.includes.table-sortable-th',[
-                            'tablesadb' => 'status',
-                            'displayName' => 'Status'
-                        ])
+                       <th scope="col" class="px-4 py-3 text-center ">
+                        <span>QRCODE</span>
+                        </th>
 
                         <th scope="col" class="px-4 py-3">
                             <span class="sr-only">Actions</span>
@@ -66,16 +61,12 @@
                             {{ $vhcl->model }}</td>
                         <td class="px-4 py-3">
                             {{ $vhcl->vin }}</td>
-                        <td class="px-4 py-1" style="text-align: center;">
+                        <td class="px-4 py-1" style="text-align: center">
                             <button wire:click="view({{ $vhcl->id }})">
                                 <img src="{{ asset($vhcl->qrcode) }}" width='30' height="30">
                             </button>
                         </td>
-                        <td class="px-4 py-3 text-black">
-                            <a href="/vehicle/{{ $vhcl->id }}" class="btn btn-sm btn-{{ $vhcl->status ? 'success bg-green-500' : 'danger bg-red-500' }} px-2 py-2 rounded">
-                                {{ $vhcl->status ? 'Available' : 'Unavailable' }}
-                            </a>
-                        </td>
+
                         <td class="px-1 py-3">
                             <button>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

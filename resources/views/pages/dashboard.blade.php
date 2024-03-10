@@ -595,12 +595,7 @@
                 placeholder="Plate Number" class="form-control">
         </div>
     </div>
-
-
-
-
-
-
+    
     <!----Resize mobile----->
     <nav id="mobileMenu" class="block fixed bottom-5 w-full">
         <div class="flex flex-col">
@@ -649,52 +644,6 @@
         </div>
     </nav>
 
-
-        <!----Resize  web----->
-
-
-        <script src="https://cdn.jsdelivr.net/npm/@zxing/library@3.0.0/build/zxing.min.js"></script>
-        <script>
-            document.getElementById('scanButton').addEventListener('click', function () {
-                openDefaultCamera();
-            });
-
-            async function openDefaultCamera() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-
-
-
-
-
-
-                    const videoContainer = document.getElementById('video-container');
-                    videoContainer.style.display = 'flex';
-
-                    const videoElement = document.getElementById('video-preview');
-                    videoElement.srcObject = stream;
-
-
-                    const codeReader = new ZXing.BrowserQRCodeReader();
-                    codeReader.decodeFromVideoDevice(plate, 'video-preview', (result, err) => {
-                        if (result) {
-                            alert('QR Code Scanned: ' + result.text);
-                            // Do something with the scanned result
-
-                            const tracks = stream.getTracks();
-                            tracks.forEach(track => track.stop());
-
-                            videoContainer.style.display = 'none';
-                        }
-                        if (err && !(err instanceof ZXing.NotFoundException)) {
-                            console.error(err);
-                        }
-                    });
-                } catch (error) {
-                    console.error('Error opening camera:', error);
-                }
-            }
-        </script>
     </div>
 @endif
 </x-app-layout>
