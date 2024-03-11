@@ -14,6 +14,9 @@ use App\Http\Controllers\SupvController;
 use App\Livewire\Ofcr;
 use App\Livewire\Supv;
 use App\Livewire\Vhcl;
+use App\Http\Controllers\ReallocationController;
+use App\Http\Controllers\GeolocationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -88,3 +91,8 @@ Route::patch('/profile_address', [ProfileController::class, 'addressUpdate'])->n
 
 require __DIR__.'/auth.php';
 
+// web.php
+
+Route::post('/geolocations/update', [GeolocationController::class, 'saveGeolocation']);
+
+// Add other routes as needed

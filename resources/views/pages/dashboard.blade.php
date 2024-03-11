@@ -1,11 +1,19 @@
 <x-app-layout>
 <style>
+    #map {
+        margin-top: 54%;
+            width:100%;
+            height: 40vh; /* Adjust the height as needed */
+        }
 /* CSS for mobile screens */
 @media (max-width: 768px) {
     /* Hide the web menu on smaller screens */
     .md\:block {
         display: none;
     }
+
+
+      
 
     /* Show the mobile menu */
     .md\:hidden {
@@ -593,8 +601,105 @@
             <label>Plate Number: </label>
             <input type="text" name="plate" id="plate" readonly=""
                 placeholder="Plate Number" class="form-control">
+            </div>
+            <div id="map"></div>
+
+            <div id="details">
+                {{-- style="display: none; --}}
+                <h2>Location Details</h2>
+                <p id="accuracy"></p>
+                <p id="latitude"></p>
+                <p id="longitude"></p>
+                <p id="reqCount"></p>
+                <hr>
+            </div>
+            
+            <div id="error-message"></div>
+            
+            <script>
+                var reqcount = 0;
+                var watchID;  // Variable to store the watch position ID
+                var employeeId = {{ auth()->id() }};
+            
+                var options = {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                    
+                };
+            
+                navigator.geolocation.getCurrentPosition(initialPositionSuccess, errorCallback, options);
+            
+                function initialPositionSuccess(position) {
+                    const { latitude, longitude } = position.coords;
+                    document.getElementById('map').innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
+            
+                    watchID = navigator.geolocation.watchPosition(successCallback, errorCallback, options);
+                }
+            
+                function successCallback(position) {
+                    const { accuracy, latitude, longitude } = position.coords;
+            
+                    reqcount++;
+                    document.getElementById('accuracy').innerText = "Accuracy: " + accuracy;
+                    document.getElementById('latitude').innerText = "Latitude: " + latitude;
+                    document.getElementById('longitude').innerText = "Longitude: " + longitude;
+                    document.getElementById('reqCount').innerText = "Req Count: " + reqcount;
+            
+                    // Update the map URL dynamically
+                    updateMap(latitude, longitude);
+            
+                    // Save geolocation data to the server
+                    saveGeolocation(position.coords);
+                }
+            
+                function errorCallback(error) {
+                    console.error('Error getting geolocation:', error.code, error.message);
+            
+                    // Display a user-friendly message on the page
+                    document.getElementById('error-message').innerText = 'Error getting geolocation. Please enable location services and try again.';
+            
+                    // Optionally, stop watching for geolocation updates on specific errors
+                    if (error.code === 1 || error.code === 3) {  // Permission denied or timeout
+                        navigator.geolocation.clearWatch(watchID);
+                    }
+                }
+            
+                function updateMap(latitude, longitude) {
+                    // Update the map URL with the new coordinates
+                    const mapElement = document.getElementById('map');
+                    mapElement.innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
+                }
+            
+              
+                function saveGeolocation(coords) {
+    const { latitude, longitude, accuracy } = coords;  // Extract latitude, longitude, and accuracy from coords
+
+    $.ajax({
+        url: '/geolocations/update',
+        type: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            latitude: latitude,
+            longitude: longitude,
+            accuracy: accuracy,  // Include accuracy in the data
+            employee_id: employeeId,
+        },
+        success: function(response) {
+            console.log(response.message);
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+}
+
+
+                
+           
+            </script>
         </div>
-    </div>
+          
     
     <!----Resize mobile----->
     <nav id="mobileMenu" class="block fixed bottom-5 w-full">
