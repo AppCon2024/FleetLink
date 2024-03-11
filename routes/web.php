@@ -33,6 +33,10 @@ Route::get('/landing-page', function(){
     return view('pages.landing-page');
 });
 
+Route::get('/home', function(){
+    return view('home');
+});
+
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

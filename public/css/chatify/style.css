@@ -20,7 +20,7 @@ body {
   --listView-header-height: 110px;
 
   /* Light theme variables */
-  --primary-bg-color: #fff;
+  --primary-bg-color: #1900ff;
   --secondary-bg-color: #f7f7f7;
   --border-color: #eee;
   --messagingView-bg-color: #f6f7f9;
@@ -55,7 +55,214 @@ body {
   border-top-color: var(--primary-color) !important;
   border-left-color: var(--primary-color) !important;
 }
+header {
+  background-color: rgb(47, 0, 255);
+}
 
+#img {
+  background-color: rgb(47, 0, 255);
+}
+
+#scope {
+  background-color: rgb(38, 53, 66);
+}
+
+#team {
+  background-color: rgb(47, 0, 255);
+}
+
+#aboutus {
+  background-color: rgb(38, 53, 66);
+}
+
+#ask {
+  background-color: rgb(38, 53, 66);
+}
+
+#refcontact {
+  background-color: rgb(128, 128, 128);
+}
+.self-center.text-xl.font-semibold.whitespace-nowrap {
+  color: white;
+}
+
+#home a {
+  color: white;
+}
+
+#services a {
+  color: white;
+}
+
+#team a {
+  color: white;
+}
+
+#aboutust a {
+  color: white;
+}
+
+#refcontactt a {
+  color: white;
+}
+
+#btlogin {
+  background-color: rgb(47, 0, 255);
+}
+
+#hands {
+color: white;
+}
+
+#motorpool {
+  color: white;
+  }
+
+#here {
+  color: white;
+  }
+
+#track {
+  color: white;
+  } 
+  
+#tracksub {
+  color: white;
+  } 
+
+#uac {
+  color: white;
+  } 
+
+#uacsub {
+  color: white;
+  } 
+
+#auto {
+  color: white;
+  } 
+
+#autosub {
+   color: white;
+    } 
+
+#res {
+    color: white;
+    } 
+
+#ressub {
+     color: white;
+    } 
+
+#main {
+     color: white;
+    } 
+
+#mainsub {
+     color: white;
+    } 
+
+#comms {
+     color: white;
+    } 
+
+#commssub {
+      color: white;
+    } 
+
+#wheel {
+      color: white;
+    } 
+  
+#wheelsub {
+      color: white;
+    } 
+
+#wheelsub2 {
+      color: white;
+    } 
+
+#lev {
+      color: white;
+    } 
+
+#levsub {
+      color: white;
+    } 
+
+#levsub2 {
+      color: white;
+    } 
+
+#levsub3 {
+      color: white;
+    } 
+
+#inv {
+      color: white;
+    } 
+
+#invsub {
+      color: white;
+    } 
+
+#refcontact {
+      color: white;
+    } 
+
+    #ref {
+      color: white;
+    } 
+
+    #ref1 {
+      color: white;
+    } 
+
+    #ref2 {
+      color: white;
+    } 
+
+    #ref3 {
+      color: white;
+    } 
+
+    #ref4 {
+      color: white;
+    } 
+
+    #ref5 {
+      color: white;
+    } 
+
+    #ref6 {
+      color: white;
+    } 
+
+    #ref7 {
+      color: white;
+    } 
+
+    #ref8 {
+      color: white;
+    } 
+
+    #ref9 {
+      color: white;
+    } 
+
+    #ref10 {
+      color: white;
+    } 
+
+    #ref11 {
+      color: white;
+    } 
+
+    #foot {
+      color: white;
+    } 
+
+    
 /*internet connection*/
 .internet-connection {
   display: none;
