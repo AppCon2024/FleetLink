@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Geolocation;
+use App\Events\GeolocationUpdated;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class GeolocationController extends Controller
@@ -13,31 +14,31 @@ class GeolocationController extends Controller
 public function saveGeolocation(Request $request)
 {
  
-    $request->validate([
-        'accuracy' => 'required', // Add any other validation rules as needed
-        // Other validation rules...
-    ]);
-
-    // Get latitude, longitude, employee_id from the request
+    $employeeId = $request->input('employee_id');
     $latitude = $request->input('latitude');
     $longitude = $request->input('longitude');
-    $employeeId = $request->input('employee_id');
-    $accuracy = $request->input('accuracy'); // Make sure 'accuracy' is provided in the request
+    $accuracy = $request->input('accuracy');
 
-    // Create a new geolocation instance
-    $geolocation = new Geolocation([
-        'accuracy' => $accuracy,
-        'latitude' => $latitude,
-        'longitude' => $longitude,
-        'employee_id' => $employeeId,
-    ]);
+    // Check if a record with the given employee_id already exists
+    $geolocation = Geolocation::where('employee_id', $employeeId)->first();
 
-    // Save the geolocation
-    $geolocation->save();
+    if ($geolocation) {
+        // Update the existing record
+        $geolocation->latitude = $latitude;
+        $geolocation->longitude = $longitude;
+        $geolocation->accuracy = $accuracy;
+        $geolocation->save();
+    } else {
+        // Create a new record
+        $geolocation = Geolocation::updateOrCreate(
+            ['employee_id' => $employeeId],
+            ['latitude' => $latitude, 'longitude' => $longitude, 'accuracy' => $accuracy]
+        );
+        event(new GeolocationUpdated($geolocation));
 
-    // Additional logic or response...
+    }
 
-    return response()->json(['message' => 'Geolocation saved successfully']);
+    return response()->json(['message' => 'Geolocation updated successfully']);
 }
 
 }

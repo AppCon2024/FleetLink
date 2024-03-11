@@ -673,7 +673,7 @@
             
               
                 function saveGeolocation(coords) {
-    const { latitude, longitude, accuracy } = coords;  // Extract latitude, longitude, and accuracy from coords
+    const { latitude, longitude, accuracy } = coords;
 
     $.ajax({
         url: '/geolocations/update',
@@ -682,18 +682,28 @@
             _token: '{{ csrf_token() }}',
             latitude: latitude,
             longitude: longitude,
-            accuracy: accuracy,  // Include accuracy in the data
+            accuracy: accuracy,
             employee_id: employeeId,
         },
-        success: function(response) {
+        success: function (response) {
             console.log(response.message);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error(xhr.responseText);
         }
     });
 }
 
+// Listen for geolocation updates using Laravel Echo
+Echo.channel('geolocation.' + employeeId).listen('GeolocationUpdated', (event) => {
+    const { latitude, longitude, accuracy } = event.geolocation;
+
+    // Update the map and other details with the new coordinates
+    updateMap(latitude, longitude);
+    document.getElementById('accuracy').innerText = 'Accuracy: ' + accuracy;
+    document.getElementById('latitude').innerText = 'Latitude: ' + latitude;
+    document.getElementById('longitude').innerText = 'Longitude: ' + longitude;
+});
 
                 
            
