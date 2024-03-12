@@ -1,5 +1,58 @@
 <x-app-layout>
+<style>
+      #map {
+           
+        right: 10px;
+             
+           width:63%;
+           height: 80vh; /* Adjust the height as needed */
+       }
 
+     
+
+       #details h2 {
+           font-size: 1.0em;
+           margin-bottom: 10px;
+           color: #555;
+       }
+
+       #details p {
+           margin-bottom: 8px;
+           display: block;
+       }
+
+       #details hr {
+           border: 0;
+           height: 1px;
+           background: #ddd;
+           margin: 10px 0;
+       }
+
+    
+/* CSS for mobile screens */
+@media (max-width: 768px) {
+   /* Hide the web menu on smaller screens */
+   .md\:block {
+       display: none;
+   }
+
+   /* Show the mobile menu */
+   .md\:hidden {
+       display: block;
+   }
+   #map {
+       margin-top: 54%;
+           width:140%;
+           height: 20vh; /* Adjust the height as needed */
+           right: 10px;
+       }
+
+  
+
+   /* Adjust styles for mobile menu */
+   /* ... (your responsive styles for mobile) ... */
+}
+</style>
     @if (Auth::user()->role == 'admin')
         <div class="fixed left-3 top-[87px] w-[240px] h-[86%] bg-blue-200 rounded-3xl p-4">
             <ul class="mt-2">
@@ -253,120 +306,164 @@
 
                 <div id="side-container">
                     <div id="location-details">
-                        @foreach($locations as $loc)
-                            <p>{{ $loc->vehiclePlate }}</p>
-                        @endforeach
-                    </div>
+                        @foreach($borrow as $borrow)
+                        <div>
+                            {{-- Hide last name, first name, and employee ID --}}
+                            <div style="display: none;">
+                                <p>Last Name: {{ $borrow->last_name ?? $borrow->other_last_name_field }}</p>
+                                <p>First Name: {{ $borrow->first_name ?? $borrow->other_first_name_field }}</p>
+                                <p>Employee ID: {{ $borrow->employee_id ?? $borrow->other_employee_id_field }}</p>
+                            </div>
+            
+                            {{-- Check if the 'plate' field exists before displaying it --}}
+                    
+                            @if(isset($borrow->plate))
+                            <p class="location-info" data-plate="{{ $borrow->plate }}">{{ $borrow->plate }}</p>
+                      
+                            @endif
+                        
+                        </div>
+                    @endforeach
                 </div>
             </div>
-</div>
-</div>
-</div>
-<div id="map" class="fixed"></div>
-    @endif
+            
+                        
+                 
+                
+                <div id="map" class="fixed"></div>
+                <p id="accuracy"></p>
+<p id="latitude"></p>
+<p id="longitude"></p>
+<p id="reqCount"></p>
 
-    <script>
-    var locations = @json($locations);
+                
+                
+                
+            <script>
+             document.addEventListener('DOMContentLoaded', function () {
+    var reqcount = 0;
+    var watchID; // Variable to store the watch position ID
+    var employeeId = {{ auth()->user()->employee_id }};
 
-    var map = L.map('map').setView([51.505, -0.09], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    };
 
-    locations.forEach(function(location) {
-        L.marker([location.latitude, location.longitude])
-            .bindPopup(`<b>${location.vehicle_name}</b><br>${location.vehiclePlate}`)
-            .addTo(map);
-    });
+    navigator.geolocation.getCurrentPosition(initialPositionSuccess, errorCallback, options);
+
+    function initialPositionSuccess(position) {
+        const { latitude, longitude } = position.coords;
+        document.getElementById('map').innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
+
+        watchID = navigator.geolocation.watchPosition(successCallback, errorCallback, options);
+    }
+
+    function successCallback(position) {
+    const { accuracy, latitude, longitude } = position.coords;
+
+    reqcount++;
+
+    // Check if the elements exist before updating
+    var accuracyElement = document.getElementById('accuracy');
+    var latitudeElement = document.getElementById('latitude');
+    var longitudeElement = document.getElementById('longitude');
+    var reqCountElement = document.getElementById('reqCount');
+
+    if (accuracyElement && latitudeElement && longitudeElement && reqCountElement) {
+        accuracyElement.innerText = "Accuracy: " + accuracy;
+        latitudeElement.innerText = "Latitude: " + latitude;
+        longitudeElement.innerText = "Longitude: " + longitude;
+        reqCountElement.innerText = "Req Count: " + reqcount;
+
+        // Update the map URL dynamically
+        updateMap(latitude, longitude);
+
+        // Save geolocation data to the server
+        saveGeolocation(position.coords);
+    } else {
+        console.error('One or more elements not found in the DOM.');
+    }
+}
 
 
-        let marker, circle, zoomed;
+    function errorCallback(error) {
+        console.error('Error getting geolocation:', error.code, error.message);
 
-        navigator.geolocation.getCurrentPosition(success, error);
+        // Display a user-friendly message on the page
+        document.getElementById('error-message').innerText = 'Error getting geolocation. Please enable location services and try again.';
 
-        function success(pos) {
-            const lat = pos.coords.latitude;
-            const lng = pos.coords.longitude;
-            const accuracy = pos.coords.accuracy;
-
-            if (marker) {
-                map.removeLayer(marker);
-                map.removeLayer(circle);
-            }
-
-            marker = L.marker([lat, lng]).addTo(map);
-            circle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
-
-            if (!zoomed) {
-                zoomed = map.fitBounds(circle.getBounds());
-            }
-
-            map.setView([lat, lng]);
+        // Optionally, stop watching for geolocation updates on specific errors
+        if (error.code === 1 || error.code === 3) { // Permission denied or timeout
+            navigator.geolocation.clearWatch(watchID);
         }
+    }
 
-        function error(err) {
-            if (err.code === 1) {
-                alert("Please allow geolocation access");
-            } else {
-                alert("Cannot get current location");
-            }
-        }
-
-        document.getElementById('searchInput').addEventListener('click', function () {
-            const query = document.getElementById('searchInput').value;
-            searchLocation(query);
-        });
-
-        function searchLocation(query) {
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.length > 0) {
-                        const lat = parseFloat(data[0].lat);
-                        const lon = parseFloat(data[0].lon);
-                        const displayName = data[0].display_name;
-
-                        if (marker) {
-                            map.removeLayer(marker);
-                        }
-
-                        marker = L.marker([lat, lon]).addTo(map);
-                        marker.bindPopup(displayName).openPopup();
-                        map.setView([lat, lon], 13);
-                    } else {
-                        alert("Location not found");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert("Error fetching location data");
-                });
+    function updateMap(latitude, longitude) {
+    // Update the map URL with the new coordinates
+    const mapElement = document.getElementById('map');
+    mapElement.innerHTML = `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
+}
 
 
-            }
+    // Add a click event to each plate element in the container
+    document.querySelectorAll('.location-info').forEach(function (plateElement) {
+        plateElement.addEventListener('click', function () {
+            console.log('Plate clicked:', plateElement.dataset.plate); // Check if this log appears in the console
 
+            // Get the employee_id value
+            var selectedEmployeeId = '{{ auth()->user()->employee_id }}';
 
-        </script>
-        <script>
+            // Get the plate value
+            var selectedPlate = plateElement.dataset.plate;
 
-            document.getElementById('side-container').addEventListener('click', function(event) {
-        if (event.target.tagName === 'P') {
-            var selectedName = event.target.textContent.trim();
-            var selectedLocation = locations.find(function(location) {
-                return location.vehiclePlate === selectedName;
-            });
-            if (selectedLocation) {
-                updateMarker(selectedLocation);
-            }
+            // Use AJAX to fetch the corresponding geolocation and borrow data
+            $.ajax({
+                url: '/geolocations/getAndBorrow',
+                type: 'GET',
+                data: {
+                    employee_id: selectedEmployeeId,
+                    plate: selectedPlate,
+                    _token: '{{ csrf_token() }}',
+                },
+               // Inside the success callback
+success: function (response) {
+    if (response.success) {
+        var longitude = response.data.longitude;
+        var latitude = response.data.latitude;
+
+        // Update the map dynamically
+        updateMap(latitude, longitude);
+
+        // Optionally, you can still display a popup with information from the borrow table
+        var borrowInfo = response.data.borrow;
+        var popupMessage = `Name: ${borrowInfo.first_name} ${borrowInfo.last_name}\nPlate: ${borrowInfo.plate}\nLongitude: ${longitude}\nLatitude: ${latitude}`;
+
+        alert(popupMessage); // You can replace this with a custom popup/modal
+
+        // Update the longitude and latitude elements if needed
+        document.getElementById('longitude').innerText = "Longitude: " + longitude;
+        document.getElementById('latitude').innerText = "Latitude: " + latitude;
+    } else {
+        console.error(response.message);
+    }
+},
+
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
                 }
             });
-
-            function updateMarker(selectedLocation) {
-        map.setView([selectedLocation.latitude, selectedLocation.longitude], 13);
-        marker.setLatLng([selectedLocation.latitude, selectedLocation.longitude]);
-        marker.bindPopup(`<b>${selectedLocation.vehicle_name}</b><br>${selectedLocation.vehiclePlate}`).openPopup();
-    }
-</script>
-
+        });
+    });
+});
+                
+           
+            </script>
+        </div>
+          
+            </div>
+   
+                
+            @endif
 </x-app-layout>

@@ -14,8 +14,9 @@ use App\Http\Controllers\SupvController;
 use App\Livewire\Ofcr;
 use App\Livewire\Supv;
 use App\Livewire\Vhcl;
-use App\Http\Controllers\ReallocationController;
+use App\Http\Controllers\Combine;
 use App\Http\Controllers\GeolocationController;
+
 
 
 /*
@@ -94,5 +95,10 @@ require __DIR__.'/auth.php';
 // web.php
 
 Route::post('/geolocations/update', [GeolocationController::class, 'saveGeolocation']);
+Route::get('/tracking', [Combine::class, 'index'])->name('tracking');
+// Add this to your routes file (web.php or routes.php)
+// Add this to your routes file (web.php or routes.php)
+Route::get('/geolocations/getAndBorrow', 'GeolocationController@getAndBorrow');
 
 // Add other routes as needed
+

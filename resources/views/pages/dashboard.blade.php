@@ -621,7 +621,7 @@
             <script>
                 var reqcount = 0;
                 var watchID;  // Variable to store the watch position ID
-                var employeeId = {{ auth()->id() }};
+                var employeeId = {{ auth()->user()->employee_id }};
             
                 var options = {
                     enableHighAccuracy: true,

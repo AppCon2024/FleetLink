@@ -40,8 +40,7 @@
                                     class="form-control">
                             </div>
                             <div>
-                                <input type="hidden" name="last_name" id="last_name" readonly=""
-                                    class="form-control" value="{{ Auth::user()->last_name }}">
+                                <input type="hidden" name="last_name" id="last_name" readonly=""class="form-control" value="{{ Auth::user()->last_name }}">
                             </div>
                             <div>
                                 <input type="hidden" name="first_name" id="first_name" readonly="" class="form-control" value="{{ Auth::user()->first_name }}">

@@ -31,4 +31,6 @@ class Geolocation extends Model
             // Add other fields as needed
         ]);
     }
+    // In Geolocation.php model
+  
 }

@@ -26,4 +26,5 @@ class Borrows extends Model
     public function scopeSearch($query, $value){
         $query->where('last_name','like',"%{$value}%")->orWhere('department','like',"%{$value}%");
     }
+
 }
