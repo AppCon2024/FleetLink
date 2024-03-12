@@ -34,7 +34,7 @@ public function saveGeolocation(Request $request)
             ['employee_id' => $employeeId],
             ['latitude' => $latitude, 'longitude' => $longitude, 'accuracy' => $accuracy]
         );
-        event(new GeolocationUpdated($geolocation));
+
 
     }
 

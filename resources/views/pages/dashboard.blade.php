@@ -603,6 +603,8 @@
                 placeholder="Plate Number" class="form-control">
             </div>
             <div id="map"></div>
+            
+
 
             <div id="details">
                 {{-- style="display: none; --}}
@@ -693,17 +695,6 @@
         }
     });
 }
-
-// Listen for geolocation updates using Laravel Echo
-Echo.channel('geolocation.' + employeeId).listen('GeolocationUpdated', (event) => {
-    const { latitude, longitude, accuracy } = event.geolocation;
-
-    // Update the map and other details with the new coordinates
-    updateMap(latitude, longitude);
-    document.getElementById('accuracy').innerText = 'Accuracy: ' + accuracy;
-    document.getElementById('latitude').innerText = 'Latitude: ' + latitude;
-    document.getElementById('longitude').innerText = 'Longitude: ' + longitude;
-});
 
                 
            
