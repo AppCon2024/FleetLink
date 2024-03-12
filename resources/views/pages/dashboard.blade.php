@@ -1,24 +1,25 @@
 <x-app-layout>
-<style>
-/* CSS for mobile screens */
-@media (max-width: 768px) {
-    /* Hide the web menu on smaller screens */
-    .md\:block {
-        display: none;
-    }
+    <style>
+        /* CSS for mobile screens */
+        @media (max-width: 768px) {
 
-    /* Show the mobile menu */
-    .md\:hidden {
-        display: block;
-    }
+            /* Hide the web menu on smaller screens */
+            .md\:block {
+                display: none;
+            }
 
-    /* Adjust styles for mobile menu */
-    /* ... (your responsive styles for mobile) ... */
-}
-</style>
+            /* Show the mobile menu */
+            .md\:hidden {
+                display: block;
+            }
+
+            /* Adjust styles for mobile menu */
+            /* ... (your responsive styles for mobile) ... */
+        }
+    </style>
 
     @if (Auth::user()->role == 'admin')
-    @include('includes.sidebar.dashboard')
+        @include('includes.sidebar.dashboard')
         <main
             class="fixed top-[86px] w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
             <!-- START DASHBOARD -->
@@ -45,8 +46,7 @@
                                     </div>
                                     <div>
                                         <span>
-                                            <i
-                                                class="ri-shield-user-fill ml-3 text-6xl text-blue-500"></i>
+                                            <i class="ri-shield-user-fill ml-3 text-6xl text-blue-500"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -130,7 +130,8 @@
                             <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
                                 <!-- Card header -->
                                 <div class="flex items-center justify-between p-4 border-b dark:border-primary">
-                                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Total Enabled Users</h4>
+                                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Total Enabled Users
+                                    </h4>
                                     <div class="flex items-center space-x-2">
 
                                     </div>
@@ -545,107 +546,6 @@
     @endif
 
     @if (Auth::user()->role == 'police')
-    <div class="fixed left-1/2 transform -translate-x-1/2 top-[97px] md:top-[120px] w-full md:w-[100%] max-w-[280px] flex justify-center flex-col items-center">
-        <div class="flex justify-between gap-2 w-full">
-            <div class="flex flex-col items-center justify-center bg-blue-200 rounded-lg shadow-xl min-h-[80px] w-full p-4">
-                <img src="{{ asset('images/telephone.png') }}" alt="Your Image" class="w-10 h-auto rounded-lg">
-                <span>Call</span>
-            </div>
-            <div class="flex flex-col items-center justify-center bg-blue-200 rounded-lg shadow-xl min-h-[80px] w-full p-4">
-            <button onclick="startScanner()" id="scanButton" type="button" class="flex flex-col items-center justify-center bg-blue-200 rounded-lg shadow-xl min-h-[80px]">
-                <img src="{{ asset('images/qr (1).png') }}" alt="Your Image" class="w-10 h-auto rounded-lg">
-                Scan
-            </button>
-            </div>
-            <div class="flex flex-col items-center justify-center bg-blue-200 rounded-lg shadow-xl min-h-[80px] w-full p-4">
-                <img src="{{ asset('images/comment.png') }}" alt="Your Image" class="w-10 h-auto rounded-lg">
-                <span>Message</span>
-            </div>
-        </div>
-
-        <div class="mt-4 relative w-full md:w-80">
-            <div class="flex items-center justify-center">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    class="w-full px-5 py-2 border-gray-300 focus:outline-none focus:border-blue-500"
-                >
-                <button
-                    type="button"
-                    class="bg-blue-500 group-hover:bg-blue-300 px-2 py-2 hidden md:block"
-                >
-                    <i class="fas fa-search text-white"></i>
-                </button>
-            </div>
-            <button
-                type="button"
-                class="bg-blue-500 group-hover:bg-blue-300 px-2 py-2 block md:hidden absolute top-[50%] right-0 transform translate-y-[-50%]"
-            >
-                <i class="fas fa-search text-white"></i>
-            </button>
-        </div>
-
-        <div class="container" id="video-container" style="display: none;">
-            <video id="video-preview" playsinline autoplay></video>
-        </div>
-
-        <div>
-            <label>Plate Number: </label>
-            <input type="text" name="plate" id="plate" readonly=""
-                placeholder="Plate Number" class="form-control">
-        </div>
-    </div>
-    
-    <!----Resize mobile----->
-    <nav id="mobileMenu" class="block fixed bottom-5 w-full">
-        <div class="flex flex-col">
-            <!-- First layer of icons -->
-            <div class="flex justify-center items-center py-3 gap-5 md:gap-10">
-                <!-- Icon 1 -->
-                <div class="bg-blue-400 bg-opacity-50 rounded p-3">
-                    <div class="text-blue-200 flex flex-col items-center p-2">
-                        <div class="rounded bg-white bg-opacity-50 backdrop-blur-md m-2 w-6 h-6 flex items-center justify-center">
-                            <i class="fas fa-inbox text-blue-600"></i>
-                        </div>
-                        <span style="font-size: 0.75rem; margin-top: -0.4rem;" class="text-black font-bold">Inbox</span>
-                    </div>
-                </div>
-                <!-- Icon 2 -->
-		<a href="{{ asset('maps') }}">
-                <div class="bg-blue-400 bg-opacity-50 rounded p-3">
-                    <div class="text-blue-200 flex flex-col items-center p-2">
-                        <div class="rounded bg-white bg-opacity-50 backdrop-blur-md m-2 w-6 h-6 flex items-center justify-center">
-                            <i class="fas fa-map-marker-alt text-blue-600"></i>
-                        </div>
-                        <span style="font-size: 0.75rem; margin-top: -0.4rem;" class="text-black font-bold">Maps</span>
-                    </div>
-                </div>
-		</a>
-		<a href="{{ asset('chatify') }}">
-                <div class="bg-blue-400 bg-opacity-50 rounded p-3">
-                    <div class="text-blue-200 flex flex-col items-center p-2">
-                        <div class="rounded bg-white bg-opacity-50 backdrop-blur-md m-2 w-6 h-6 flex items-center justify-center">
-                            <i class="fas fa-comments text-blue-600"></i>
-                        </div>
-                        <span style="font-size: 0.75rem; margin-top: -0.4rem;" class="text-black font-bold">Chats</span>
-                    </div>
-                </div>
-		</a>
-                <div class="bg-blue-400 bg-opacity-50 rounded p-3">
-                    <div class="text-blue-200 flex flex-col items-center p-2">
-                        <div class="rounded bg-white bg-opacity-50 backdrop-blur-md m-2 w-6 h-6 flex items-center justify-center">
-                            <i class="fas fa-cog text-blue-600"></i>
-                        </div>
-                        <span style="font-size: 0.75rem; margin-top: -0.4rem;" class="text-black font-bold">Settings</span>
-                    </div>
-
-                <!-- Add other icons and text similarly -->
-            </div>
-        </div>
-    </nav>
-
-    </div>
-@endif
+    <livewire:db-ofcr />
+    @endif
 </x-app-layout>
-
-

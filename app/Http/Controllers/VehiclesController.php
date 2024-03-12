@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Borrows;
 use App\Models\User;
+use App\Models\UserLocation;
 use App\Models\Vehicles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -151,6 +152,10 @@ class VehiclesController extends Controller
                 $update->update([
                             'time_out' => now(),
                         ]);
+
+                Vehicles::where('plate', $plate)->update([
+                            'status' => 1,
+                         ]);
                 return redirect()->route('scanner')->with('message', 'You are now disconnected from the vehicle.');
             }
             else
@@ -173,6 +178,11 @@ class VehiclesController extends Controller
                 'time_in' => now(),
                 'time_out' => '- - -',
             ]);
+
+            Vehicles::where('plate', $plate)->update([
+                'status' => 0,
+             ]);
+
             return redirect()->route('scanner')->with('message', 'You are now connected to the vehicle.');
         }
     }
