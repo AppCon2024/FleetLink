@@ -38,9 +38,6 @@ class Ofcr extends Component
     public $position;
     public $image;
     public $password = 12345;
-
-
-
     public $isOpen = 0;
     public $deleteOpen = 0;
     public $imageOpen = 0;

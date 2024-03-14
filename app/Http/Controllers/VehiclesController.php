@@ -156,11 +156,11 @@ class VehiclesController extends Controller
                 Vehicles::where('plate', $plate)->update([
                             'status' => 1,
                          ]);
-                return redirect()->route('scanner')->with('message', 'You are now disconnected from the vehicle.');
+                return redirect()->route('dashboard')->with('message', 'You are now disconnected from the vehicle.');
             }
             else
             {
-                return redirect()->route('scanner')->with('message', 'This vehicle is currently in use.');
+                return redirect()->route('dashboard')->with('message', 'This vehicle is currently in use.');
             }
         }
         else
@@ -183,7 +183,7 @@ class VehiclesController extends Controller
                 'status' => 0,
              ]);
 
-            return redirect()->route('scanner')->with('message', 'You are now connected to the vehicle.');
+            return redirect()->route('dashboard')->with('message', 'You are now connected to the vehicle.');
         }
     }
 }

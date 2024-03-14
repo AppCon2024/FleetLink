@@ -2,7 +2,7 @@
 
     <div  class="fixed sm:w-[98%] w-[95%] my-auto bg-blue-200 mt-3 rounded-3xl dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 z-10">
         <!-- Primary Navigation Menu -->
-        <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <!-- Logo -->

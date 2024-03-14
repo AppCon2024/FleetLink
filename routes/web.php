@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SmsController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SupvController;
+use App\Http\Controllers\UserLocation;
 use App\Livewire\Ofcr;
 use App\Livewire\Supv;
 use App\Livewire\Vhcl;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,10 @@ Route::get('/landing-page', function(){
     return view('pages.landing-page');
 });
 
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
+
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -47,6 +53,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('supv/{id}',[Supv::class, 'status']);
 Route::get('ofcr/{id}',[Ofcr::class, 'status']);
+Route::post('/geolocations/update', [UserLocation::class, 'saveGeolocation']);
 
 Route::controller(SupervisorsController::class)->group(function(){
     Route::get('/supervisors','index')->middleware(['auth', 'verified'])->name('supervisors');
@@ -83,7 +90,6 @@ Route::controller(VehiclesController::class)->group(function(){
 
 Route::get('/status', [StatusController::class, 'index'])->name('vehicle.status');
 Route::get('/dashboard', [DashboardController::class, 'countUsersByRole'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/tracking', [LocationController::class, 'index'])->name('tracking');
 Route::patch('/profile_address', [ProfileController::class, 'addressUpdate'])->name('profile.addressUpdate');
 
 require __DIR__.'/auth.php';
