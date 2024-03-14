@@ -17,7 +17,7 @@ class UserAccounts extends Seeder
 
         $admin = User::create([
             'status' => 1,
-            'image' => 'storage/images/karl.jpg',
+            'image' => 'img/karl.jpg',
             'last_name' => ('Doctolero'),
             'first_name' => ('Karl Lewis'),
             'employee_id' => '12345',
@@ -32,7 +32,7 @@ class UserAccounts extends Seeder
 
         $admin = User::create([
             'status' => 1,
-            'image' => 'storage/images/karl.jpg',
+            'image' => 'img/karl.jpg',
             'last_name' => ('admin'),
             'first_name' => ('.'),
             'employee_id' => '12345',
@@ -48,7 +48,7 @@ class UserAccounts extends Seeder
         // seeding collector
         $collector = User::create([
             'status' => 1,
-            'image' => 'storage/images/kurt.jpg',
+            'image' => 'img/kurt.jpg',
             'last_name' => 'Nanalis',
             'first_name' => 'Kurt Axel',
             'employee_id' => '12345',
@@ -65,7 +65,7 @@ class UserAccounts extends Seeder
         // seeding residents
         $police = User::create([
             'status' => 1,
-            'image' => 'storage/images/leah.jpg',
+            'image' => 'img/leah.jpg',
             'last_name' => 'Oquindo',
             'first_name' => 'Ma. Leah',
             'employee_id' => '12345',

@@ -1,7 +1,5 @@
-<div class="relative top-[70px] md:w-[calc(100%-256px)] md:ml-64 xl:w-[80%] mx-auto px-2 p-5 rounded-lg bg-gray-100">
-
-    <!-- Start coding here -->
-    <div class="bg-white dark:bg-gray-800  shadow-md sm:rounded-2xl overflow-hidden p-5">
+<div class="w-full">
+    <div class="bg-white rounded-3xl overflow-hidden p-5">
         <div class="flex items-center justify-between p-4">
             <div class="flex">
                 <div class="relative w-full">
@@ -30,42 +28,26 @@
                 </div>
             </div>
         </div>
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto relative">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">ID</th>
                         @include('livewire.includes.table-sortable-th', [
+                            'tablesadb' => 'first_name',
+                            'displayName' => 'Firstname',
+                        ])
+                        @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'last_name',
                             'displayName' => 'Lastname',
-                        ])
-                        @include('livewire.includes.table-sortable-th', [
-                            'tablesadb' => 'employee_id',
-                            'displayName' => 'EmployeeID',
-                        ])
-                        @include('livewire.includes.table-sortable-th', [
-                            'tablesadb' => 'position',
-                            'displayName' => 'position',
-                        ])
-                        @include('livewire.includes.table-sortable-th', [
-                            'tablesadb' => 'department',
-                            'displayName' => 'Department',
                         ])
                         @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'plate',
                             'displayName' => 'plate',
                         ])
                         @include('livewire.includes.table-sortable-th', [
-                            'tablesadb' => 'brand',
-                            'displayName' => 'Brand',
-                        ])
-                        @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'model',
                             'displayName' => 'Model',
-                        ])
-                        @include('livewire.includes.table-sortable-th', [
-                            'tablesadb' => 'vin',
-                            'displayName' => 'VIN NUMBER',
                         ])
                         @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'time_in',
@@ -88,21 +70,13 @@
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $stts->id }}</th>
                             <td class="px-4 py-3">
+                                {{ $stts->first_name }}</td>
+                            <td class="px-4 py-3">
                                 {{ $stts->last_name }}</td>
-                            <td class="px-4 py-3">
-                                {{ $stts->employee_id }}</td>
-                            <td class="px-4 py-3 text-green-500">
-                                {{ $stts->position }}</td>
-                            <td class="px-4 py-3">
-                                {{ $stts->department }}</td>
                             <td class="px-4 py-3">
                                 {{ $stts->plate }}</td>
                             <td class="px-4 py-3">
-                                {{ $stts->brand }}</td>
-                            <td class="px-4 py-3">
                                 {{ $stts->model }}</td>
-                            <td class="px-4 py-3">
-                                {{ $stts->vin }}</td>
                             <td class="px-4 py-3">
                                 {{ $stts->time_in }}</td>
                             <td class="px-4 py-3 text-center">

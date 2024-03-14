@@ -1,24 +1,21 @@
-<div
-    class="relative top-[70px] md:w-[calc(100%-256px)] md:ml-64 xl:w-[80%] mx-auto px-2 p-5 rounded-xl md:rounded-lg bg-gray-100">
-
-    <!-- Start coding here -->
-    <div class="bg-white dark:bg-gray-800  shadow-md sm:rounded-lg overflow-hidden p-5">
+<div class="w-full">
+    <div class="bg-white rounded-3xl overflow-hidden p-5">
         <div class="flex items-center justify-between p-4">
             @include('livewire.includes.search-bar')
             <div class="flex space-x-3">
                 @include('livewire.includes.user-status')
                 <button wire:click="create"
-                    class=" text-white border border-gray-300 bg-blue-600 uppercase rounded-lg text-xs p-2  text-center"><i
+                    class=" text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs p-2  text-center"><i
                         class="ri-add-line text-sm"></i>
                     Add Supervisor
                 </button>
-                <button
+                {{-- <button
                     class="text-white border border-gray-300 bg-blue-600 uppercase rounded-lg text-xs p-2  text-center">
                     Export
-                </button>
+                </button> --}}
             </div>
         </div>
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto relative">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>

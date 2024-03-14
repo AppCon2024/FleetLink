@@ -1,22 +1,5 @@
 <x-app-layout>
-    <style>
-        /* CSS for mobile screens */
-        @media (max-width: 768px) {
-
-            /* Hide the web menu on smaller screens */
-            .md\:block {
-                display: none;
-            }
-
-            /* Show the mobile menu */
-            .md\:hidden {
-                display: block;
-            }
-
-            /* Adjust styles for mobile menu */
-            /* ... (your responsive styles for mobile) ... */
-        }
-    </style>
+<x-message />
 
     @if (Auth::user()->role == 'admin')
         @include('includes.sidebar.dashboard')

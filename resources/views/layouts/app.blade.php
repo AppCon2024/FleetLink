@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    @stack('chatify-meta')
     <title>{{ config('app.name', 'FleetLink') }} | {{ isset($title) ? $title : 'Dashboard' }}</title>
 
     <!--Scanner-->
@@ -43,6 +43,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/ph-address-selector.js'])
+    @stack('chatify-head')
     @livewireStyles
 </head>
 
@@ -65,5 +66,6 @@
         </main>
     </div>
     @livewireScripts
+    @stack('chatify-footer')
 </body>
 </html>

@@ -2,14 +2,33 @@
     <x-message />
 
     @if (Auth::user()->role == 'admin')
-   @include('includes.sidebar.status')
-
-   <livewire:status />
+        <div>
+            <div class="w-auto px-3 overflow-auto">
+                <div class="flex overflow-auto">
+                    <div class="pr-3 hidden sm:block">
+                        @include('includes.sidebar.status')
+                    </div>
+                    <div class="flex-1">
+                        <livewire:status />
+                    </div>
+                </div>
+            </div>
+        </div>
     @endif
 
     @if (Auth::user()->role == 'supervisor')
-    @include('includes.supv-sidebar.status')
-    <livewire:status />
+    <div>
+        <div class="w-auto px-3 overflow-auto">
+            <div class="flex overflow-auto">
+                <div class="pr-3 hidden sm:block">
+                    @include('includes.sidebar.status')
+                </div>
+                <div class="flex-1">
+                    <livewire:status />
+                </div>
+            </div>
+        </div>
+    </div>
     @endif
 
 </x-app-layout>

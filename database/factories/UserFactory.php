@@ -34,7 +34,7 @@ class UserFactory extends Factory
             'department' => fake()->randomElement(['Admin PNCO', 'Operation PNCO', 'Investigation PNCO', 'Finance PNCO', 'Logistics PNCO', 'Police Clearance PNCO', 'Admin PNCO', 'Intel PNCO']),
             'position' => fake()->randomElement(['Police Captain Deputy', 'Police Executive Master Sergeant', 'Station Support and Services Officer', 'Police Lieutenant', 'Police Chief Master Sergeant', 'Police Master Sergeant', 'Police Staff Sergeant', 'Police Corporal', 'Police Major', 'Patrolman', 'Patrolwoman']),
             'password' => static::$password ??= Hash::make('password'),
-            'image' => 'storage/images/karl.png',
+            'image' => 'img/karl.png',
             'remember_token' => Str::random(10),
 
         ];
