@@ -78,6 +78,20 @@ class UserAccounts extends Seeder
             'position' => 'Patrolman'
         ]);
 
+        $police = User::create([
+            'status' => 1,
+            'image' => 'img/leah.jpg',
+            'last_name' => 'Oquindo',
+            'first_name' => 'Ma. Leah',
+            'employee_id' => '434564',
+            'name' => 'Ma. Leah Oquindo',
+            'email' => 'user@c.c',
+            'email_verified_at' => '2024-03-01 01:33:52',
+            'password' => Hash::make('12345'),
+            'role' => 'police',
+            'department' => 'Software Developer/Admin',
+            'position' => 'Patrolman'
+        ]);
 
 
     }

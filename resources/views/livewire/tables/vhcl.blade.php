@@ -9,10 +9,10 @@
                         class="ri-add-line text-sm"></i>
                     Add a Vehicle
                 </button>
-                <button
+                {{-- <button
                     class="text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs p-2  text-center">
                     Export
-                </button>
+                </button> --}}
             </div>
         </div>
         <div class="overflow-x-auto relative">
