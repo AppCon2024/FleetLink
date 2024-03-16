@@ -4,7 +4,7 @@
             @include('includes.supv-sidebar.tracking')
         </div>
 
-        @forelse ($locations as $userlocation)
+
         <div>
             <div class="w-[240px] h-[545px] bg-white rounded-3xl">
                 <div>
@@ -16,52 +16,39 @@
                         </div>
                     </div>
                 </div>
+                @forelse ($locations as $userlocation)
                 <div>
                     <div class="w-11/12 mx-auto">
                         <div class="p-4 bg-white rounded overflow-hidden shadow-sm">
                             <div class="flex items-center justify-between font-bold text-gray-900">
                                 <span class="employee-id" data-lat="{{ $userlocation->latitude }}" data-lng="{{ $userlocation->longitude }}">
-                                   Plate number: {{ $userlocation->employee_id }}
+                                   Employee#: {{ $userlocation->employee_id }}
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
+                @empty
+                <div>
+                    <div class="w-11/12 mx-auto">
+                        <div class="p-4 bg-white rounded overflow-hidden shadow-sm">
+                            <div class="flex items-center justify-between font-bold text-gray-900">
+                                No vehicle is being used.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforelse
             </div>
         </div>
+
         <div class="w-full pl-3">
             <div class="h-[545px] bg-white rounded-3xl p-4">
                 <div id="map" class="p-1"></div>
             </div>
         </div>
-        @empty
-        <div class="w-[240px] h-[545px] bg-white rounded-3xl">
-            <div>
-                <div class="w-full mx-auto">
-                    <div class="p-4 bg-gradient-to-r from-blue-400 to-blue-300 overflow-hidden shadow-sm rounded-t-xl">
-                        <div class="flex items-center justify-between font-bold text-white">
-                            Vehicle Locations
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="w-11/12 mx-auto">
-                    <div class="p-4 bg-white rounded overflow-hidden shadow-sm">
-                        <div class="flex items-center justify-between font-bold text-gray-900">
-                            No vehicle is being used.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="w-full pl-3">
-            <div class="h-[545px] bg-white rounded-3xl p-4">
-                <div id="map" class="p-1"></div>
-            </div>
-        </div>
-        
-        @endforelse
+
+
     </div>
     <script>
         // Add event listener to all elements with the class 'employee-id'
@@ -81,7 +68,7 @@
     <script>
         var reqcount = 0;
         var watchID; // Variable to store the watch position ID
-      
+
 
         var options = {
             enableHighAccuracy: true,
@@ -169,4 +156,3 @@
             });
         }
     </script>
-   
