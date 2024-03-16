@@ -13,5 +13,6 @@ class Tracking extends Component
         return view('livewire.tracking',[
             'locations' => $locations
         ]);
+        
     }
 }

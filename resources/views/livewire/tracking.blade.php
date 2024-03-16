@@ -10,7 +10,7 @@
                 <div>
                     <div class="w-full mx-auto">
                         <div class="p-4 bg-gradient-to-r from-blue-400 to-blue-300 overflow-hidden shadow-sm rounded-t-xl">
-                            <div class=" flex items-center justify-between font-bold text-white">
+                            <div class="flex items-center justify-between font-bold text-white">
                                 Vehicle Locations
                             </div>
                         </div>
@@ -19,8 +19,10 @@
                 <div>
                     <div class="w-11/12 mx-auto">
                         <div class="p-4 bg-white rounded overflow-hidden shadow-sm">
-                            <div class=" flex items-center justify-between font-bold text-gray-900">
-                               Plate number: {{ $userlocation->employee_id }}
+                            <div class="flex items-center justify-between font-bold text-gray-900">
+                                <span class="employee-id" data-lat="{{ $userlocation->latitude }}" data-lng="{{ $userlocation->longitude }}">
+                                   Plate number: {{ $userlocation->employee_id }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -37,7 +39,7 @@
             <div>
                 <div class="w-full mx-auto">
                     <div class="p-4 bg-gradient-to-r from-blue-400 to-blue-300 overflow-hidden shadow-sm rounded-t-xl">
-                        <div class=" flex items-center justify-between font-bold text-white">
+                        <div class="flex items-center justify-between font-bold text-white">
                             Vehicle Locations
                         </div>
                     </div>
@@ -46,7 +48,7 @@
             <div>
                 <div class="w-11/12 mx-auto">
                     <div class="p-4 bg-white rounded overflow-hidden shadow-sm">
-                        <div class=" flex items-center justify-between font-bold text-gray-900">
+                        <div class="flex items-center justify-between font-bold text-gray-900">
                             No vehicle is being used.
                         </div>
                     </div>
@@ -61,11 +63,25 @@
         
         @endforelse
     </div>
+    <script>
+        // Add event listener to all elements with the class 'employee-id'
+        document.querySelectorAll('.employee-id').forEach(item => {
+            item.addEventListener('click', event => {
+                const latitude = item.getAttribute('data-lat');
+                const longitude = item.getAttribute('data-lng');
+                const plate = item.textContent.trim().split(': ')[1]; // Extract plate number from text
+                alert(`Plate Number: ${plate}`); // Show alert with plate number
+                updateMap(latitude, longitude); // Update map with clicked employee's location
+            });
+        });
+    </script>
+</div>
+
 
     <script>
         var reqcount = 0;
         var watchID; // Variable to store the watch position ID
-        var employeeId = {{ auth()->user()->employee_id }};
+      
 
         var options = {
             enableHighAccuracy: true,
@@ -136,7 +152,7 @@
 
             $.ajax({
                 url: '/geolocations/update',
-                type: 'POST',
+                type: 'GET',
                 data: {
                     _token: '{{ csrf_token() }}',
                     latitude: latitude,
@@ -153,4 +169,4 @@
             });
         }
     </script>
-</div>
+   

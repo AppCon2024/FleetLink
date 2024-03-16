@@ -55,9 +55,11 @@ Route::middleware('auth')->group(function () {
 
 });
 
+
 Route::get('supv/{id}',[Supv::class, 'status']);
 Route::get('ofcr/{id}',[Ofcr::class, 'status']);
 Route::post('/geolocations/update', [UserLocation::class, 'saveGeolocation']);
+Route::get('/employees/{employeeId}/location', [UserLocation::class, 'saveGeolocation']);
 
 Route::controller(SupervisorsController::class)->group(function(){
     Route::get('/supervisors','index')->middleware(['auth', 'verified'])->name('supervisors');
