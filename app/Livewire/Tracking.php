@@ -3,16 +3,21 @@
 namespace App\Livewire;
 
 use App\Models\GeoLocation;
+use App\Models\Borrows;
+
 use Livewire\Component;
 
 class Tracking extends Component
 {
     public function render()
-    {
-        $locations = GeoLocation::all();
-        return view('livewire.tracking',[
-            'locations' => $locations
+    { $geoLocations = GeoLocation::all();
+        $borrows = Borrows::all();
+
+        return view('livewire.tracking', [
+            'geoLocations' => $geoLocations,
+            'borrows' => $borrows
         ]);
         
     }
 }
+

@@ -19,7 +19,14 @@ class GeoLocation extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    public function borrows()
+    {
+        return $this->hasOne(Borrows::class);
+    }
+    public function borrow()
+    {
+        return $this->belongsTo(Borrows::class, 'employee_id', 'employee_id');
+    }
     /**
      * Update the geolocation data.
      *

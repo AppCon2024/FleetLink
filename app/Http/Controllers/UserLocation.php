@@ -30,6 +30,7 @@ class UserLocation extends Controller
                 ['latitude' => $latitude, 'longitude' => $longitude, 'accuracy' => $accuracy]
             );
         }
+        
 
         return response()->json(['message' => 'Geolocation updated successfully']);
     }

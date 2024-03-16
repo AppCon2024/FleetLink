@@ -22,6 +22,11 @@ class Borrows extends Model
         'time_in',
         'time_out',
     ];
+   
+    public function geoLocations()
+    {
+        return $this->hasMany(GeoLocation::class, 'employee_id', 'employee_id');
+    }
 
     public function scopeSearch($query, $value){
         $query->where('last_name','like',"%{$value}%")->orWhere('department','like',"%{$value}%");
