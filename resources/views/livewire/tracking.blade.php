@@ -4,7 +4,7 @@
             @include('includes.supv-sidebar.tracking')
         </div>
 
-       
+
         <div>
             <div class="w-[240px] h-[545px] bg-white rounded-3xl">
                 <div>
@@ -18,15 +18,18 @@
                 </div>
                 <div>
                     @forelse ($locations as $loc)
-                    <div class="w-11/12 mx-auto">
-                        <div class="p-4 bg-white rounded overflow-hidden shadow-sm">
-                            <div class=" flex items-center justify-between font-bold text-gray-900">
-                               Plate number: {{ $loc->employee_id }}
+                    <div class="w-full mx-auto">
+                        <div class="p-4 m-2 bg-gray-100 rounded overflow-hidden shadow-sm">
+                            <div class="flex flex-col font-bold text-gray-900">
+                                <span class="text-sm">Officer: {{ $loc->first_name }} {{ $loc->last_name }}</span>
+                                <span class="text-xs">EmployeeID: {{ $loc->employee_id }}</span>
+                                <span class="text-xs">Plate number: {{ $loc->plate }}</span>
+                                <span class="text-xs" >VehicleInfo: {{ $loc->brand }} | {{$loc->model}}</span>
                             </div>
                         </div>
                     </div>
                     @empty
-                    <div class="w-11/12 mx-auto">
+                    <div class="w-full mx-auto">
                         <div class="p-4 bg-white rounded overflow-hidden shadow-sm">
                             <div class=" flex items-center justify-between font-bold text-gray-900">
                                 No vehicle is being used.
@@ -42,15 +45,15 @@
                 <div id="map" class="p-1"></div>
                 <div id="details">
 
-                    <h2>Location Details</h2>
-                    <p id="accuracy"></p>
-                    <p id="latitude"></p>
-                    <p id="longitude"></p>
-                    <p id="reqCount"></p>
-                    <hr>
-                </div>
-        
-                <div id="error-message"></div>
+            <h2>Location Details</h2>
+            <p id="accuracy"></p>
+            <p id="latitude"></p>
+            <p id="longitude"></p>
+            <p id="reqCount"></p>
+            <hr>
+        </div>
+
+        <div id="error-message"></div>
             </div>
         </div>
     </div>
@@ -150,44 +153,44 @@
 
     <script>
         var locations = @json($locations);
-    
+
         var map = L.map('map').setView([51.505, -0.09], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-    
+
         locations.forEach(function(location) {
             L.marker([location.latitude, location.longitude])
                 .bindPopup(`<b>${location.vehicle_name}</b><br>${location.vehiclePlate}`)
                 .addTo(map);
         });
-    
-    
+
+
             let marker, circle, zoomed;
-    
+
             navigator.geolocation.getCurrentPosition(success, error);
-    
+
             function success(pos) {
                 const lat = pos.coords.latitude;
                 const lng = pos.coords.longitude;
                 const accuracy = pos.coords.accuracy;
-    
+
                 if (marker) {
                     map.removeLayer(marker);
                     map.removeLayer(circle);
                 }
-    
+
                 marker = L.marker([lat, lng]).addTo(map);
                 circle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
-    
+
                 if (!zoomed) {
                     zoomed = map.fitBounds(circle.getBounds());
                 }
-    
+
                 map.setView([lat, lng]);
             }
-    
+
             function error(err) {
                 if (err.code === 1) {
                     alert("Please allow geolocation access");
@@ -195,12 +198,12 @@
                     alert("Cannot get current location");
                 }
             }
-    
+
             document.getElementById('searchInput').addEventListener('click', function () {
                 const query = document.getElementById('searchInput').value;
                 searchLocation(query);
             });
-    
+
             function searchLocation(query) {
                 fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
                     .then(response => response.json())
@@ -209,11 +212,11 @@
                             const lat = parseFloat(data[0].lat);
                             const lon = parseFloat(data[0].lon);
                             const displayName = data[0].display_name;
-    
+
                             if (marker) {
                                 map.removeLayer(marker);
                             }
-    
+
                             marker = L.marker([lat, lon]).addTo(map);
                             marker.bindPopup(displayName).openPopup();
                             map.setView([lat, lon], 13);
@@ -225,14 +228,14 @@
                         console.error('Error:', error);
                         alert("Error fetching location data");
                     });
-    
-    
+
+
                 }
-    
-    
+
+
             </script>
             <script>
-    
+
                 document.getElementById('side-container').addEventListener('click', function(event) {
             if (event.target.tagName === 'P') {
                 var selectedName = event.target.textContent.trim();
@@ -244,7 +247,7 @@
                 }
                     }
                 });
-    
+
                 function updateMarker(selectedLocation) {
             map.setView([selectedLocation.latitude, selectedLocation.longitude], 13);
             marker.setLatLng([selectedLocation.latitude, selectedLocation.longitude]);
