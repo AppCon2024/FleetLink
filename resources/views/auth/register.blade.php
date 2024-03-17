@@ -127,18 +127,38 @@
                 <x-input-error :messages="$errors->get('password_confirmation')" class="p-1" />
             </div>
 
+            <!--Upload Image-->
+            <div>
+                <x-input-label for="password_confirmation" :value="__('Your Photo')" class="sm:text-sm text-xs mb-[2px]" />
+                <input class=" sm:text-sm text-xs rounded-md w-full border border-gray-200 bg-gray-50" name="image" type="file" id="image">
+                @error('image')
+                    <p class="text-red-500 text-xs p-1">
+                        {{ $message }}
+                    </p>
+                @enderror
+            </div>
+
+            <div>
+                <label for="shift" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Shift</label>
+                <select name="shift"
+                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                    <option value="" {{ old('shift') == '' ? 'selected' : '' }}></option>
+                    <option value="Morning" {{ old('shift') == 'Morning' ? 'selected' : '' }}>
+                        Morning</option>
+                    <option value="Night" {{ old('shift') == 'Night' ? 'selected' : '' }}>Night
+                    </option>
+                </select>
+                @error('shift')
+                    <p class="text-red-500 text-xs p-1">
+                        {{ $message }}
+                    </p>
+                @enderror
+            </div>
+
         </div>
 
         <!-- Photo -->
-        <div>
-            <x-input-label for="password_confirmation" :value="__('Your Photo')" class="sm:text-sm text-xs" />
-            <input class="form-control sm:text-sm text-xs rounded-md w-full bg-gray-50" name="image" type="file" id="image">
-            @error('image')
-                <p class="text-red-500 text-xs p-1">
-                    {{ $message }}
-                </p>
-            @enderror
-        </div>
+
 
         <div class="flex items-center justify-center mt-4">
                 <x-primary-button class="sm:w-9/12 w-full flex items-center justify-center">

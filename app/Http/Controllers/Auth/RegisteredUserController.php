@@ -42,6 +42,7 @@ class RegisteredUserController extends Controller
             // 'role' => ['required', 'string', 'max: 10'],
             'department' => ['required'],
             'position' => ['required'],
+            'shift' => ['required'],
         ]);
 
         if ($request->hasFile('image')) {
@@ -61,6 +62,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'department' => $request->department,
             'position' => $request->position,
+            'shift' => $request->shift,
         ]);
 
         event(new Registered($user));

@@ -34,6 +34,10 @@
                             'displayName' => 'Position',
                         ])
                         @include('livewire.includes.table-sortable-th', [
+                            'tablesadb' => 'shift',
+                            'displayName' => 'Shift',
+                        ])
+                        @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'last_seen',
                             'displayName' => 'Status',
                         ])
@@ -59,8 +63,10 @@
                             </td>
                             <td class="px-4 py-3 text-blue-700">
                                 {{ $ofcr->name }}</td>
-                            <td class="px-4 py-3">{{ $ofcr->department }}</td>
-                            <td class="px-4 py-3">{{ $ofcr->position }}</td>
+                            <td class="px-4 py-3 text-xs">{{ $ofcr->department }}</td>
+                            <td class="px-4 py-3 text-xs">{{ $ofcr->position }}</td>
+                            <td class="px-4 py-3 text-center">
+                                <span class="bg-blue-600 py-1 px-3 text-xs text-white rounded">{{ $ofcr->shift }}</span></td>
                             <td class="px-4 py-3 ">
                                 <span
                                     class="bg-{{ $ofcr->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-xs">

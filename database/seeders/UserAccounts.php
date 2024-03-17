@@ -27,7 +27,8 @@ class UserAccounts extends Seeder
             'password' => Hash::make('12345'),
             'role' => 'admin',
             'department' => 'Software Developer/Admin',
-            'position' => 'Patrolman'
+            'position' => 'Patrolman',
+            'shift' => 'Morning'
         ]);
 
         $admin = User::create([
@@ -42,7 +43,8 @@ class UserAccounts extends Seeder
             'password' => Hash::make('12345'),
             'role' => 'admin',
             'department' => 'Software Developer/Admin',
-            'position' => 'Patrolman'
+            'position' => 'Patrolman',
+            'shift' => 'Morning'
         ]);
 
         // seeding collector
@@ -58,7 +60,9 @@ class UserAccounts extends Seeder
             'password' => Hash::make('12345'),
             'role' => 'supervisor',
             'department' => 'Software Developer/Admin',
-            'position' => 'Patrolman'
+            'position' => 'Patrolman',
+            'shift' => 'Morning'
+
 
         ]);
 
@@ -75,22 +79,25 @@ class UserAccounts extends Seeder
             'password' => Hash::make('12345'),
             'role' => 'police',
             'department' => 'Software Developer/Admin',
-            'position' => 'Patrolman'
+            'position' => 'Patrolman',
+            'shift' => 'Morning'
+
         ]);
 
         $police = User::create([
             'status' => 1,
-            'image' => 'img/leah.jpg',
-            'last_name' => 'Oquindo',
-            'first_name' => 'Ma. Leah',
+            'image' => 'img/user.jpg',
+            'last_name' => 'Officer',
+            'first_name' => 'Account',
             'employee_id' => '434564',
-            'name' => 'Ma. Leah Oquindo',
+            'name' => 'Officer Account',
             'email' => 'user@c.c',
             'email_verified_at' => '2024-03-01 01:33:52',
             'password' => Hash::make('12345'),
             'role' => 'police',
             'department' => 'Software Developer/Admin',
-            'position' => 'Patrolman'
+            'position' => 'Patrolman',
+            'shift' => 'Morning'
         ]);
 
 

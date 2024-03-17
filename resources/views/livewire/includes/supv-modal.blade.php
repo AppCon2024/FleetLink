@@ -19,12 +19,12 @@
 @if ($isOpen)
     <div class="fixed inset-0 flex items-center justify-center z-50">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative bg-white p-4 rounded-xl shadow-lg w-1/2 ">
+        <div class="relative bg-gray-200 p-4 rounded-xl shadow-lg w-1/2 ">
             <!-- Modal content goes here -->
             <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">
                 <h2 class="pl-2 text-xl font-semibold text-gray-900 dark:text-white">
                     @if ($postId)
-                        <i class="ri-edit-2-fill mr-1 text-lg bg-blue-200 p-4 rounded-full"></i> Edit
+                        <i class="ri-edit-2-fill mr-1 text-lg bg-blue-300 p-3 rounded-full"></i> Edit
                         {{ $name }}'s Information
                     @else
                         <i class="ri-add-line text-lg bg-blue-200 p-4 rounded-full"></i> Add a Supervisor Account
@@ -43,7 +43,7 @@
 
             <form wire:submit.prevent="{{ $postId ? 'update' : 'store' }}">
 
-                <div class="grid gap-3 mb-4 mt-4 sm:grid-cols-2 px-4">
+                <div class="grid gap-1 mb-4 mt-4 sm:grid-cols-2 px-4">
 
                     <!--User Image Preview-->
                     <div class="flex flex-row justify-center items-center">
@@ -81,7 +81,7 @@
                     </div>
 
                     <!--Upload Image-->
-                    <div class="flex flex-col justify-center">
+                    <div class="flex flex-col justify-end">
                         @if ($postId)
                             <x-input-label for="profile_picture" :value="$postId ? __('Update Image') : __('Image')" />
                             <input wire:model="newImage" accept="image/png, image/jpeg" type="file" id="image"
@@ -224,6 +224,23 @@
                         <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email"
                             name="email" :value="old('email')" required autocomplete="username" />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <label for="shift" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Shift</label>
+                        <select name="shift" wire:model="shift"
+                            class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                            <option value="" {{ old('shift') == '' ? 'selected' : '' }}></option>
+                            <option value="Morning" {{ old('shift') == 'Morning' ? 'selected' : '' }}>
+                                Morning</option>
+                            <option value="Night" {{ old('shift') == 'Night' ? 'selected' : '' }}>Night
+                            </option>
+                        </select>
+                        @error('shift')
+                            <p class="text-red-500 text-xs p-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
                 </div>
 

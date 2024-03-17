@@ -43,10 +43,11 @@ class Supv extends Component
 
     public $image;
     public $newImage;
+    public $shift;
 
     public function create()
     {
-        $this->reset('first_name','last_name','employee_id','email','department','position','postId', 'image', 'newImage');
+        $this->reset('first_name','last_name','employee_id','email','department','position','postId', 'image', 'newImage', 'shift');
         $this->openModal();
     }
     public function store()
@@ -59,6 +60,7 @@ class Supv extends Component
             'employee_id' => 'required|numeric|digits:6|unique:users',
             'email' => 'required|email|unique:users',
             'image' => 'required|image|max:1024',
+            'shift' => 'required',
         ]);
 
         if($this->image){
@@ -77,6 +79,7 @@ class Supv extends Component
             'email' => $this->email,
             'department' => $this->department,
             'position' => $this->position,
+            'shift' => $this->shift,
             'role' => $this->role,
             'password' => $this->password,
             'last_seen' => null,
@@ -129,6 +132,7 @@ class Supv extends Component
         $this->image = $post->image;
         $this->department = $post->department;
         $this->position = $post->position;
+        $this->shift = $post->shift;
 
         $this->reset('newImage');
         $this->openModal();
@@ -152,6 +156,7 @@ class Supv extends Component
                 'position' => 'required',
                 'email' => 'required|email|unique:users,email,' .$post->id,
                 'employee_id' => 'required|numeric|digits:6|unique:users,employee_id,'.$post->id,
+                'shift' => 'required',
             ]);
 
             $post->update([
@@ -163,11 +168,12 @@ class Supv extends Component
                 'department' => $this->department,
                 'position' => $this->position,
                 'image' => $newImage,
+                'shift' => $this->shift,
             ]);
 
             session()->flash('message', 'Supervisor updated successfully.');
             $this->closeModal();
-            $this->reset('first_name', 'last_name' ,'employee_id','email','department','position', 'postId');
+            $this->reset('first_name', 'last_name' ,'employee_id','email','department','position', 'postId', 'shift');
             return redirect()->route('supervisors');
         }
     }

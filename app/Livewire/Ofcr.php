@@ -42,11 +42,12 @@ class Ofcr extends Component
     public $deleteOpen = 0;
     public $imageOpen = 0;
     public $postId;
+    public $shift;
 
 
 
     public function create(){
-        $this->reset('first_name','last_name','employee_id','email','department','position','postId');
+        $this->reset('first_name','last_name','employee_id','email','department','position','postId','shift');
         $this->openModal();
     }
 
@@ -58,6 +59,7 @@ class Ofcr extends Component
             'position' => 'required',
             'employee_id' => 'required|int',
             'email' => 'required|email|unique:users',
+            'shift' => 'required',
         ]);
         User::create([
             'first_name' => $this->first_name,
@@ -67,6 +69,7 @@ class Ofcr extends Component
             'email' => $this->email,
             'department' => $this->department,
             'position' => $this->position,
+            'shift' => $this->shift,
             'role' => $this->role,
             'image' => $this->image,
             'password' => $this->password,
@@ -113,6 +116,7 @@ class Ofcr extends Component
         $this->email = $post->email;
         $this->department = $post->department;
         $this->position = $post->position;
+        $this->shift = $post->shift;
 
         $this->openModal();
     }
@@ -126,6 +130,7 @@ class Ofcr extends Component
                 'department' => 'required',
                 'position' => 'required',
                 'employee_id' => 'required|int',
+                'shift' => 'required',
             ]);
 
             $post->update([
@@ -136,6 +141,7 @@ class Ofcr extends Component
                 'email' => $this->email,
                 'department' => $this->department,
                 'position' => $this->position,
+                'shift' => $this->shift,
             ]);
             session()->flash('message', 'Officer account updated successfully.');
             $this->closeModal();

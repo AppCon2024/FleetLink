@@ -36,6 +36,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'image' => 'img/karl.png',
             'remember_token' => Str::random(10),
+            'shift' => fake()->randomElement(['Morning','Night']),
 
         ];
     }
