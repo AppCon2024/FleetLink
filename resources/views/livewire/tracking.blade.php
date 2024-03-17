@@ -1,3 +1,10 @@
+<style>
+    #map {
+            flex: 1;
+            height: 75vh; /* Full height of the viewport */
+        }
+</style>
+
 <div class="w-auto px-3 overflow-auto">
     <div class="flex flex-row overflow-auto">
         <div class="pr-3 hidden sm:block">
