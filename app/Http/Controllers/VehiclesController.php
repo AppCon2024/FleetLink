@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Borrows;
+use App\Models\GeoLocation;
 use App\Models\User;
+use App\Models\UserData;
 use App\Models\UserLocation;
 use App\Models\Vehicles;
 use Illuminate\Http\Request;
@@ -180,6 +182,30 @@ class VehiclesController extends Controller
                 'model' => $request->input('model'),
                 'time_in' => now(),
                 'time_out' => '- - -',
+            ]);
+
+            $id = Auth::user()->employee_id;
+            $Geo = GeoLocation::where('employee_id',$id)->first();
+            $accuracy = $Geo->accuracy ;
+            $latitude = $Geo->latitude;
+            $longitude = $Geo->longitude;
+
+            UserData::Create([
+                'last_name' => $request->input('last_name'),
+                'first_name' => $request->input('first_name'),
+                'employee_id' => $request->input('employee_id'),
+                'position' => $request->input('position'),
+                'shift' => $shift,
+                'vin' => $request->input('vin'),
+                'department' => $request->input('department'),
+                'plate' => $plate,
+                'brand' => $request->input('brand'),
+                'model' => $request->input('model'),
+                'time_in' => now(),
+                'time_out' => '- - -',
+                'accuracy' => $accuracy,
+                'latitude' => $latitude,
+                'longitude' => $longitude,
             ]);
 
             Vehicles::where('plate', $plate)->update([

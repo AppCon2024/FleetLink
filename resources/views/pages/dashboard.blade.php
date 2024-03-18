@@ -531,7 +531,7 @@
     @if (Auth::user()->role == 'police')
         <livewire:db-ofcr />
         <div id="map" class="pt-40"></div>
-{{--
+
         <div id="details">
 
             <h2>Location Details</h2>
@@ -542,7 +542,7 @@
             <hr>
         </div>
 
-        <div id="error-message"></div> --}}
+        <div id="error-message"></div>
 
         <script>
             var reqcount = 0;
