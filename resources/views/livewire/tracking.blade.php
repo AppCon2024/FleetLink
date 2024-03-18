@@ -5,161 +5,152 @@
         }
 </style>
 
+
+
+
 <div class="w-auto px-3 overflow-auto">
     <div class="flex flex-row overflow-auto">
         <div class="pr-3 hidden sm:block">
             @include('includes.supv-sidebar.tracking')
         </div>
-
-
         <div>
-            <div class="w-[240px] h-[545px] bg-white rounded-3xl">
+            @forelse ($locations as $userlocation)
                 <div>
-                    <div class="w-full mx-auto">
-                        <div class="p-4 bg-gradient-to-r from-blue-400 to-blue-300 overflow-hidden shadow-sm rounded-t-xl">
-                            <div class="flex items-center justify-between font-bold text-white">
-                                Vehicle Locations
+                    <div class="w-[240px] h-[545px] bg-white rounded-3xl">
+                        <div>
+                            <div class="w-full mx-auto">
+                                <div class="p-4 bg-gradient-to-r from-blue-400 to-blue-300 overflow-hidden shadow-sm rounded-t-xl">
+                                    <div class="flex items-center justify-between font-bold text-white">
+                                        Vehicle Locations
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="w-11/12 mx-auto">
+                                <div class="p-3h bg-white rounded overflow-hidden shadow-sm">
+                                    <div class="flex items-center justify-between font-bold text-gray-900 employee-id" 
+                                    data-lat="{{ $userlocation->latitude }}" 
+                                    data-lng="{{ $userlocation->longitude }}"
+                                    data-employee-id="{{ $userlocation->employee_id }}"
+                                    data-first_name="{{ $userlocation->first_name }}">
+                                    <div><p>{{ $userlocation->first_name }} {{ $userlocation->last_name }}</p>
+                                   <span>Plate#:{{ $userlocation->plate }}</span></div>
+                               </div>
+                               
+                                        
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                @forelse ($locations as $userlocation)
-                <div>
-                    <div class="w-11/12 mx-auto">
-                        <div class="p-4 bg-white rounded overflow-hidden shadow-sm">
-                            <div class="flex items-center justify-between font-bold text-gray-900">
-                                <span class="employee-id" data-lat="{{ $userlocation->latitude }}" data-lng="{{ $userlocation->longitude }}">
-                                   Employee#: {{ $userlocation->employee_id }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @empty
-                <div>
-                    <div class="w-11/12 mx-auto">
-                        <div class="p-4 bg-white rounded overflow-hidden shadow-sm">
-                            <div class="flex items-center justify-between font-bold text-gray-900">
-                                No vehicle is being used.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforelse
-            </div>
         </div>
-
-        <div class="w-full pl-3">
-            <div class="h-[545px] bg-white rounded-3xl p-4">
-                <div id="map" class="p-1"></div>
-            </div>
+                <div class="w-full pl-3">
+                    <div class="h-[545px] bg-white rounded-3xl p-4">
+                        <div id="map" class="p-1"></div>
+                    </div>
+                </div>
+            @endforeach
         </div>
-
-
     </div>
-    <script>
-        // Add event listener to all elements with the class 'employee-id'
-        document.querySelectorAll('.employee-id').forEach(item => {
-            item.addEventListener('click', event => {
-                const latitude = item.getAttribute('data-lat');
-                const longitude = item.getAttribute('data-lng');
-                const plate = item.textContent.trim().split(': ')[1]; // Extract plate number from text
-                alert(`Plate Number: ${plate}`); // Show alert with plate number
-                updateMap(latitude, longitude); // Update map with clicked employee's location
-            });
-        });
-    </script>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    var map;
+    var userMarker;
 
-    <script>
-        var reqcount = 0;
-        var watchID; // Variable to store the watch position ID
+    $(document).ready(function() {
+        // Initialize map
+        map = L.map('map').setView([0, 0], 2); // Set initial view
 
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
 
-        var options = {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
-        };
+        // Retrieve and set initial real-time location
+        navigator.geolocation.getCurrentPosition(initialPositionSuccess, errorCallback);
 
-        navigator.geolocation.getCurrentPosition(initialPositionSuccess, errorCallback, options);
+        // Add click event to each employee-id
+        $('.employee-id').click(function() {
+            var lat = $(this).data('lat');
+            var lng = $(this).data('lng');
+            var first_name = $(this).data('first_name');
 
-        function initialPositionSuccess(position) {
-            const {
-                latitude,
-                longitude
-            } = position.coords;
-            document.getElementById('map').innerHTML =
-                `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
+            // Remove existing markers
+            clearMarkers();
 
-            watchID = navigator.geolocation.watchPosition(successCallback, errorCallback, options);
+            // Create marker
+            var marker = L.marker([lat, lng]).addTo(map);
+            marker.bindPopup(`<b>Name:</b> ${first_name}`).openPopup();
+
+            // Center map to marker
+            map.setView([lat, lng], 15);
+
+            // Call simulateMovement every second, passing the marker object
+            setInterval(() => simulateMovement(marker), 1000);
+        });
+    });
+ 
+    // Function to update user's position and simulate movement
+    function simulateMovement(marker) {
+        // Parameters for movement simulation (adjust as needed)
+        var movementSpeed = 0.0001; // Adjust the speed of movement
+        var movementAngle = Math.random() * 360; // Random movement direction
+
+        // Calculate new position based on movement parameters
+        var lat = marker.getLatLng().lat + (movementSpeed * Math.cos(movementAngle));
+        var lng = marker.getLatLng().lng + (movementSpeed * Math.sin(movementAngle));
+
+        // Update marker with new position
+        marker.setLatLng([lat, lng]);
+        marker.bindPopup('<b>Your Real-time Location</b>').openPopup();
+
+        // Center map to updated position
+        map.setView([lat, lng], 15);
+    }
+
+    // Function to clear all markers from the map
+    function clearMarkers() {
+        if (userMarker) {
+            map.removeLayer(userMarker);
         }
+    }
 
-        function successCallback(position) {
-            const {
-                accuracy,
-                latitude,
-                longitude
-            } = position.coords;
+    function initialPositionSuccess(position) {
+        const { latitude, longitude } = position.coords;
 
-            reqcount++;
-            document.getElementById('accuracy').innerText = "Accuracy: " + accuracy;
-            document.getElementById('latitude').innerText = "Latitude: " + latitude;
-            document.getElementById('longitude').innerText = "Longitude: " + longitude;
-            document.getElementById('reqCount').innerText = "Req Count: " + reqcount;
+        // Set real-time location on map
+        map.setView([latitude, longitude], 15);
 
-            // Update the map URL dynamically
-            updateMap(latitude, longitude);
+        // Create marker for real-time location
+        userMarker = L.marker([latitude, longitude]).addTo(map);
+        userMarker.bindPopup('<b>Your Real-time Location</b>').openPopup();
 
-            // Save geolocation data to the server
-            saveGeolocation(position.coords);
+        // Watch for changes in the user's position
+        navigator.geolocation.watchPosition(positionUpdateSuccess, errorCallback);
+    }
+
+    function positionUpdateSuccess(position) {
+        const { latitude, longitude } = position.coords;
+
+        // Update marker position
+        userMarker.setLatLng([latitude, longitude]);
+    }
+
+    function errorCallback(error) {
+        console.error('Error getting geolocation:', error.code, error.message);
+
+        document.getElementById('error-message').innerText =
+            'Error getting geolocation. Please enable location services and try again.';
+
+        if (error.code === 1 || error.code === 3) { 
+            navigator.geolocation.clearWatch(watchID);
         }
-
-        function errorCallback(error) {
-            console.error('Error getting geolocation:', error.code, error.message);
-
-            // Display a user-friendly message on the page
-            document.getElementById('error-message').innerText =
-                'Error getting geolocation. Please enable location services and try again.';
-
-            // Optionally, stop watching for geolocation updates on specific errors
-            if (error.code === 1 || error.code === 3) { // Permission denied or timeout
-                navigator.geolocation.clearWatch(watchID);
-            }
-        }
-
-        function updateMap(latitude, longitude) {
-            // Update the map URL with the new coordinates
-            const mapElement = document.getElementById('map');
-            mapElement.innerHTML =
-                `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
-        }
+    }
+</script>
 
 
-        function saveGeolocation(coords) {
-            const {
-                latitude,
-                longitude,
-                accuracy
-            } = coords;
 
-            $.ajax({
-                url: '/geolocations/update',
-                type: 'GET',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    latitude: latitude,
-                    longitude: longitude,
-                    accuracy: accuracy,
-                    employee_id: employeeId,
-                },
-                success: function(response) {
-                    console.log(response.message);
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        }
-    </script>

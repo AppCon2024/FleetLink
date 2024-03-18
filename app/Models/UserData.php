@@ -25,4 +25,20 @@ class UserData extends Model
         'latitude',
         'longitude',
     ];
+
+ /**
+     * Update the geolocation data.
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function updateGeolocation(array $data)
+    {
+        return $this->update([
+            'latitude' => $data['latitude'],
+            'longitude' => $data['longitude'],
+            'accuracy' => $data['accuracy'],
+            // Add other fields as needed
+        ]);
+    }
 }

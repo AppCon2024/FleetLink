@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GeoLocation;
+// use App\Models\GeoLocation;
+use App\Models\UserData;
 use Illuminate\Http\Request;
 
 class UserLocation extends Controller
@@ -15,7 +16,7 @@ class UserLocation extends Controller
         $accuracy = $request->input('accuracy');
 
         // Check if a record with the given employee_id already exists
-        $geolocation = Geolocation::where('employee_id', $employeeId)->first();
+        $geolocation =UserData::where('employee_id', $employeeId)->first();
 
         if ($geolocation) {
             // Update the existing record
@@ -25,7 +26,7 @@ class UserLocation extends Controller
             $geolocation->save();
         } else {
             // Create a new record
-            $geolocation = Geolocation::updateOrCreate(
+            $geolocation = UserData::updateOrCreate(
                 ['employee_id' => $employeeId],
                 ['latitude' => $latitude, 'longitude' => $longitude, 'accuracy' => $accuracy]
             );
