@@ -28,7 +28,6 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-
 Route::redirect('/', destination: 'landing-page');
 
 Route::get('/landing-page', function(){

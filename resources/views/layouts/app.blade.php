@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('chatify-meta')
     <title>{{ config('app.name', 'FleetLink') }} | {{ isset($title) ? $title : 'Dashboard' }}</title>
-
+    
     <!--Scanner-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js">
     </script>

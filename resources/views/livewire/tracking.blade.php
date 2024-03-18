@@ -46,22 +46,20 @@
     </div>
 </div>
 
-<!-- JavaScript -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    var marker; 
+
     $(document).ready(function() {
-        // Initial position callback to display the live location
         navigator.geolocation.getCurrentPosition(initialPositionSuccess, errorCallback);
 
         $('.employee-id').click(function() {
             var employeeId = $(this).data('employee-id');
             var lat = $(this).data('lat');
             var lng = $(this).data('lng');
-            
-            // Update the map with the clicked employee's location
+
             updateMap(lat, lng);
 
-            // Optional: You can also display a message or perform any other action here
             console.log('Clicked employee ID: ' + employeeId);
         });
     });
@@ -69,34 +67,43 @@
     function initialPositionSuccess(position) {
         const { latitude, longitude } = position.coords;
 
-        // Update the map with the initial coordinates
         updateMap(latitude, longitude);
     }
 
     function successCallback(position) {
         const { latitude, longitude } = position.coords;
 
-        // Update the map with the new live coordinates
         updateMap(latitude, longitude);
+        
+        moveMarker(latitude, longitude);
     }
 
     function errorCallback(error) {
         console.error('Error getting geolocation:', error.code, error.message);
 
-        // Display a user-friendly message on the page
         document.getElementById('error-message').innerText =
             'Error getting geolocation. Please enable location services and try again.';
 
-        // Optionally, stop watching for geolocation updates on specific errors
-        if (error.code === 1 || error.code === 3) { // Permission denied or timeout
+        if (error.code === 1 || error.code === 3) { 
             navigator.geolocation.clearWatch(watchID);
         }
     }
 
     function updateMap(latitude, longitude) {
-        // Update the map URL with the new coordinates
         const mapElement = document.getElementById('map');
         mapElement.innerHTML =
             `<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=${latitude},${longitude}&amp;z=15&amp;output=embed&iwloc=near"></iframe>`;
     }
+    function moveMarker(latitude, longitude) {
+        if (!marker) {
+            marker = new google.maps.Marker({
+                position: { lat: latitude, lng: longitude },
+                map: map,
+                title: 'User Location'
+            });
+        } else {
+            marker.setPosition({ lat: latitude, lng: longitude });
+        }
+    }
 </script>
+
