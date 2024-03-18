@@ -14,7 +14,7 @@
             @include('includes.supv-sidebar.tracking')
         </div>
         <div>
-            @forelse ($locations as $userlocation)
+
                 <div>
                     <div class="w-[240px] h-[545px] bg-white rounded-3xl">
                         <div>
@@ -27,21 +27,20 @@
                             </div>
                         </div>
                         <div>
-                            <div class="w-11/12 mx-auto">
-                                <div class="p-3h bg-white rounded overflow-hidden shadow-sm">
-                                    <div class="flex items-center justify-between font-bold text-gray-900 employee-id" 
-                                    data-lat="{{ $userlocation->latitude }}" 
+                            @forelse ($locations as $userlocation)
+                            <div class="w-full mx-auto">
+                                <div class="m-2 bg-gray-100 rounded overflow-hidden shadow-sm">
+                                    <div class="flex items-center justify-between font-bold text-gray-900 employee-id p-2"
+                                    data-lat="{{ $userlocation->latitude }}"
                                     data-lng="{{ $userlocation->longitude }}"
                                     data-employee-id="{{ $userlocation->employee_id }}"
                                     data-first_name="{{ $userlocation->first_name }}">
                                     <div><p>{{ $userlocation->first_name }} {{ $userlocation->last_name }}</p>
                                    <span>Plate#:{{ $userlocation->plate }}</span></div>
                                </div>
-                               
-                                        
-
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -51,7 +50,7 @@
                         <div id="map" class="p-1"></div>
                     </div>
                 </div>
-            @endforeach
+
         </div>
     </div>
 </div>
@@ -93,7 +92,7 @@
             setInterval(() => simulateMovement(marker), 1000);
         });
     });
- 
+
     // Function to update user's position and simulate movement
     function simulateMovement(marker) {
         // Parameters for movement simulation (adjust as needed)
@@ -146,7 +145,7 @@
         document.getElementById('error-message').innerText =
             'Error getting geolocation. Please enable location services and try again.';
 
-        if (error.code === 1 || error.code === 3) { 
+        if (error.code === 1 || error.code === 3) {
             navigator.geolocation.clearWatch(watchID);
         }
     }
