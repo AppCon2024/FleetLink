@@ -61,9 +61,9 @@
                                     <img src="{{ asset($supv->image) }}" width='30' height="30">
                                 </button>
                             </td>
-                            <td class="px-4 py-3 text-blue-700">{{ $supv->name }}</td>
-                            <td class="px-4 py-3">{{ $supv->department }}</td>
-                            <td class="px-4 py-3">{{ $supv->position }}</td>
+                            <td class="px-4 py-3 text-xs text-blue-700">{{ $supv->name }}</td>
+                            <td class="px-4 py-3 text-xs">{{ $supv->department }}</td>
+                            <td class="px-4 py-3 text-xs">{{ $supv->position }}</td>
                             <td class="px-4 py-3 text-center">
                                 <span class="bg-gray-200 border border-gray-400 py-1 px-3 text-xs text-gray-900 rounded-full ">{{ $supv->shift }}</span></td>
                             <td class="px-4 py-3 ">

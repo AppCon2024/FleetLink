@@ -61,7 +61,7 @@
                                 <img src="{{ asset($ofcr->image) }}" width='30' height="30">
                                 </button>
                             </td>
-                            <td class="px-4 py-3 text-blue-700">
+                            <td class="px-4 py-3 text-xs text-blue-700">
                                 {{ $ofcr->name }}</td>
                             <td class="px-4 py-3 text-xs">{{ $ofcr->department }}</td>
                             <td class="px-4 py-3 text-xs">{{ $ofcr->position }}</td>
