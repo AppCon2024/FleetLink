@@ -14,6 +14,7 @@ class Borrows extends Model
         'first_name',
         'employee_id',
         'position',
+        'shift',
         'department',
         'plate',
         'brand',

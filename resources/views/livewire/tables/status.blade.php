@@ -42,6 +42,10 @@
                             'displayName' => 'Lastname',
                         ])
                         @include('livewire.includes.table-sortable-th', [
+                            'tablesadb' => 'shift',
+                            'displayName' => 'Shift',
+                        ])
+                        @include('livewire.includes.table-sortable-th', [
                             'tablesadb' => 'plate',
                             'displayName' => 'plate',
                         ])
@@ -73,6 +77,8 @@
                                 {{ $stts->first_name }}</td>
                             <td class="px-4 py-3">
                                 {{ $stts->last_name }}</td>
+                            <td class="px-4 py-3">
+                                {{ $stts->shift }}</td>
                             <td class="px-4 py-3">
                                 {{ $stts->plate }}</td>
                             <td class="px-4 py-3">

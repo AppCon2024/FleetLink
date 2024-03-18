@@ -147,6 +147,7 @@ class VehiclesController extends Controller
             $finish = Auth::user()->employee_id;
             $update = Borrows::where('employee_id', $finish);
 
+
             if($update)
             {
                 $update->update([
@@ -165,11 +166,13 @@ class VehiclesController extends Controller
         }
         else
         {
+            $shift = Auth::user()->shift;
             $data = Borrows::create([
                 'last_name' => $request->input('last_name'),
                 'first_name' => $request->input('first_name'),
                 'employee_id' => $request->input('employee_id'),
                 'position' => $request->input('position'),
+                'shift' => $shift,
                 'vin' => $request->input('vin'),
                 'department' => $request->input('department'),
                 'plate' => $plate,

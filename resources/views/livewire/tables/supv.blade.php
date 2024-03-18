@@ -65,14 +65,14 @@
                             <td class="px-4 py-3">{{ $supv->department }}</td>
                             <td class="px-4 py-3">{{ $supv->position }}</td>
                             <td class="px-4 py-3 text-center">
-                                <span class="bg-blue-600 py-1 px-3 text-xs text-white rounded">{{ $supv->shift }}</span></td>
+                                <span class="bg-gray-200 border border-gray-400 py-1 px-3 text-xs text-gray-900 rounded-full ">{{ $supv->shift }}</span></td>
                             <td class="px-4 py-3 ">
                                 <span class="bg-{{ $supv->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-xs">
                                     {{ $supv->last_seen >= now()->subMinutes(2) ? 'Online' : 'Offline' }}
                                 </span>
                             </td>
                             <td class="px-4 py-3 text-center ">
-                                <a wire:navigate href="supv/{{$supv->id}}" class= "bg-{{ $supv->status ? 'green' : 'red'}}-500 text-white py-1 px-3 rounded text-sm">
+                                <a wire:navigate href="supv/{{$supv->id}}" class= "bg-{{ $supv->status ? 'green' : 'red'}}-500 text-white py-1 px-3 rounded text-sm hover:bg-gray-200 hover:text-gray-600 border hover:border-blue-800">
                                     {{ $supv->status ? 'Enabled' : 'Disabled'}}
                                 </a>
                             </td>

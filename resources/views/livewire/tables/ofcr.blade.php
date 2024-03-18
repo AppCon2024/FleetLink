@@ -66,7 +66,7 @@
                             <td class="px-4 py-3 text-xs">{{ $ofcr->department }}</td>
                             <td class="px-4 py-3 text-xs">{{ $ofcr->position }}</td>
                             <td class="px-4 py-3 text-center">
-                                <span class="bg-blue-600 py-1 px-3 text-xs text-white rounded">{{ $ofcr->shift }}</span></td>
+                                <span class="bg-gray-200 border border-gray-400 py-1 px-3 text-xs text-gray-900 rounded-full ">{{ $ofcr->shift }}</span></td>
                             <td class="px-4 py-3 ">
                                 <span
                                     class="bg-{{ $ofcr->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-xs">

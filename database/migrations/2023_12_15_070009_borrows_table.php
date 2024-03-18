@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('employee_id');
             $table->string('position');
+            $table->string('shift');
             $table->string('department');
             $table->string('vin');
             $table->string('plate');
