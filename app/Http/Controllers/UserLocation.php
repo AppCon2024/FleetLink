@@ -15,7 +15,7 @@ class UserLocation extends Controller
         $accuracy = $request->input('accuracy');
 
         // Check if a record with the given employee_id already exists
-        $geolocation = Geolocation::where('employee_id', $employeeId)->first();
+        $geolocation =Geolocation::where('employee_id', $employeeId)->first();
 
         if ($geolocation) {
             // Update the existing record
