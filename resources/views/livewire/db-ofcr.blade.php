@@ -286,7 +286,7 @@
             } = coords;
 
             $.ajax({
-                url: '/geolocations/update',
+                url: '/user-data/update',
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',

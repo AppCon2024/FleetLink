@@ -17,17 +17,17 @@
 @endif
 
 @if ($isOpen)
-    <div class="fixed inset-0 flex items-center justify-center z-50">
+    <div class="absolute inset-0 flex items-center justify-center z-50">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative bg-white p-4 rounded-xl shadow-lg w-1/2 ">
+        <div class="relative bg-white p-4 rounded-xl shadow-lg sm:max-w-2xl max-w-xs">
             <!-- Modal content goes here -->
             <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">
-                <h2 class="pl-2 text-xl font-semibold text-gray-900 dark:text-white">
+                <h2 class="pl-2 sm:text-xl text-sm font-semibold text-gray-900 dark:text-white">
                     @if ($postId)
-                        <i class="ri-edit-2-fill mr-1 text-lg bg-blue-300 p-3 rounded-full"></i> Edit
+                        <i class="ri-edit-2-fill mr-1 sm:text-lg text-sm bg-blue-300 p-2.5 rounded-full"></i> Edit
                         {{ $name }}'s Information
                     @else
-                        <i class="ri-add-line text-lg bg-blue-200 p-4 rounded-full"></i> Add a Supervisor Account
+                        <i class="ri-add-line sm:text-lg text-sm bg-blue-200 p-2.5 rounded-full"></i> Add a Supervisor Account
                     @endif
                     {{-- {{ $postId ? 'Edit User Information' : 'Add a Supervisor Account' }} --}}
                 </h2>
@@ -43,7 +43,7 @@
 
             <form wire:submit.prevent="{{ $postId ? 'update' : 'store' }}">
 
-                <div class="grid gap-1 mb-4 mt-4 sm:grid-cols-2 px-4">
+                <div class="grid gap-3 mb-4 mt-4 sm:grid-cols-2 px-4">
 
                     <!--User Image Preview-->
                     <div class="flex flex-row justify-center items-center">
@@ -85,7 +85,7 @@
                         @if ($postId)
                             <x-input-label for="profile_picture" :value="$postId ? __('Update Image') : __('Image')" />
                             <input wire:model="newImage" accept="image/png, image/jpeg" type="file" id="image"
-                                class="ring-1 ring-inset ring-blue-300 bg-blue-100 text-gray-900 text-sm rounded block w-full">
+                                class="ring-1 ring-inset ring-blue-300 bg-blue-100 text-gray-900 sm:text-sm text-xs rounded block w-full">
                             @error('image')
                                 <p class="text-red-500 text-xs p-1">
                                     {{ $message }}
@@ -94,7 +94,7 @@
                         @else
                             <x-input-label for="profile_picture" :value="$postId ? __('Update Image') : __('Image')" />
                             <input wire:model="image" accept="image/png, image/jpeg" type="file" id="image"
-                                class="ring-1 ring-inset ring-blue-300 bg-blue-100 text-gray-900 text-sm rounded block w-full">
+                                class="ring-1 ring-inset ring-blue-300 bg-blue-100 text-gray-900 sm:text-sm text-xs rounded block w-full">
                             @error('image')
                                 <p class="text-red-500 text-xs p-1">
                                     {{ $message }}
@@ -104,7 +104,7 @@
                     </div>
 
                     <!--FirstName -->
-                    <div>
+                    <div class="mt-2">
                         <x-input-label for="first_name" :value="__('Firstname')" />
                         <x-text-input wire:model="first_name" id="first_name" class="block mt-1 w-full" type="text"
                             name="first_name" :value="old('first_name')" required autofocus autocomplete="first_name" />
@@ -112,7 +112,7 @@
                     </div>
 
                     <!-- LastName -->
-                    <div>
+                    <div class="mt-2">
                         <x-input-label for="last_name" :value="__('Lastname')" />
                         <x-text-input wire:model="last_name" id="last_name" class="block mt-1 w-full" type="text"
                             name="last_name" :value="old('last_name')" required autofocus autocomplete="last_name" />
@@ -226,6 +226,7 @@
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
+                    <!-- Shift -->
                     <div>
                         <label for="shift" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Shift</label>
                         <select name="shift" wire:model="shift"

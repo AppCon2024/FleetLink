@@ -1,6 +1,6 @@
-<nav x-data="{ open: false }" class="flex justify-center z-10">
+<nav x-data="{ open: false }" class="flex justify-center z-50">
 
-    <div class="w-full bg-blue-200 m-3 rounded-3xl z-10">
+    <div class="w-full bg-blue-200 m-3 rounded-3xl z-50">
         <!-- Primary Navigation Menu -->
         <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">

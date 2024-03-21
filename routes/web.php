@@ -10,6 +10,7 @@ use App\Models\Supervisors;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SmsController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\savelocation;
 use App\Http\Controllers\SupvController;
 use App\Http\Controllers\UserLocation;
 use App\Livewire\Ofcr;
@@ -60,6 +61,8 @@ Route::get('supv/{id}',[Supv::class, 'status']);
 Route::get('ofcr/{id}',[Ofcr::class, 'status']);
 Route::post('/geolocations/update', [UserLocation::class, 'saveGeolocation']);
 Route::get('/employees/{employeeId}/location', [UserLocation::class, 'saveGeolocation']);
+Route::post('/user-data/update', [savelocation::class, 'saveGeolocation']);
+
 
 Route::controller(SupervisorsController::class)->group(function(){
     Route::get('/supervisors','index')->middleware(['auth', 'verified'])->name('supervisors');

@@ -47,8 +47,8 @@ class UserAccounts extends Seeder
             'shift' => 'Morning'
         ]);
 
-        // seeding collector
-        $collector = User::create([
+        // supervisor
+        User::create([
             'status' => 1,
             'image' => 'img/kurt.jpg',
             'last_name' => 'Nanalis',
@@ -74,7 +74,7 @@ class UserAccounts extends Seeder
             'first_name' => 'Ma. Leah',
             'employee_id' => '543235',
             'name' => 'Ma. Leah Oquindo',
-            'email' => 'leah@gmail.com',
+            'email' => 'leah@c.c',
             'email_verified_at' => '2024-03-01 01:33:52',
             'password' => Hash::make('12345'),
             'role' => 'police',
@@ -87,11 +87,43 @@ class UserAccounts extends Seeder
         $police = User::create([
             'status' => 1,
             'image' => 'img/user.jpg',
-            'last_name' => 'Officer',
-            'first_name' => 'Account',
+            'last_name' => 'Nanalis',
+            'first_name' => 'Kurt Axel',
             'employee_id' => '434564',
+            'name' => 'Kurt Axel Nanalis',
+            'email' => 'kurt@c.c',
+            'email_verified_at' => '2024-03-01 01:33:52',
+            'password' => Hash::make('12345'),
+            'role' => 'police',
+            'department' => 'Software Developer/Admin',
+            'position' => 'Patrolman',
+            'shift' => 'Morning'
+        ]);
+
+        $police = User::create([
+            'status' => 1,
+            'image' => 'img/user.jpg',
+            'last_name' => 'Fabro',
+            'first_name' => 'Ma. Joana',
+            'employee_id' => '642433',
             'name' => 'Officer Account',
-            'email' => 'user@c.c',
+            'email' => 'joana@c.c',
+            'email_verified_at' => '2024-03-01 01:33:52',
+            'password' => Hash::make('12345'),
+            'role' => 'police',
+            'department' => 'Software Developer/Admin',
+            'position' => 'Patrolman',
+            'shift' => 'Morning'
+        ]);
+
+        $police = User::create([
+            'status' => 1,
+            'image' => 'img/user.jpg',
+            'last_name' => 'Doctolero',
+            'first_name' => 'Karl Lewis',
+            'employee_id' => '642433',
+            'name' => 'Karl Lewis Doctolero',
+            'email' => 'karl@c.c',
             'email_verified_at' => '2024-03-01 01:33:52',
             'password' => Hash::make('12345'),
             'role' => 'police',

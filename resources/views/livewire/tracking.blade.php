@@ -34,13 +34,24 @@
                                     data-lat="{{ $userlocation->latitude }}"
                                     data-lng="{{ $userlocation->longitude }}"
                                     data-employee-id="{{ $userlocation->employee_id }}"
-                                    data-first_name="{{ $userlocation->first_name }}">
+                                    data-first_name="{{ $userlocation->first_name }}"
+                                    data-last_name="{{ $userlocation->last_name }}">
+
                                     <div><p>{{ $userlocation->first_name }} {{ $userlocation->last_name }}</p>
                                    <span>Plate#:{{ $userlocation->plate }}</span></div>
                                </div>
                                 </div>
                             </div>
-                            @endforeach
+                            @empty
+                             <div class="w-full mx-auto">
+                                <div class="m-2 bg-gray-100 rounded overflow-hidden shadow-sm">
+                                     <div class="flex items-center justify-between font-bold text-gray-900 employee-id p-2">
+                                         <span class="p-2">No Vehicle is currenly being used.</span>
+                                     </div>
+                               </div>
+                            </div>
+
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -77,6 +88,7 @@
             var lat = $(this).data('lat');
             var lng = $(this).data('lng');
             var first_name = $(this).data('first_name');
+            var last_name = $(this).data('last_name');
 
 
             // Remove existing markers
@@ -84,7 +96,7 @@
 
             // Create marker
             var marker = L.marker([lat, lng]).addTo(map);
-            marker.bindPopup(`<b>Name:</b> ${first_name}`).openPopup();
+            marker.bindPopup(`<b>Name:</b> ${first_name} ${last_name} `).openPopup();
 
             // Center map to marker
             map.setView([lat, lng], 15);
@@ -97,8 +109,8 @@
     // Function to update user's position and simulate movement
     function simulateMovement(marker) {
         // Parameters for movement simulation (adjust as needed)
-        var movementSpeed = 0.0001; // Adjust the speed of movement
-        var movementAngle = Math.random() * 360; // Random movement direction
+        var movementSpeed = 0.00001; // Adjust the speed of movement
+        var movementAngle = Math.random() * 100; // Random movement direction
 
         // Calculate new position based on movement parameters
         var lat = marker.getLatLng().lat + (movementSpeed * Math.cos(movementAngle));
@@ -106,10 +118,10 @@
 
         // Update marker with new position
         marker.setLatLng([lat, lng]);
-        marker.bindPopup('<b>Your Real-time Location</b>').openPopup();
+        // marker.bindPopup('<b>Your Real-time Location</b>').openPopup();
 
         // Center map to updated position
-        map.setView([lat, lng], 15);
+        // map.setView([lat, lng], 15);
     }
 
     // Function to clear all markers from the map
@@ -126,8 +138,8 @@
         map.setView([latitude, longitude], 15);
 
         // Create marker for real-time location
-        userMarker = L.marker([latitude, longitude]).addTo(map);
-        userMarker.bindPopup('<b>Your Real-time Location</b>').openPopup();
+        // userMarker = L.marker([latitude, longitude]).addTo(map);
+        // userMarker.bindPopup('<b>Your Real-time Location</b>').openPopup();
 
         // Watch for changes in the user's position
         navigator.geolocation.watchPosition(positionUpdateSuccess, errorCallback);

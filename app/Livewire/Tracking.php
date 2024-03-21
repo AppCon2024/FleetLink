@@ -10,7 +10,7 @@ class Tracking extends Component
 {
     public function render()
     {
-        $locations = UserData::all();
+        $locations = UserData::where('time_out','- - -')->get();
         return view('livewire.tracking',[
             'locations' => $locations
         ]);

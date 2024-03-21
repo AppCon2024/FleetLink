@@ -250,7 +250,7 @@
 
     @if (Auth::user()->role == 'police')
     <div>
-        <div class="w-auto px-3 mx-auto">
+        <div class="w-auto px-3 mx-auto mt-10 sm:mt-0">
             <div class="flex overflow-hidden h-fit">
                 <div class="pr-3 hidden sm:block">
                     @include('includes.supv-sidebar.messages')

@@ -149,7 +149,6 @@ class VehiclesController extends Controller
             $finish = Auth::user()->employee_id;
             $update = Borrows::where('employee_id', $finish);
 
-
             if($update)
             {
                 $update->update([
@@ -159,6 +158,11 @@ class VehiclesController extends Controller
                 Vehicles::where('plate', $plate)->update([
                             'status' => 1,
                          ]);
+
+                UserData::where('plate',$plate)->update([
+                            'time_out' => now(),
+                        ]);
+
                 return redirect()->route('dashboard')->with('message', 'You are now disconnected from the vehicle.');
             }
             else
