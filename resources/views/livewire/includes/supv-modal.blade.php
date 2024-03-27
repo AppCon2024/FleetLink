@@ -27,7 +27,7 @@
                         <i class="ri-edit-2-fill mr-1 sm:text-lg text-sm bg-blue-300 p-2.5 rounded-full"></i> Edit
                         {{ $name }}'s Information
                     @else
-                        <i class="ri-add-line sm:text-lg text-sm bg-blue-200 p-2.5 rounded-full"></i> Add a Supervisor Account
+                        <i class="ri-add-line mr-1 sm:text-lg text-sm bg-blue-300 p-2.5 rounded-full"></i> Add a Supervisor Account
                     @endif
                     {{-- {{ $postId ? 'Edit User Information' : 'Add a Supervisor Account' }} --}}
                 </h2>
@@ -104,7 +104,7 @@
                     </div>
 
                     <!--FirstName -->
-                    <div class="mt-2">
+                    <div>
                         <x-input-label for="first_name" :value="__('Firstname')" />
                         <x-text-input wire:model="first_name" id="first_name" class="block mt-1 w-full" type="text"
                             name="first_name" :value="old('first_name')" required autofocus autocomplete="first_name" />
@@ -112,7 +112,7 @@
                     </div>
 
                     <!-- LastName -->
-                    <div class="mt-2">
+                    <div>
                         <x-input-label for="last_name" :value="__('Lastname')" />
                         <x-text-input wire:model="last_name" id="last_name" class="block mt-1 w-full" type="text"
                             name="last_name" :value="old('last_name')" required autofocus autocomplete="last_name" />
@@ -120,7 +120,7 @@
                     </div>
 
                     <!-- Department -->
-                    <div class="mt-2">
+                    <div>
                         <label for="department" class="block mb-2 text-sm font-medium text-gray-900">Deparment</label>
                         <select name="department" wire:model="department"
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white mb-2">
@@ -157,7 +157,7 @@
                     </div>
 
                     <!-- Positions -->
-                    <div class="mt-2">
+                    <div>
                         <label for="position" class="block mb-2 text-sm font-medium text-gray-900">Position</label>
                         <select name="position" wire:model="position"
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white  mb-2">
@@ -211,7 +211,7 @@
                     </div>
 
                     <!-- EmployeeId -->
-                    <div class="mt-2">
+                    <div>
                         <x-input-label for="employee_id" :value="__('Employee ID')" />
                         <x-text-input wire:model="employee_id" id="employee_id" class="block mt-1 w-full"
                             type="text" name="employee_id" :value="old('employee_id')" required autocomplete="username" />
@@ -219,11 +219,27 @@
                     </div>
 
                     <!-- Email Address -->
-                    <div class="mt-2">
+                    <div>
                         <x-input-label for="email" :value="__('Email')" />
                         <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email"
                             name="email" :value="old('email')" required autocomplete="username" />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    </div>
+
+                    <!-- station -->
+                    <div>
+                        <label for="station" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Station</label>
+                        <select name="station" wire:model="station"
+                            class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                            <option value="" {{ old('station') == '' ? 'selected' : '' }}></option>
+                            <option value="Station 1" {{ old('station') == 'Station 1' ? 'selected' : '' }}>Station 1</option>
+                            <option value="Station 2" {{ old('station') == 'Station 2' ? 'selected' : '' }}>Station 2</option>
+                        </select>
+                        @error('station')
+                            <p class="text-red-500 text-xs p-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
 
                     <!-- Shift -->

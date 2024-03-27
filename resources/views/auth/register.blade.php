@@ -138,6 +138,24 @@
                 @enderror
             </div>
 
+            <!--Station-->
+            <div>
+                <label for="station" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Station</label>
+                <select name="station"
+                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                    <option value="" {{ old('station') == '' ? 'selected' : '' }}></option>
+                    <option value="Station 1" {{ old('station') == 'Station 1' ? 'selected' : '' }}>Station 1</option>
+                    <option value="Station 2" {{ old('station') == 'Station 2' ? 'selected' : '' }}>Station 2</option>
+                </select>
+                @error('station')
+                    <p class="text-red-500 text-xs p-1">
+                        {{ $message }}
+                    </p>
+                @enderror
+            </div>
+
+
+            <!--Shift-->
             <div>
                 <label for="shift" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Shift</label>
                 <select name="shift"
@@ -156,9 +174,6 @@
             </div>
 
         </div>
-
-        <!-- Photo -->
-
 
         <div class="flex items-center justify-center mt-4">
                 <x-primary-button class="sm:w-9/12 w-full flex items-center justify-center">

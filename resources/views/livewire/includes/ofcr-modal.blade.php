@@ -22,10 +22,16 @@
         <div class="relative bg-white p-4 rounded-xl shadow-lg w-1/2 ">
             <!-- Modal content goes here -->
             <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">
-                <h2 class="pl-4 text-xl font-semibold text-gray-900 dark:text-white">
-                    {{ $postId ? 'Edit User Information' : 'Add a User Account' }}</h2>
+                    <h2 class="pl-2 sm:text-xl text-sm font-semibold text-gray-900 dark:text-white">
+                        @if ($postId)
+                            <i class="ri-edit-2-fill mr-1 sm:text-lg text-sm bg-blue-300 p-2.5 rounded-full"></i> Edit
+                            {{ $name }}'s Information
+                        @else
+                            <i class="ri-add-line mr-1 sm:text-lg text-sm bg-blue-300 p-2.5 rounded-full"></i> Add a Officer Account
+                        @endif
+                    </h2>
                 <button wire:click.prevent="$set('isOpen', false)"
-                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" title="Close Modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -37,22 +43,63 @@
             <form wire:submit.prevent="{{ $postId ? 'update' : 'store' }}">
 
                 <div class="grid gap-3 mb-4 mt-4 sm:grid-cols-2 px-4">
-                    <div>
-                        <x-input-label for="profile_picture" :value="__('Profile Picture')" />
-                        <input wire:model="image" accept="image/png, image/jpeg" type="file" id="image"
-                            class="ring-1 ring-inset ring-blue-300 bg-blue-100 text-gray-900 text-sm rounded block w-full">
-                        @error('image')
-                            <p class="text-red-500 text-xs p-1">
-                                {{ $message }}
-                            </p>
-                        @enderror
+                    <div class="flex flex-row justify-center items-center">
+
+                        @if ($postId)
+                            <div class="flex flex-col justify-center items-center">
+                                <img src="{{ $image }}" width='120' class="border border-blue-400 p-1">
+                                @if ($newImage)
+                                    <x-input-label for="image" :value="__('Old Image')" />
+                                @else
+                                    <x-input-label for="image" :value="__('Image')" />
+                                @endif
+                            </div>
+
+                            <div class="flex flex-col justify-center items-center ml-7">
+                                @if ($newImage)
+                                    <img width='120' src="{{ $newImage->temporaryUrl() }}"
+                                        class="border border-blue-400 p-1">
+                                    <x-input-label for="image" :value="__('New Image')" />
+                                @endif
+                            </div>
+                        @else
+                            @if ($image)
+                                <div class="flex flex-col justify-center items-center">
+                                    <img width='120' src="{{ $image->temporaryUrl() }}"
+                                        class="border border-blue-400 p-1">
+                                    <x-input-label for="image" :value="__('Image Preview')" class="pt-1" />
+                                </div>
+                            @else
+                                <x-input-label for="image" :value="__('Image preview will be shown here.')" />
+                            @endif
+
+                        @endif
+
                     </div>
-                    <div>
-                        {{-- @if ($image)
-                        <x-input-label for="profile_picture" :value="__('Image Preview')" />
-                        <img class="rounded w-10 h-10 flex justify-center" src="{{ $image->temporaryUrl() }}" alt="">
-                        @endif --}}
+
+                    <!--Upload Image-->
+                    <div class="flex flex-col justify-end">
+                        @if ($postId)
+                            <x-input-label for="profile_picture" :value="$postId ? __('Update Image') : __('Image')" />
+                            <input wire:model="newImage" accept="image/png, image/jpeg" type="file" id="image"
+                                class="ring-1 ring-inset ring-blue-300 bg-blue-100 text-gray-900 sm:text-sm text-xs rounded block w-full">
+                            @error('image')
+                                <p class="text-red-500 text-xs p-1">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        @else
+                            <x-input-label for="profile_picture" :value="$postId ? __('Update Image') : __('Image')" />
+                            <input wire:model="image" accept="image/png, image/jpeg" type="file" id="image"
+                                class="ring-1 ring-inset ring-blue-300 bg-blue-100 text-gray-900 sm:text-sm text-xs rounded block w-full">
+                            @error('image')
+                                <p class="text-red-500 text-xs p-1">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        @endif
                     </div>
+                   
 
                     <!--FirstName -->
                     <div>
@@ -176,6 +223,7 @@
                             name="email" :value="old('email')" required autocomplete="username" />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
+
                     <div>
                         <label for="shift" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Shift</label>
                         <select name="shift" wire:model="shift"
@@ -187,6 +235,21 @@
                             </option>
                         </select>
                         @error('shift')
+                            <p class="text-red-500 text-xs p-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+                    
+                    <div>
+                        <label for="station" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Station</label>
+                        <select name="station" wire:model="station"
+                            class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                            <option value="" {{ old('station') == '' ? 'selected' : '' }}></option>
+                            <option value="Station 1" {{ old('station') == 'Station 1' ? 'selected' : '' }}>Station 1</option>
+                            <option value="Station 2" {{ old('station') == 'Station 2' ? 'selected' : '' }}>Station 2</option>
+                        </select>
+                        @error('station')
                             <p class="text-red-500 text-xs p-1">
                                 {{ $message }}
                             </p>

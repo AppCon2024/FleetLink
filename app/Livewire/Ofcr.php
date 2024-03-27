@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -37,17 +39,19 @@ class Ofcr extends Component
     public $department;
     public $position;
     public $image;
+    public $newImage;
     public $password = 12345;
     public $isOpen = 0;
     public $deleteOpen = 0;
     public $imageOpen = 0;
     public $postId;
+    public $station;
     public $shift;
 
 
 
     public function create(){
-        $this->reset('first_name','last_name','employee_id','email','department','position','postId','shift');
+        $this->reset('first_name','last_name','employee_id','email','department','position','postId','image', 'newImage','shift','station');
         $this->openModal();
     }
 
@@ -59,8 +63,18 @@ class Ofcr extends Component
             'position' => 'required',
             'employee_id' => 'required|int',
             'email' => 'required|email|unique:users',
+            'station' => 'required',
             'shift' => 'required',
         ]);
+
+        if($this->image){
+            $fileName = 'fleetlink_' . $this->first_name .  $this->last_name .'.jpg';
+
+            $this->image = $this->image->storeAs('images', $fileName, 'public');
+
+            $this->image = 'storage/'.$this->image;
+        }
+
         User::create([
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
@@ -69,6 +83,7 @@ class Ofcr extends Component
             'email' => $this->email,
             'department' => $this->department,
             'position' => $this->position,
+            'station' => $this->station,
             'shift' => $this->shift,
             'role' => $this->role,
             'image' => $this->image,
@@ -76,7 +91,7 @@ class Ofcr extends Component
             'last_seen' => null
         ]);
         session()->flash('message', 'Officer account created successfully.');
-        $this->reset('first_name','last_name','employee_id','email','department','position');
+        $this->reset('first_name','last_name','employee_id','email','department','position','image','shift','station');
         $this->closeModal();
     }
 
@@ -91,6 +106,7 @@ class Ofcr extends Component
     public function remove(){
         if ($this->postId){
             $post = User::find($this->postId);
+            Storage::delete($post->image);
             $post->delete();
 
             session()->flash('message', 'Officer account deleted successfully.');
@@ -114,22 +130,34 @@ class Ofcr extends Component
         $this->last_name = $post->last_name;
         $this->employee_id = $post->employee_id;
         $this->email = $post->email;
+        $this->image = $post->image;
         $this->department = $post->department;
         $this->position = $post->position;
+        $this->station = $post->station;
         $this->shift = $post->shift;
 
+        $this->reset('newImage');
         $this->openModal();
     }
     public function update()
     {
         if ($this->postId) {
             $post = User::findOrFail($this->postId);
+            $newImage = $post->image;
+            if($this->newImage)
+            {
+                Storage::delete($post->image);
+                $fileName = 'fleetlink_' . $this->first_name .  $this->last_name .'.jpg';
+                $newImage = $this->newImage->storeAs('images', $fileName, 'public');
+                $newImage = 'storage/'.$newImage;
+            }
             $this->validate([
                 'first_name' => 'required|min:2|max:50',
                 'last_name' => 'required|min:2|max:50',
                 'department' => 'required',
                 'position' => 'required',
                 'employee_id' => 'required|int',
+                'station' => 'required',
                 'shift' => 'required',
             ]);
 
@@ -141,11 +169,14 @@ class Ofcr extends Component
                 'email' => $this->email,
                 'department' => $this->department,
                 'position' => $this->position,
+                'image' => $newImage,
+                'station' => $this->station,
                 'shift' => $this->shift,
             ]);
             session()->flash('message', 'Officer account updated successfully.');
             $this->closeModal();
-            $this->reset('first_name', 'last_name' ,'employee_id','email','department','position', 'postId');
+            $this->reset('first_name', 'last_name' ,'employee_id','email','image','department','position', 'postId','shift','station');
+            return redirect()->route('accounts');
         }
     }
 
@@ -199,8 +230,19 @@ class Ofcr extends Component
         ->where('role', 'police')
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
-        return view('livewire.tables.ofcr',
-        ['data' => $data]);
+
+        
+        $user = Auth::User()->station;
+        $officer = User::search($this->search)
+        ->where('station',$user)
+        ->where('role', 'police')
+        ->orderBy($this->sortBy,$this->sortDir)
+        ->paginate($this->perPage);
+        
+        return view('livewire.tables.ofcr',[
+            'data' => $data,
+            'officer' => $officer,
+        ]);
     }
     public function status($ofcrId)
     {

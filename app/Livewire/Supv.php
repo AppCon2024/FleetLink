@@ -43,11 +43,12 @@ class Supv extends Component
 
     public $image;
     public $newImage;
+    public $station;
     public $shift;
 
     public function create()
     {
-        $this->reset('first_name','last_name','employee_id','email','department','position','postId', 'image', 'newImage', 'shift');
+        $this->reset('first_name','last_name','employee_id','email','department','position','postId', 'image', 'newImage', 'shift','station');
         $this->openModal();
     }
     public function store()
@@ -60,6 +61,7 @@ class Supv extends Component
             'employee_id' => 'required|numeric|digits:6|unique:users',
             'email' => 'required|email|unique:users',
             'image' => 'required|image|max:1024',
+            'station' => 'required',
             'shift' => 'required',
         ]);
 
@@ -79,6 +81,7 @@ class Supv extends Component
             'email' => $this->email,
             'department' => $this->department,
             'position' => $this->position,
+            'station' => $this->station,
             'shift' => $this->shift,
             'role' => $this->role,
             'password' => $this->password,
@@ -87,7 +90,7 @@ class Supv extends Component
         ]);
 
         session()->flash('message', 'Supervisor created successfully.');
-        $this->reset('first_name','last_name','employee_id','email','department','position','image');
+        $this->reset('first_name','last_name','employee_id','email','department','position','image','shift','station');
         $this->closeModal();
     }
     public function delete($id)
@@ -132,6 +135,7 @@ class Supv extends Component
         $this->image = $post->image;
         $this->department = $post->department;
         $this->position = $post->position;
+        $this->station = $post->station;
         $this->shift = $post->shift;
 
         $this->reset('newImage');
@@ -156,6 +160,7 @@ class Supv extends Component
                 'position' => 'required',
                 'email' => 'required|email|unique:users,email,' .$post->id,
                 'employee_id' => 'required|numeric|digits:6|unique:users,employee_id,'.$post->id,
+                'station' => 'required',
                 'shift' => 'required',
             ]);
 
@@ -168,12 +173,13 @@ class Supv extends Component
                 'department' => $this->department,
                 'position' => $this->position,
                 'image' => $newImage,
+                'station' => $this->station,
                 'shift' => $this->shift,
             ]);
 
             session()->flash('message', 'Supervisor updated successfully.');
             $this->closeModal();
-            $this->reset('first_name', 'last_name' ,'employee_id','email','department','position', 'postId', 'shift');
+            $this->reset('first_name', 'last_name' ,'employee_id','email','image','department','position', 'postId', 'shift','station');
             return redirect()->route('supervisors');
         }
     }

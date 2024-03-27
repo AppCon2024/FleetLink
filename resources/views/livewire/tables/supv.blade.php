@@ -6,7 +6,7 @@
             </div>
             <div class="flex-1">
                 <div class="w-full">
-                    <div class="bg-white rounded-3xl overflow-hidden p-5">
+                    <div class="bg-white border border-blue-300 rounded-3xl overflow-hidden p-5 shadow-md">
                         <div class="flex items-center justify-between p-4">
                             @include('livewire.includes.search-bar')
                             <div class="flex space-x-3">
@@ -26,7 +26,10 @@
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                     <tr>
-                                        <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">ID</th>
+                                        @include('livewire.includes.table-sortable-th', [
+                                            'tablesadb' => 'station',
+                                            'displayName' => 'Station',
+                                        ])
                                         <th scope="col" class="px-4 py-3 ml-1">Image</th>
                                         @include('livewire.includes.table-sortable-th', [
                                             'tablesadb' => 'name',
@@ -61,14 +64,14 @@
                                     @forelse ($data as $supv)
                                         <tr wire:key="{{ $supv->id }}" class="border-b dark:border-gray-700">
                                             <th scope="row"
-                                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {{ $supv->id }}</th>
-                                            <td class="px-4 py-1" style="text-align: center;">
+                                                class="px-4 py-3 text-xs capitalize font-medium text-red-600 whitespace-nowrap">
+                                                {{ $supv->station }}</th>
+                                            <td class="px-4" style="text-align: center;">
                                                 <button wire:click="view({{ $supv->id }})">
-                                                    <img src="{{ asset($supv->image) }}" width='30' height="30">
+                                                    <img src="{{ asset($supv->image) }}" width='35' height="35" class="rounded-md border border-black">
                                                 </button>
                                             </td>
-                                            <td class="px-4 py-3 text-xs text-blue-700">{{ $supv->name }}</td>
+                                            <td class="px-4 py-3 capitalize text-xs text-blue-700">{{ $supv->name }}</td>
                                             <td class="px-4 py-3 text-xs">{{ $supv->department }}</td>
                                             <td class="px-4 py-3 text-xs">{{ $supv->position }}</td>
                                             <td class="px-4 py-3 text-center">

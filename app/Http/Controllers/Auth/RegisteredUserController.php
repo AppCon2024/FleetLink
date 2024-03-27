@@ -42,6 +42,7 @@ class RegisteredUserController extends Controller
             // 'role' => ['required', 'string', 'max: 10'],
             'department' => ['required'],
             'position' => ['required'],
+            'station' => ['required'],
             'shift' => ['required'],
         ]);
 
@@ -62,6 +63,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'department' => $request->department,
             'position' => $request->position,
+            'station' => $request->station,
             'shift' => $request->shift,
         ]);
 

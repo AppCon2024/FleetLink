@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="flex justify-center z-50">
 
-    <div class="w-full bg-blue-200 m-3 rounded-3xl z-50">
+    <div class="w-full bg-blue-200 m-3 rounded-3xl z-50 shadow-md">
         <!-- Primary Navigation Menu -->
         <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
@@ -38,7 +38,7 @@
                         <x-slot name="trigger">
                             <button
                                 class="inline-flex items-center px-3 py-2 border border-transparent font-poppins leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                                <div>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
+                                <div>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }} | {{ Auth::user()->station }}</div>
 
                                 <div class="ms-1">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"

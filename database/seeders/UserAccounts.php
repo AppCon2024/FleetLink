@@ -15,9 +15,9 @@ class UserAccounts extends Seeder
     public function run(): void
     {
 
-        $admin = User::create([
+        User::create([
             'status' => 1,
-            'image' => 'img/karl.jpg',
+            'image' => 'img/karl.png',
             'last_name' => ('Doctolero'),
             'first_name' => ('Karl Lewis'),
             'employee_id' => '325543',
@@ -25,15 +25,16 @@ class UserAccounts extends Seeder
             'email' => 'karllewistdoctolero@gmail.com',
             'email_verified_at' => '2024-03-01 01:33:52',
             'password' => Hash::make('12345'),
-            'role' => 'admin',
+            'role' => 'supervisor',
             'department' => 'Software Developer/Admin',
             'position' => 'Patrolman',
+            'station' => 'Station 1',
             'shift' => 'Morning'
         ]);
 
-        $admin = User::create([
+        User::create([
             'status' => 1,
-            'image' => 'img/karl.jpg',
+            'image' => 'img/karl.png',
             'last_name' => ('admin'),
             'first_name' => ('.'),
             'employee_id' => '696969',
@@ -44,6 +45,7 @@ class UserAccounts extends Seeder
             'role' => 'admin',
             'department' => 'Software Developer/Admin',
             'position' => 'Patrolman',
+            'station' => 'admin',
             'shift' => 'Morning'
         ]);
 
@@ -61,13 +63,14 @@ class UserAccounts extends Seeder
             'role' => 'supervisor',
             'department' => 'Software Developer/Admin',
             'position' => 'Patrolman',
+            'station' => 'Station 2',
             'shift' => 'Morning'
 
 
         ]);
 
         // seeding residents
-        $police = User::create([
+        User::create([
             'status' => 1,
             'image' => 'img/leah.jpg',
             'last_name' => 'Oquindo',
@@ -80,11 +83,12 @@ class UserAccounts extends Seeder
             'role' => 'police',
             'department' => 'Software Developer/Admin',
             'position' => 'Patrolman',
+            'station' => 'admin',
             'shift' => 'Morning'
 
         ]);
 
-        $police = User::create([
+        User::create([
             'status' => 1,
             'image' => 'img/user.jpg',
             'last_name' => 'Nanalis',
@@ -97,10 +101,11 @@ class UserAccounts extends Seeder
             'role' => 'police',
             'department' => 'Software Developer/Admin',
             'position' => 'Patrolman',
+            'station' => 'admin',
             'shift' => 'Morning'
         ]);
 
-        $police = User::create([
+        User::create([
             'status' => 1,
             'image' => 'img/user.jpg',
             'last_name' => 'Fabro',
@@ -113,10 +118,11 @@ class UserAccounts extends Seeder
             'role' => 'police',
             'department' => 'Software Developer/Admin',
             'position' => 'Patrolman',
+            'station' => 'admin',
             'shift' => 'Morning'
         ]);
 
-        $police = User::create([
+        User::create([
             'status' => 1,
             'image' => 'img/user.jpg',
             'last_name' => 'Doctolero',
@@ -129,6 +135,7 @@ class UserAccounts extends Seeder
             'role' => 'police',
             'department' => 'Software Developer/Admin',
             'position' => 'Patrolman',
+            'station' => 'admin',
             'shift' => 'Morning'
         ]);
 
