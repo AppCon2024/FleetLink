@@ -18,20 +18,22 @@
 
 @if ($isOpen)
     <div class="fixed inset-0 flex items-center justify-center z-50">
-        <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative bg-white p-4 rounded-xl shadow-lg w-1/2 ">
+        <div class="absolute inset-0 bg-black opacity-80"></div>
+        <div class="relative bg-white p-4 rounded-xl shadow-lg sm:max-w-2xl max-w-xs ">
             <!-- Modal content goes here -->
             <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">
-                    <h2 class="pl-2 sm:text-xl text-sm font-semibold text-gray-900 dark:text-white">
-                        @if ($postId)
-                            <i class="ri-edit-2-fill mr-1 sm:text-lg text-sm bg-blue-300 p-2.5 rounded-full"></i> Edit
-                            {{ $name }}'s Information
-                        @else
-                            <i class="ri-add-line mr-1 sm:text-lg text-sm bg-blue-300 p-2.5 rounded-full"></i> Add a Officer Account
-                        @endif
-                    </h2>
+                <h2 class="pl-2 sm:text-xl text-sm font-semibold text-gray-900 dark:text-white">
+                    @if ($postId)
+                        <i class="ri-edit-2-fill mr-1 sm:text-lg text-sm bg-blue-300 p-2.5 rounded-full"></i> Edit
+                        {{ $name }}'s Information
+                    @else
+                        <i class="ri-add-line mr-1 sm:text-lg text-sm bg-blue-300 p-2.5 rounded-full"></i> Add a Officer
+                        Account
+                    @endif
+                </h2>
                 <button wire:click.prevent="$set('isOpen', false)"
-                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" title="Close Modal">
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    title="Close Modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -43,6 +45,7 @@
             <form wire:submit.prevent="{{ $postId ? 'update' : 'store' }}">
 
                 <div class="grid gap-3 mb-4 mt-4 sm:grid-cols-2 px-4">
+
                     <div class="flex flex-row justify-center items-center">
 
                         @if ($postId)
@@ -99,7 +102,7 @@
                             @enderror
                         @endif
                     </div>
-                   
+
 
                     <!--FirstName -->
                     <div>
@@ -211,8 +214,8 @@
                     <!-- EmployeeId -->
                     <div class="mt-2">
                         <x-input-label for="employee_id" :value="__('Employee ID')" />
-                        <x-text-input wire:model="employee_id" id="employee_id" class="block mt-1 w-full" type="text"
-                            name="employee_id" :value="old('employee_id')" required autocomplete="username" />
+                        <x-text-input wire:model="employee_id" id="employee_id" class="block mt-1 w-full"
+                            type="text" name="employee_id" :value="old('employee_id')" required autocomplete="username" />
                         <x-input-error :messages="$errors->get('employee_id')" class="mt-2" />
                     </div>
 
@@ -225,7 +228,8 @@
                     </div>
 
                     <div>
-                        <label for="shift" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Shift</label>
+                        <label for="shift"
+                            class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Shift</label>
                         <select name="shift" wire:model="shift"
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                             <option value="" {{ old('shift') == '' ? 'selected' : '' }}></option>
@@ -240,8 +244,26 @@
                             </p>
                         @enderror
                     </div>
-                    
-                    <div>
+                    @if (Auth::user()->role == 'admin')
+                        <div>
+                            <label for="station"
+                                class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Station</label>
+                            <select name="station" wire:model="station"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                                <option value="" {{ old('station') == '' ? 'selected' : '' }}></option>
+                                <option value="Station 1" {{ old('station') == 'Station 1' ? 'selected' : '' }}>
+                                    Station 1</option>
+                                <option value="Station 2" {{ old('station') == 'Station 2' ? 'selected' : '' }}>
+                                    Station 2</option>
+                            </select>
+                            @error('station')
+                                <p class="text-red-500 text-xs p-1">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    @else
+                        {{-- <div>
                         <label for="station" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Station</label>
                         <select name="station" wire:model="station"
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
@@ -254,18 +276,19 @@
                                 {{ $message }}
                             </p>
                         @enderror
-                    </div>
+                    </div> --}}
+                    @endif
                 </div>
 
                 <!--Buttons-->
                 <div class="flex justify-end">
+                    <button type="button"
+                        class= "mr-4 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                        wire:click="closeModal">Cancel</button>
                     <button type="submit"
-                        class="mr-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         {{ $postId ? 'Update' : 'Create' }}
                     </button>
-                    <button type="button"
-                        class= "text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-                        wire:click="closeModal">Cancel</button>
                 </div>
             </form>
 
@@ -342,6 +365,185 @@
                     Yes, I'm sure
                 </button>
             </div>
+        </div>
+    </div>
+@endif
+
+@if ($infoOpen)
+    <div class="fixed inset-0 flex items-center justify-center z-50">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:overflow-auto overflow-scroll"
+            style="max-height:80vh;">
+            <!-- header -->
+            <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                </svg>
+                <h2 class="pl-2 sm:text-xl text-sm font-semibold text-gray-900 dark:text-white">
+                    {{ $name }}'s Information
+                </h2>
+                <button wire:click.prevent="$set('infoOpen', false)"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    title="Close Modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span></button>
+            </div>
+            <!-- header -->
+
+            <!--Body-->
+            <div class="grid gap-5 mb-4 mt-4 sm:grid-cols-2">
+                <div class="grid gap-3 mb-4 grid-cols-2 ">
+                    <div class="flex justify-center col-span-2 border-b-2 border-black  ">
+                        <h2 class="flex flex-row items-center text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" class="w-6 h-6 mr-2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+
+                            {{ __('Profile Information') }}
+                        </h2>
+                    </div>
+                    <div>
+                        <x-input-label for="name" :value="__('Name')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $name }}
+                        </h1>
+                    </div>
+                    <div>
+                        <x-input-label for="department" :value="__('Depatrment')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $department }}
+                        </h1>
+                    </div>
+                    <div>
+                        <x-input-label for="position" :value="__('Position')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $position }}
+                        </h1>
+                    </div>
+                    <div>
+                        <x-input-label for="employee_id" :value="__('employee_id')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $employee_id }}
+                        </h1>
+                    </div>
+                    <div>
+                        <x-input-label for="position" :value="__('Email')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $email }}
+                        </h1>
+                    </div>
+                    <div>
+                        <x-input-label for="position" :value="__('shift')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $shift }}
+                        </h1>
+                    </div>
+                </div>
+                <div class="grid gap-3 mb-4 grid-cols-2">
+                    <div class="flex justify-center col-span-2 border-b-2 border-black  ">
+                        <h2 class="flex flex-row items-center text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" class="w-6 h-6 mr-2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+
+                            {{ __('Main Address') }}
+                        </h2>
+                    </div>
+                    <div>
+                        <x-input-label for="region" :value="__('region')" />
+                        @if ($region)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $region }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                    <div>
+                        <x-input-label for="province" :value="__('Province')" />
+                        @if ($province)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $province }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                    <div>
+                        <x-input-label for="city" :value="__('City')" />
+                        @if ($city)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $city }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                    <div>
+                        <x-input-label for="barangay" :value="__('Barangay')" />
+                        @if ($barangay)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $barangay }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                    <div>
+                        <x-input-label for="street" :value="__('Street')" />
+                        @if ($street)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $street }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                    <div>
+                        <x-input-label for="zip" :value="__('Zip Code')" />
+                        @if ($zip)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $zip }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <!--Body-->
+
+            <!--Buttons-->
+            <div class="flex justify-end items-center space-x-4">
+                <button wire:click.prevent="$set('infoOpen', false)"
+                    class="py-2 px-5 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                    Close
+                </button>
+                <button wire:click="edit({{ $postId }})"
+                    class="py-2 px-5 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-900">
+                    Edit
+                </button>
+            </div>
+            <!--Buttons-->
+
         </div>
     </div>
 @endif

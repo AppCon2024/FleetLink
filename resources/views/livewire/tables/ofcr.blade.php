@@ -145,7 +145,7 @@
                     </div>
                 </div>
             @endif
-            
+
             @if (Auth::user()->role == 'supervisor')
                 <div class="pr-3 hidden sm:block">
                     @include('includes.supv-sidebar.officer')
@@ -153,6 +153,7 @@
                 <div class="flex-1">
                     <div class="w-full">
                         <div class="bg-white border border-blue-300 rounded-3xl overflow-hidden p-5 shadow-md">
+                            <h1 class="text-center uppercase text-2xl font-abnes font-bold">officers of {{Auth::user()->station}}</h1>
                             <div class="flex items-center justify-between p-4">
                                 @include('livewire.includes.search-bar')
                                 <div class="flex space-x-3">
@@ -172,10 +173,7 @@
                                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                         <tr>
-                                            @include('livewire.includes.table-sortable-th', [
-                                            'tablesadb' => 'station',
-                                            'displayName' => 'Station',
-                                        ])
+
                                             <th scope="col" class="px-4 py-3">Image</th>
                                             @include('livewire.includes.table-sortable-th', [
                                                 'tablesadb' => 'name',
@@ -209,10 +207,10 @@
                                     <tbody>
                                         @forelse ($officer as $ofcr)
                                             <tr wire:key="{{ $ofcr->id }}" class="border-b dark:border-gray-700">
-                                                <th scope="row"
+                                                {{-- <th scope="row"
                                                     class="px-4 py-3 text-xs capitalize font-medium text-red-600 whitespace-nowrap">
-                                                    {{ $ofcr->station }}</th>
-                                                <td class="px-4 py-1" style="text-align: center;">
+                                                    {{ $ofcr->station }}</th> --}}
+                                                <td class="px-4 py-1">
                                                     <button wire:click="view({{ $ofcr->id }})">
                                                         <img src="{{ asset($ofcr->image) }}" width='35'
                                                             height="35" class="rounded-md border border-black">
@@ -222,7 +220,7 @@
                                                     {{ $ofcr->name }}</td>
                                                 <td class="px-4 py-3 text-xs">{{ $ofcr->department }}</td>
                                                 <td class="px-4 py-3 text-xs">{{ $ofcr->position }}</td>
-                                                <td class="px-4 py-3 text-center">
+                                                <td class="px-4 py-3">
                                                     <span
                                                         class="bg-gray-200 border border-gray-400 py-1 px-3 text-xs text-gray-900 rounded-full ">{{ $ofcr->shift }}</span>
                                                 </td>
@@ -239,7 +237,7 @@
                                                     </a>
                                                 </td>
                                                 <td class="px-1 py-4">
-                                                    <button>
+                                                    <button wire:click ="preview({{$ofcr->id}})">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                                             class="ml-1 mt-1 w-4 h-4">

@@ -44,10 +44,16 @@ class Ofcr extends Component
     public $isOpen = 0;
     public $deleteOpen = 0;
     public $imageOpen = 0;
+    public $infoOpen = 0;
     public $postId;
     public $station;
     public $shift;
-
+    public $region;
+    public $province;
+    public $city;
+    public $barangay;
+    public $street;
+    public $zip;
 
 
     public function create(){
@@ -55,7 +61,8 @@ class Ofcr extends Component
         $this->openModal();
     }
 
-    public function store(){
+    public function store()
+    {
         $this->validate([
             'first_name' => 'required|min:2|max:50',
             'last_name' => 'required|min:2|max:50',
@@ -63,8 +70,8 @@ class Ofcr extends Component
             'position' => 'required',
             'employee_id' => 'required|int',
             'email' => 'required|email|unique:users',
-            'station' => 'required',
             'shift' => 'required',
+            // 'station' => 'required',
         ]);
 
         if($this->image){
@@ -83,7 +90,7 @@ class Ofcr extends Component
             'email' => $this->email,
             'department' => $this->department,
             'position' => $this->position,
-            'station' => $this->station,
+            'station' => Auth::user()->station,
             'shift' => $this->shift,
             'role' => $this->role,
             'image' => $this->image,
@@ -94,16 +101,16 @@ class Ofcr extends Component
         $this->reset('first_name','last_name','employee_id','email','department','position','image','shift','station');
         $this->closeModal();
     }
-
-    public function delete($id){
+    public function delete($id)
+    {
         $post = User::find($id);
         $this->postId = $id;
         $this->name = $post->name;
 
         $this->deleteOpenModal();
     }
-
-    public function remove(){
+    public function remove()
+    {
         if ($this->postId){
             $post = User::find($this->postId);
             Storage::delete($post->image);
@@ -113,7 +120,8 @@ class Ofcr extends Component
             $this->deleteCloseModal();
         }
     }
-    public function view($id){
+    public function view($id)
+    {
         $post = User::find($id);
         $this->postId = $id;
         $this->image = $post->image;
@@ -122,12 +130,44 @@ class Ofcr extends Component
         $this->openImageModal();
     }
 
-    public function edit($id)
+    public function preview($id)
     {
+        $post = User::find($id);
+        $this->postId = $id;
+        $this->image = $post->image;
+        $this->name = $post->name;
+        $this->department = $post->department;
+        $this->position = $post->position;
+        $this->employee_id = $post->employee_id;
+        $this->email = $post->email;
+        $this->shift = $post->shift;
+        $this->region = $post->region_text;
+        $this->province = $post->province_text;
+        $this->city = $post->city_text;
+        $this->barangay = $post->barangay_text;
+        $this->street = $post->street;
+        $this->zip = $post->zip_code;
+
+        $this->infoModal();
+    }
+    public function infoModal()
+    {
+        $this->infoOpen = true;
+    }
+    public function infoModalClose()
+    {
+        $this->infoOpen = false;
+    }
+
+    public function edit($id)
+    {   
+        $this->infoModalClose();
+
         $post = User::findOrFail($id);
         $this->postId = $id;
         $this->first_name = $post->first_name;
         $this->last_name = $post->last_name;
+        $this->name = $post->name;
         $this->employee_id = $post->employee_id;
         $this->email = $post->email;
         $this->image = $post->image;
@@ -179,21 +219,19 @@ class Ofcr extends Component
             return redirect()->route('accounts');
         }
     }
-
-    public function openModal(){
+    public function openModal()
+    {
         $this->isOpen = true;
         $this->resetValidation();
     }
-
-    public function closeModal(){
+    public function closeModal()
+    {
         $this->isOpen = false;
     }
-
     public function deleteOpenModal()
     {
         $this->deleteOpen = true;
     }
-
     public function deleteCloseModal()
     {
         $this->deleteOpen = false;
@@ -206,12 +244,10 @@ class Ofcr extends Component
     {
         $this->imageOpen = false;
     }
-
     public function updatedSearch()
     {
         $this->resetPage();
     }
-
     public function setSortBy($sortByField)
     {
 
@@ -223,7 +259,6 @@ class Ofcr extends Component
         $this->sortBy = $sortByField;
         $this->sortDir = 'DESC';
     }
-
     public function render()
     {
         $data = User::search($this->search)
@@ -231,14 +266,14 @@ class Ofcr extends Component
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
 
-        
+
         $user = Auth::User()->station;
         $officer = User::search($this->search)
-        ->where('station',$user)
         ->where('role', 'police')
+        ->where('station',$user)
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
-        
+
         return view('livewire.tables.ofcr',[
             'data' => $data,
             'officer' => $officer,
@@ -250,12 +285,15 @@ class Ofcr extends Component
         if($data){
             if($data->status){
                 $data->status = 0;
+            session()->flash('message', 'Officer account disabled successfully.');
             }
         else{
             $data->status = 1;
+            session()->flash('message', 'Officer account enabled successfully.');
         }
         $data->save();
         }
+
         return back();
     }
 }
