@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $countAccount = User::where('role', 'police')->count();
         $enabledAccount = User::where('role', 'police')->where('status','1')->count();
 
-        $countVehicle = Vehicles::where('role', 'vehicle')->count();
+        $countVehicle = Vehicles::count();
         $countAvailable = Vehicles::where('status', '1')->count();
 
 

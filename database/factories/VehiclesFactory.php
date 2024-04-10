@@ -27,12 +27,10 @@ class VehiclesFactory extends Factory
         $vehicle = $this->faker->vehicleArray();
         return [
             'name' => 'vehicle',
-            'role' => 'vehicle',
             'plate' => $this->faker->vehicleRegistration,
             'brand' => 'Toyota',
             'model' => 'Hilux',
             'vin' => $this->faker->vin,
-            'unique_identifier' => fake()->numerify('##########'),
             'status' => fake()->randomElement([0,1]),
 
         ];

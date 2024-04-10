@@ -14,131 +14,148 @@ class UserAccounts extends Seeder
      */
     public function run(): void
     {
-
+        //Admin Karl
         User::create([
             'status' => 1,
             'image' => 'img/karl.png',
-            'last_name' => ('Doctolero'),
-            'first_name' => ('Karl Lewis'),
+            'last_name' => ('Karl'),
+            'first_name' => ('Admin'),
             'employee_id' => '325543',
-            'name' => 'Karl Lewis Doctolero',
-            'email' => 'karllewistdoctolero@gmail.com',
+            'name' => 'Admin Karl',
+            'email' => 'adminkarl@f.l',
+            'email_verified_at' => '2024-03-01 01:33:52',
+            'password' => Hash::make('12345'),
+            'role' => 'admin',
+            'department' => 'Admin PNCO',
+            'position' => 'Patrolman',
+            'station' => 'admin',
+            'shift' => 'Morning'
+        ]);
+
+        //Admin Kurt
+        // User::create([
+        //     'status' => 1,
+        //     'image' => 'img/kurt.jpg',
+        //     'last_name' => ('Kurt'),
+        //     'first_name' => ('Admin'),
+        //     'employee_id' => '424634',
+        //     'name' => 'Admin Kurt',
+        //     'email' => 'adminkurt@f.l',
+        //     'email_verified_at' => '2024-03-01 01:33:52',
+        //     'password' => Hash::make('12345'),
+        //     'role' => 'admin',
+        //     'department' => 'Admin PNCO',
+        //     'position' => 'Patrolman',
+        //     'station' => 'admin',
+        //     'shift' => 'Morning'
+        // ]);
+
+        //Supervisor Leah
+        User::create([
+            'status' => 1,
+            'image' => 'img/leah.jpg',
+            'last_name' => 'Leah',
+            'first_name' => 'Supervisor',
+            'employee_id' => '852386',
+            'name' => 'Supervisor Leah',
+            'email' => 'supervisorleah@f.l',
             'email_verified_at' => '2024-03-01 01:33:52',
             'password' => Hash::make('12345'),
             'role' => 'supervisor',
-            'department' => 'Software Developer/Admin',
+            'department' => 'Intel PNCO',
+            'position' => 'Police Captain Deputy',
+            'station' => 'Station 1',
+            'shift' => 'Morning'
+        ]);
+
+        //Supervisor Mae
+        User::create([
+            'status' => 1,
+            'image' => 'img/mae.jpg',
+            'last_name' => 'Mae',
+            'first_name' => 'Supervisor',
+            'employee_id' => '461264',
+            'name' => 'Supervisor Mae',
+            'email' => 'supervisormae@f.l',
+            'email_verified_at' => '2024-03-01 01:33:52',
+            'password' => Hash::make('12345'),
+            'role' => 'supervisor',
+            'department' => 'Intel PNCO',
+            'position' => 'Police Captain Deputy',
+            'station' => 'Station 2',
+            'shift' => 'Morning'
+        ]);
+
+        //Officer Karl
+        User::create([
+            'status' => 1,
+            'image' => 'img/karl.png',
+            'last_name' => 'Karl',
+            'first_name' => 'Officer',
+            'employee_id' => '543235',
+            'name' => 'Officer Karl',
+            'email' => 'officerkarl@f.l',
+            'email_verified_at' => '2024-03-01 01:33:52',
+            'password' => Hash::make('12345'),
+            'role' => 'police',
+            'department' => 'Intel PNCO',
             'position' => 'Patrolman',
             'station' => 'Station 1',
             'shift' => 'Morning'
         ]);
 
-        User::create([
-            'status' => 1,
-            'image' => 'img/karl.png',
-            'last_name' => ('admin'),
-            'first_name' => ('.'),
-            'employee_id' => '696969',
-            'name' => 'admin',
-            'email' => 'admin@c.c',
-            'email_verified_at' => '2024-03-01 01:33:52',
-            'password' => Hash::make('12345'),
-            'role' => 'admin',
-            'department' => 'Software Developer/Admin',
-            'position' => 'Patrolman',
-            'station' => 'admin',
-            'shift' => 'Morning'
-        ]);
-
-        // supervisor
+        //Officer Kurt
         User::create([
             'status' => 1,
             'image' => 'img/kurt.jpg',
-            'last_name' => 'Nanalis',
-            'first_name' => 'Kurt Axel',
-            'employee_id' => '852386',
-            'name' => 'Kurt Axel Nanalis',
-            'email' => 'kurt@gmail.com',
+            'last_name' => 'Kurt',
+            'first_name' => 'Officer',
+            'employee_id' => '434564',
+            'name' => 'Officer Kurt',
+            'email' => 'officerkurt@f.l',
             'email_verified_at' => '2024-03-01 01:33:52',
             'password' => Hash::make('12345'),
-            'role' => 'supervisor',
-            'department' => 'Software Developer/Admin',
+            'role' => 'police',
+            'department' => 'Intel PNCO',
             'position' => 'Patrolman',
             'station' => 'Station 2',
-            'shift' => 'Morning'
-
-
+            'shift' => 'Night'
         ]);
 
-        // seeding residents
+        //Officer Mae
+        User::create([
+            'status' => 1,
+            'image' => 'img/mae.jpg',
+            'last_name' => 'Mae',
+            'first_name' => 'Officer',
+            'employee_id' => '642433',
+            'name' => 'Officer Mae',
+            'email' => 'officermae@f.l',
+            'email_verified_at' => '2024-03-01 01:33:52',
+            'password' => Hash::make('12345'),
+            'role' => 'police',
+            'department' => 'Intel PNCO',
+            'position' => 'Patrolman',
+            'station' => 'Station 1',
+            'shift' => 'Morning'
+        ]);
+
+        //Officer Leah
         User::create([
             'status' => 1,
             'image' => 'img/leah.jpg',
-            'last_name' => 'Oquindo',
-            'first_name' => 'Ma. Leah',
-            'employee_id' => '543235',
-            'name' => 'Ma. Leah Oquindo',
-            'email' => 'leah@c.c',
-            'email_verified_at' => '2024-03-01 01:33:52',
-            'password' => Hash::make('12345'),
-            'role' => 'police',
-            'department' => 'Software Developer/Admin',
-            'position' => 'Patrolman',
-            'station' => 'admin',
-            'shift' => 'Morning'
-
-        ]);
-
-        User::create([
-            'status' => 1,
-            'image' => 'img/user.jpg',
-            'last_name' => 'Nanalis',
-            'first_name' => 'Kurt Axel',
-            'employee_id' => '434564',
-            'name' => 'Kurt Axel Nanalis',
-            'email' => 'kurt@c.c',
-            'email_verified_at' => '2024-03-01 01:33:52',
-            'password' => Hash::make('12345'),
-            'role' => 'police',
-            'department' => 'Software Developer/Admin',
-            'position' => 'Patrolman',
-            'station' => 'admin',
-            'shift' => 'Morning'
-        ]);
-
-        User::create([
-            'status' => 1,
-            'image' => 'img/user.jpg',
-            'last_name' => 'Fabro',
-            'first_name' => 'Ma. Joana',
+            'last_name' => 'Leah',
+            'first_name' => 'Officer',
             'employee_id' => '642433',
-            'name' => 'Officer Account',
-            'email' => 'joana@c.c',
+            'name' => 'Officer Leah',
+            'email' => 'officerleah@f.l',
             'email_verified_at' => '2024-03-01 01:33:52',
             'password' => Hash::make('12345'),
             'role' => 'police',
-            'department' => 'Software Developer/Admin',
+            'department' => 'Intel PNCO',
             'position' => 'Patrolman',
-            'station' => 'admin',
-            'shift' => 'Morning'
+            'station' => 'Station 2',
+            'shift' => 'Night'
         ]);
-
-        User::create([
-            'status' => 1,
-            'image' => 'img/user.jpg',
-            'last_name' => 'Doctolero',
-            'first_name' => 'Karl Lewis',
-            'employee_id' => '642433',
-            'name' => 'Karl Lewis Doctolero',
-            'email' => 'karl@c.c',
-            'email_verified_at' => '2024-03-01 01:33:52',
-            'password' => Hash::make('12345'),
-            'role' => 'police',
-            'department' => 'Software Developer/Admin',
-            'position' => 'Patrolman',
-            'station' => 'admin',
-            'shift' => 'Morning'
-        ]);
-
-
     }
 }

@@ -29,17 +29,15 @@ class Vhcl extends Component
     #[Url(history:true)]
     public $sortDir = 'ASC';
 
-    public $role = "vehicle";
     public $plate;
     public $brand;
     public $model;
     public $vin;
+    public $station;
+    public $type;
     public $user;
     public $qrcode;
-    public $name = "Vehicle";
     public $status = 1;
-
-
 
     public $isOpen = 0;
     public $deleteOpen = 0;
@@ -58,19 +56,21 @@ class Vhcl extends Component
 
     public function create()
     {
-        $this->reset('plate','brand','model','vin','postId');
+        $this->reset('plate','brand','model','vin','postId','station','type');
         $this->openModal();
     }
 
     public function store()
     {
-        $uniqueIdentifier = uniqid();
 
         $this->validate([
             'plate' => 'required|min:6|unique:vehicles',
             'brand' => 'required|min:2|max:50',
             'model' => 'required',
             'vin' => 'required|max:255|unique:vehicles',
+            'station' => 'required',
+            'type' => 'required',
+
         ]);
 
         $qrcodeData = $this->generateQRCode();
@@ -80,22 +80,21 @@ class Vhcl extends Component
             'brand' => $this->brand,
             'model' => $this->model,
             'vin' => $this->vin,
-            'role' => $this->role,
-            'name' => $this->name,
+            'station' => $this->station,
+            'type' => $this->type,
             'status' => $this->status,
-            'unique_identifier' => $uniqueIdentifier,
             'qrcode' => $qrcodeData,
 
         ]);
         session()->flash('message', 'Vehicle added successfully.');
-        $this->reset('plate','brand','model','vin');
+        $this->reset('plate','brand','model','vin','station','type');
         $this->closeModal();
     }
 
     public function delete($id){
         $post = Vehicles::find($id);
         $this->postId = $id;
-        $this->name = $post->name;
+
 
         $this->deleteOpenModal();
     }
@@ -130,6 +129,8 @@ class Vhcl extends Component
         $this->brand = $post->brand;
         $this->model = $post->model;
         $this->vin = $post->vin;
+        $this->station = $post->station;
+        $this->type = $post->type;
         $this->openModal();
     }
     public function update()
@@ -141,21 +142,24 @@ class Vhcl extends Component
                 'brand' => 'required|min:2|max:50',
                 'model' => 'required',
                 'vin' => 'required',
+                'station' => 'required',
+                'type' => 'required',
             ]);
 
             $qrcodeData = $this->generateQRCode();
-
 
             $post->update([
                 'plate' => $this->plate,
                 'brand' => $this->brand,
                 'model' => $this->model,
                 'vin' => $this->vin,
+                'station' => $this->station,
+                'type' => $this->type,
                 'qrcode' => $qrcodeData,
             ]);
             session()->flash('message', 'Vehicle updated successfully.');
             $this->closeModal();
-            $this->reset('plate', 'brand' ,'model','vin', 'postId');
+            $this->reset('plate', 'brand' ,'model','vin', 'postId','station','type');
         }
     }
     public function openModal()

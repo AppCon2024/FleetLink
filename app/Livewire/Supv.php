@@ -46,6 +46,18 @@ class Supv extends Component
     public $station;
     public $shift;
 
+    public $supvId;
+    public $dropdownId = null;
+
+    public function toggleDropdown($supvId)
+    {
+        if ($this->dropdownId === $supvId) {
+            $this->dropdownId = null; // Close the dropdown
+        } else {
+            $this->dropdownId = $supvId; // Open the dropdown
+        }
+    }
+
     public function create()
     {
         $this->reset('first_name','last_name','employee_id','email','department','position','postId', 'image', 'newImage', 'shift','station');

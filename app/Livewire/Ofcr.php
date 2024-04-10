@@ -68,7 +68,7 @@ class Ofcr extends Component
             'last_name' => 'required|min:2|max:50',
             'department' => 'required',
             'position' => 'required',
-            'employee_id' => 'required|int',
+            'employee_id' => 'required|numeric|digits:6|unique:users',
             'email' => 'required|email|unique:users',
             'shift' => 'required',
             // 'station' => 'required',
@@ -82,21 +82,41 @@ class Ofcr extends Component
             $this->image = 'storage/'.$this->image;
         }
 
-        User::create([
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'name' => $this->first_name . ' ' . $this->last_name,
-            'employee_id' => $this->employee_id,
-            'email' => $this->email,
-            'department' => $this->department,
-            'position' => $this->position,
-            'station' => Auth::user()->station,
-            'shift' => $this->shift,
-            'role' => $this->role,
-            'image' => $this->image,
-            'password' => $this->password,
-            'last_seen' => null
-        ]);
+        if(Auth::user()->role == 'admin')
+        {
+            User::create([
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'name' => $this->first_name . ' ' . $this->last_name,
+                'employee_id' => $this->employee_id,
+                'email' => $this->email,
+                'department' => $this->department,
+                'position' => $this->position,
+                'station' => $this->station,
+                'shift' => $this->shift,
+                'role' => $this->role,
+                'image' => $this->image,
+                'password' => $this->password,
+                'last_seen' => null
+            ]);
+        }
+        else{
+            User::create([
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'name' => $this->first_name . ' ' . $this->last_name,
+                'employee_id' => $this->employee_id,
+                'email' => $this->email,
+                'department' => $this->department,
+                'position' => $this->position,
+                'station' => Auth::user()->station,
+                'shift' => $this->shift,
+                'role' => $this->role,
+                'image' => $this->image,
+                'password' => $this->password,
+                'last_seen' => null
+            ]);
+        }
         session()->flash('message', 'Officer account created successfully.');
         $this->reset('first_name','last_name','employee_id','email','department','position','image','shift','station');
         $this->closeModal();
@@ -160,7 +180,7 @@ class Ofcr extends Component
     }
 
     public function edit($id)
-    {   
+    {
         $this->infoModalClose();
 
         $post = User::findOrFail($id);
@@ -196,7 +216,7 @@ class Ofcr extends Component
                 'last_name' => 'required|min:2|max:50',
                 'department' => 'required',
                 'position' => 'required',
-                'employee_id' => 'required|int',
+                'employee_id' => 'required|numeric|digits:6|unique:users',
                 'station' => 'required',
                 'shift' => 'required',
             ]);
@@ -259,9 +279,14 @@ class Ofcr extends Component
         $this->sortBy = $sortByField;
         $this->sortDir = 'DESC';
     }
+    public $status = '';
+
     public function render()
     {
         $data = User::search($this->search)
+        ->when($this->status !== '',function($query){
+            $query->where('status', $this->status);
+        })
         ->where('role', 'police')
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
@@ -269,16 +294,24 @@ class Ofcr extends Component
 
         $user = Auth::User()->station;
         $officer = User::search($this->search)
+        ->when($this->status !== '',function($query){
+            $query->where('status', $this->status);
+        })
         ->where('role', 'police')
         ->where('station',$user)
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
 
+        $title = Auth::user()->station;
+
         return view('livewire.tables.ofcr',[
             'data' => $data,
             'officer' => $officer,
+            'title' => $title,
         ]);
     }
+
+
     public function status($ofcrId)
     {
         $data = User::find($ofcrId);

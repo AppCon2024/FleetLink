@@ -18,7 +18,7 @@ class VehiclesController extends Controller
 {
     //
     public function index() {
-        $vehicles = Vehicles::where('role', 'vehicle')->get();
+        $vehicles = Vehicles::all();
 
 
         return view('pages.vehicles',

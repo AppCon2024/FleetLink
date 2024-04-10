@@ -377,11 +377,11 @@
             <!-- header -->
             <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
+                    stroke="currentColor" class="w-6 h-6 ml-2 ">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
                 </svg>
-                <h2 class="pl-2 sm:text-xl text-sm font-semibold text-gray-900 dark:text-white">
+                <h2 class="ml-2 sm:text-xl text-sm font-semibold text-gray-900 dark:text-white">
                     {{ $name }}'s Information
                 </h2>
                 <button wire:click.prevent="$set('infoOpen', false)"
@@ -398,7 +398,7 @@
 
             <!--Body-->
             <div class="grid gap-5 mb-4 mt-4 sm:grid-cols-2">
-                <div class="grid gap-3 mb-4 grid-cols-2 ">
+                <div class="grid gap-3 mb-4 sm:grid-cols-2 ">
                     <div class="flex justify-center col-span-2 border-b-2 border-black  ">
                         <h2 class="flex flex-row items-center text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -441,7 +441,7 @@
                         </h1>
                     </div>
                 </div>
-                <div class="grid gap-3 mb-4 grid-cols-2">
+                <div class="grid gap-3 mb-4 sm:grid-cols-2">
                     <div class="flex justify-center col-span-2 border-b-2 border-black  ">
                         <h2 class="flex flex-row items-center text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

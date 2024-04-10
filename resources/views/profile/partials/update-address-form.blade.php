@@ -26,30 +26,30 @@
 
                 <div class="col-md-6 mb-3">
                     <x-input-label for="region" :value="__('Region *')" />
-                    <x-text-input id="street" class="block mt-1 w-full bg-gray-100" type="text" name="street" :value="old('region_text', $user->region_text)"
-                        required autofocus autocomplete="street" id="street" disabled />
-                    <x-input-error class="mt-2" :messages="$errors->get('street')" />
+                    <x-text-input id="region_text" class="block mt-1 w-full bg-gray-100" type="text" name="region_text" :value="old('region_text', $user->region_text)"
+                        required autofocus autocomplete="region_text" id="region_text" disabled />
+                    <x-input-error class="mt-2" :messages="$errors->get('region_text')" />
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <x-input-label for="province" :value="__('Province *')" />
-                    <x-text-input id="street" class="block mt-1 w-full bg-gray-100" type="text" name="street" :value="old('province_text', $user->province_text)"
-                        required autofocus autocomplete="street" id="street" disabled />
-                    <x-input-error class="mt-2" :messages="$errors->get('street')" />
+                    <x-text-input id="province_text" class="block mt-1 w-full bg-gray-100" type="text" name="province_text" :value="old('province_text', $user->province_text)"
+                        required autofocus autocomplete="province_text" id="province_text" disabled />
+                    <x-input-error class="mt-2" :messages="$errors->get('province_text')" />
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <x-input-label for="city" :value="__('City *')" />
-                    <x-text-input id="street" class="block mt-1 w-full bg-gray-100" type="text" name="street" :value="old('city_text', $user->city_text)"
-                        required autofocus autocomplete="street" id="street" disabled />
-                    <x-input-error class="mt-2" :messages="$errors->get('street')" />
+                    <x-text-input id="city_text" class="block mt-1 w-full bg-gray-100" type="text" name="city_text" :value="old('city_text', $user->city_text)"
+                        required autofocus autocomplete="city_text" id="city_text" disabled />
+                    <x-input-error class="mt-2" :messages="$errors->get('city_text')" />
                 </div>
 
                 <div class="col-md-6 mb-3">
                     <x-input-label for="barangay" :value="__('Barangay *')" />
-                    <x-text-input id="street" class="block mt-1 w-full bg-gray-100" type="text" name="street" :value="old('barangay_text', $user->barangay_text)"
-                        required autofocus autocomplete="street" id="street" disabled />
-                    <x-input-error class="mt-2" :messages="$errors->get('street')" />
+                    <x-text-input id="barangay_text" class="block mt-1 w-full bg-gray-100" type="text" name="barangay_text" :value="old('barangay_text', $user->barangay_text)"
+                        required autofocus autocomplete="barangay_text" id="barangay_text" disabled />
+                    <x-input-error class="mt-2" :messages="$errors->get('barangay_text')" />
                 </div>
 
                 <div class="col-md-6 mb-3">

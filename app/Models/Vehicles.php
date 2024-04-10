@@ -15,10 +15,9 @@ class Vehicles extends Model
         'brand',
         'model',
         'vin',
+        'station',
+        'type',
         'user',
-        'role',
-        'unique_identifier',
-        'name',
         'status',
         'qrcode',
         // 'username',
@@ -35,6 +34,6 @@ class Vehicles extends Model
     }
 
     public function scopeSearch($query, $value){
-        $query->where('plate','like',"%{$value}%")->orWhere('model','like',"%{$value}%")->orWhere('brand','like',"%{$value}%");
+        $query->where('plate','like',"%{$value}%")->orWhere('model','like',"%{$value}%")->orWhere('brand','like',"%{$value}%")->orWhere('station','like',"%{$value}%")->orWhere('type','like',"%{$value}%");
     }
 }
