@@ -19,13 +19,20 @@
 @if ($isOpen)
     <div class="fixed inset-0 flex items-center justify-center z-50">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative bg-white p-4 rounded-xl shadow-lg w-md ">
+        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:overflow-auto overflow-scroll"
+        style="max-height:88vh;">
             <!-- Modal content goes here -->
             <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">
-                <h2 class="pl-4 text-xl font-semibold text-gray-900 dark:text-white">
-                    {{ $postId ? 'Edit Vehicle Information' : 'Add a Vehicle' }}</h2>
+                <h2 class="pl-2 sm:text-xl text-sm font-semibold text-gray-900 dark:text-white">
+                    @if ($postId)
+                        <i class="ri-edit-2-fill mr-1 sm:text-lg text-sm bg-blue-300 p-2.5 rounded-full"></i> Edit Vehicle's Information
+                    @else
+                        <i class="ri-add-line mr-1 sm:text-lg text-sm bg-blue-300 p-2.5 rounded-full"></i> Add a Vehicle
+                    @endif
+                </h2>
                 <button wire:click.prevent="$set('isOpen', false)"
-                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    title="Close Modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -123,7 +130,7 @@
 @if ($deleteOpen)
     <div class="fixed inset-0 flex items-center justify-center z-50">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative bg-white p-4 rounded-xl shadow-lg ">
+        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:w-auto">
             <!-- Modal content goes here -->
             <button wire:click.prevent="$set('deleteOpen', false)"
                 class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -142,7 +149,7 @@
                     clip-rule="evenodd"></path>
             </svg>
             <form wire:submit.prevent="remove">
-                <p class="mb-4 text-gray-500 dark:text-gray-300">
+                <p class="mb-4 text-gray-500 dark:text-gray-300 text-center">
                     Are you sure you want to delete this Vehicle?
                 </p>
                 <div class="flex justify-center items-center space-x-4">

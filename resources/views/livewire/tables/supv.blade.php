@@ -104,7 +104,7 @@
                                                         </svg>
                                                     </button>
                                                     @if ($dropdownId === $supv->id)
-                                                        <div 
+                                                        <div
                                                             class="absolute z-30 right-0 bg-white shadow-lg rounded-md border">
                                                             <div class="py-1 px-1">
                                                                 <a href=""

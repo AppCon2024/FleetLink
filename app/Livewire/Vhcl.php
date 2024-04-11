@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Vehicles;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
@@ -207,7 +208,16 @@ class Vhcl extends Component
         $data = Vehicles::search($this->search)
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
-        return view('livewire.tables.vhcl',
-        ['data' => $data,]);
+
+        $user = Auth::User()->station;
+        $vehicle = Vehicles::search($this->search)
+        ->where('station',$user)
+        ->orderBy($this->sortBy,$this->sortDir)
+        ->paginate($this->perPage);
+
+        return view('livewire.tables.vhcl',[
+            'data' => $data,
+            'vehicle' => $vehicle,
+        ]);
     }
 }

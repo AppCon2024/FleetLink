@@ -19,7 +19,8 @@
 @if ($isOpen)
     <div class="absolute inset-0 flex items-center justify-center z-50">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative bg-white p-4 rounded-xl shadow-lg sm:max-w-2xl max-w-xs">
+        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:overflow-auto overflow-scroll"
+        style="max-height:88vh;">
             <!-- Modal content goes here -->
             <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">
                 <h2 class="pl-2 sm:text-xl text-sm font-semibold text-gray-900 dark:text-white">
@@ -281,7 +282,7 @@
 @if ($deleteOpen)
     <div class="fixed inset-0 flex items-center justify-center z-50">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative bg-white p-4 rounded-xl shadow-lg ">
+        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:w-auto">
             <!-- Modal content goes here -->
             <button wire:click.prevent="$set('deleteOpen', false)"
                 class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -300,7 +301,7 @@
                     clip-rule="evenodd"></path>
             </svg>
             <form wire:submit.prevent="remove">
-                <p class="mb-4 text-gray-500 dark:text-gray-300">
+                <p class="mb-4 text-gray-500 dark:text-gray-300 text-center">
                     Are you sure you want to delete {{ $name }}'s account?
                 </p>
                 <div class="flex justify-center items-center space-x-4">

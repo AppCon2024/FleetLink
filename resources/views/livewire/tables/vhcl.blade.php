@@ -148,6 +148,7 @@
                 <div class="flex-1">
                     <div class="w-full">
                         <div class="bg-white rounded-3xl overflow-hidden p-5">
+                            <h1 class="text-center uppercase text-2xl font-abnes font-bold">Vehicles of {{ Auth::user()->station }}</h1>
                             <div class="flex items-center justify-between p-4">
                                 @include('livewire.includes.search-bar')
                                 <div class="flex space-x-3">
@@ -202,7 +203,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($data as $vhcl)
+                                        @forelse ($vehicle as $vhcl)
                                             <tr wire:key="{{ $vhcl->id }}" class="border-b dark:border-gray-700">
                                                 <th scope="row"
                                                     class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">

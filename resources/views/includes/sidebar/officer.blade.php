@@ -1,5 +1,5 @@
 <div>
-    <div class="w-[240px] h-[545px] bg-blue-200 rounded-3xl p-4 shadow-md">
+    <div class="w-[240px] h-[580px] bg-blue-200 rounded-3xl p-4 shadow-md">
         <ul class="mt-2">
             <li class="mb-1 group">
                 <a href="{{ route('dashboard') }}"

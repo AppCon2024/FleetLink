@@ -132,7 +132,7 @@
                     @include('includes.supv-sidebar.messages')
                 </div>
                 <div class="flex-1">
-                    <div class="messenger">
+                    <div class="messenger border border-blue-500 rounded-xl">
                         {{-- ----------------------Users/Groups lists side---------------------- --}}
                         <div class="messenger-listView {{ !!$id ? 'conversation-active' : '' }}">
                             {{-- Header and search bar --}}
