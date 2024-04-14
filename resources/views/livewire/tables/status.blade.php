@@ -9,33 +9,24 @@
                     <div class="w-full">
                         <div class="bg-white rounded-3xl overflow-hidden p-5">
                             <div class="flex items-center justify-between p-4">
+                                @include('livewire.includes.search-bar')
+                                {{-- <div class="flex space-x-3">
+                                    @include('livewire.includes.user-status')
+                                </div> --}}
                                 <div class="flex">
-                                    <div class="relative w-full">
-                                        <div
-                                            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                                                fill="currentColor" viewbox="0 0 20 20"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                        <input wire:model.live.debounce.300ms = "search" type="text"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 "
-                                            placeholder="Search" required="">
+                                    <div class=>
+                                        <label for="startdate" class="text-xs text-gray-700 uppercase">Start Date:</label>
+                                        <input type="date" wire:model.live="start" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 pl-10 ">
                                     </div>
-                                </div>
-                                <div class="flex space-x-3">
-                                    <div class="flex space-x-3 items-center">
-                                        <label class="w-40 text-sm font-medium text-gray-900">User Type :</label>
-                                        <select
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                                            <option value="">All</option>
-                                            <option value="0">User</option>
-                                            <option value="1">Admin</option>
-                                        </select>
+                                    <div class="px-4">
+                                        <label for="startdate" class="text-xs text-gray-700 uppercase">End Date:</label>
+                                        <input type="date" wire:model.live="end" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 pl-10 ">
                                     </div>
+                                    <button onclick="printTable()"
+                                        class="text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs px-4 py-2  text-center">
+                                        <i class="ri-printer-line text-sm pr-1"></i>
+                                        Print
+                                    </button>
                                 </div>
                             </div>
                             <div class="overflow-x-auto relative">

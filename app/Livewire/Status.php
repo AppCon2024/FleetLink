@@ -26,11 +26,25 @@ class Status extends Component
     #[Url(history:true)]
     public $sortDir = 'ASC';
 
-    public function updatedSearch(){
+    public $start;
+    public $end;
+
+    // public function filter()
+    // {
+
+
+    //     Borrows::whereDate('created_at','>=',$this->start)
+    //             ->whereDate('created_at','<=',$this->end)
+    //             ->get();
+    // }
+
+    public function updatedSearch()
+    {
         $this->resetPage();
     }
 
-    public function setSortBy($sortByField){
+    public function setSortBy($sortByField)
+    {
 
         if($this->sortBy === $sortByField){
             $this->sortDir = ($this->sortDir == "ASC") ? 'DESC' : "ASC";
@@ -41,15 +55,23 @@ class Status extends Component
         $this->sortDir = 'DESC';
     }
 
-    public function delete(Borrows $borrows){
+    public function delete(Borrows $borrows)
+    {
         $borrows->delete();
     }
 
     public function render()
     {
         $data = Borrows::search($this->search)
+
+        ->when($this->start && $this->end, function($query) {
+            $query->whereDate('time_in', '>=', $this->start)
+                  ->whereDate('time_in', '<=', $this->end);
+        })
+        ->where('created_at')
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
+
         return view('livewire.tables.status',
         ['data' => $data]);
     }
