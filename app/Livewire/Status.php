@@ -70,11 +70,13 @@ class Status extends Component
             $query->whereDate('time_in', '>=', $this->start)
                   ->whereDate('time_in', '<=', $this->end);
         })
-        ->when(empty($this->search), function($query) use ($dateOnly) {
-            $query->whereDate('created_at', $dateOnly);
+
+        ->when($this->start && $this->end && $this->search, function($query) {
+            $query->whereDate('time_in', '>=', $this->start)
+                  ->whereDate('time_in', '<=', $this->end);
         })
-        ->when(!empty($this->search), function($query) {
-            $query->search($this->search);
+        ->when(empty($this->start) && empty($this->end), function($query) use ($dateOnly) {
+            $query->whereDate('created_at', $dateOnly);
         })
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
