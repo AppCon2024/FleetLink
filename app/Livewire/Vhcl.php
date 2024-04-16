@@ -39,11 +39,20 @@ class Vhcl extends Component
     public $user;
     public $qrcode;
     public $status = 1;
-
+    public $dropdownId = null;
     public $isOpen = 0;
     public $deleteOpen = 0;
     public $qrOpen = 0;
     public $postId;
+
+    public function toggleDropdown($vhclId)
+    {
+        if ($this->dropdownId === $vhclId) {
+            $this->dropdownId = null; // Close the dropdown
+        } else {
+            $this->dropdownId = $vhclId; // Open the dropdown
+        }
+    }
 
     public function generateQRCode()
     {
@@ -58,6 +67,7 @@ class Vhcl extends Component
     public function create()
     {
         $this->reset('plate','brand','model','vin','postId','station','type');
+        $this->dropdownId = null;
         $this->openModal();
     }
 
@@ -96,7 +106,7 @@ class Vhcl extends Component
         $post = Vehicles::find($id);
         $this->postId = $id;
 
-
+        $this->dropdownId = null;
         $this->deleteOpenModal();
     }
 
@@ -117,7 +127,7 @@ class Vhcl extends Component
         $this->plate = $post->plate;
         $this->qrcode = $post->qrcode;
 
-
+        $this->dropdownId = null;
         $this->openQrModal();
     }
 
@@ -132,6 +142,7 @@ class Vhcl extends Component
         $this->vin = $post->vin;
         $this->station = $post->station;
         $this->type = $post->type;
+        $this->dropdownId = null;
         $this->openModal();
     }
     public function update()

@@ -303,12 +303,15 @@ class Supv extends Component
         if($data){
             if($data->status){
                 $data->status = 0;
+            session()->flash('message', 'Officer account disabled successfully.');
             }
         else{
             $data->status = 1;
+            session()->flash('message', 'Officer account enabled successfully.');
         }
         $data->save();
         }
+
         return back();
     }
 }

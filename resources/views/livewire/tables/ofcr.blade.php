@@ -26,7 +26,7 @@
                             </div>
                             <div class="overflow-x-auto relative">
                                 <table id="myTable" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                         <tr>
                                             @include('livewire.includes.table-sortable-th', [
                                                 'tablesadb' => 'name',
@@ -68,7 +68,7 @@
                                                 <th scope="row"
                                                     class="px-4 py-3 text-xs capitalize font-medium text-blue-600 whitespace-nowrap">
                                                     {{ $ofcr->name }}</th>
-                                                <td class="px-4 py-1" style="text-align: center;">
+                                                <td class="px-2 py-1" style="text-align: center;">
                                                     <button wire:click="view({{ $ofcr->id }})">
                                                         <img src="{{ asset($ofcr->image) }}" width='35'
                                                             height="35" class="rounded-md border border-black mt-1">

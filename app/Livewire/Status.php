@@ -24,7 +24,7 @@ class Status extends Component
     public $sortBy = 'created_at';
 
     #[Url(history:true)]
-    public $sortDir = 'ASC';
+    public $sortDir = 'DESC';
 
     public $start;
     public $end;
@@ -62,13 +62,20 @@ class Status extends Component
 
     public function render()
     {
+        $currentDate = now();
+        $dateOnly = $currentDate->toDateString();
         $data = Borrows::search($this->search)
 
         ->when($this->start && $this->end, function($query) {
             $query->whereDate('time_in', '>=', $this->start)
                   ->whereDate('time_in', '<=', $this->end);
         })
-        ->where('created_at')
+        ->when(empty($this->search), function($query) use ($dateOnly) {
+            $query->whereDate('created_at', $dateOnly);
+        })
+        ->when(!empty($this->search), function($query) {
+            $query->search($this->search);
+        })
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
 

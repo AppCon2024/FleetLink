@@ -25,7 +25,7 @@
                         </div>
                         <div class="overflow-x-auto relative">
                             <table id="myTable" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                     <tr>
                                         @include('livewire.includes.table-sortable-th', [
                                             'tablesadb' => 'name',
@@ -67,10 +67,10 @@
                                             <th scope="row"
                                                 class="px-4 py-3 text-xs capitalize font-medium text-blue-600 whitespace-nowrap">
                                                 {{ $supv->name }}</th>
-                                            <td class="px-4" style="text-align: center;">
-                                                <button wire:click="view({{ $supv->id }})">
+                                            <td class="px-4">
+                                                <button wire:click="view({{ $supv->id }})" class="flex items-center" style="text-align: center">
                                                     <img src="{{ asset($supv->image) }}" width='35' height="35"
-                                                        class="rounded-md border border-black mt-1">
+                                                        class="rounded-md border border-black">
                                                 </button>
                                             </td>
                                             <td class="px-4 py-3 capitalize text-xs text-blue-700">{{ $supv->station }}
@@ -93,7 +93,7 @@
                                                     {{ $supv->status ? 'Enabled' : 'Disabled' }}
                                                 </a>
                                             </td>
-                                            <td class="px-4 py-2 text-center ">
+                                            <td class="px-4 py-2 text-center">
                                                 <div class="relative">
                                                     <button wire:click="toggleDropdown({{ $supv->id }})"
                                                         class="focus:outline-none">

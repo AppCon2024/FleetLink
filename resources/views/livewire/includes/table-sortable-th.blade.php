@@ -1,4 +1,4 @@
-<th scope="col" class="px-2 py-3" wire:click="setSortBy('{{ $tablesadb }}')">
+<th scope="col" class="px-4 py-3" wire:click="setSortBy('{{ $tablesadb }}')">
     <button class="flex items-center text-xs text-gray-700 uppercase bg-gray-200">
         {{ $displayName }}
         @if ($sortBy !== $tablesadb)

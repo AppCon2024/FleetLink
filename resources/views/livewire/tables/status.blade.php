@@ -31,16 +31,12 @@
                             </div>
                             <div class="overflow-x-auto relative">
                                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                         <tr>
-                                            <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">ID</th>
+                                            {{-- <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">ID</th> --}}
                                             @include('livewire.includes.table-sortable-th', [
-                                                'tablesadb' => 'first_name',
-                                                'displayName' => 'Firstname',
-                                            ])
-                                            @include('livewire.includes.table-sortable-th', [
-                                                'tablesadb' => 'last_name',
-                                                'displayName' => 'Lastname',
+                                                'tablesadb' => 'name',
+                                                'displayName' => 'Name',
                                             ])
                                             @include('livewire.includes.table-sortable-th', [
                                                 'tablesadb' => 'shift',
@@ -71,13 +67,11 @@
                                     <tbody>
                                         @forelse ($data as $stts)
                                             <tr wire:key="{{ $stts->id }}" class="border-b dark:border-gray-700">
-                                                <th scope="row"
+                                                {{-- <th scope="row"
                                                     class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    {{ $stts->id }}</th>
+                                                    {{ $stts->id }}</th> --}}
                                                 <td class="px-4 py-3">
-                                                    {{ $stts->first_name }}</td>
-                                                <td class="px-4 py-3">
-                                                    {{ $stts->last_name }}</td>
+                                                    {{ $stts->first_name }} {{ $stts->last_name }}</td>
                                                 <td class="px-4 py-3">
                                                     <span
                                                         class="bg-gray-200 border border-gray-400 py-1 px-3 text-xs text-gray-900 rounded-full ">{{ $stts->shift }}</span>
