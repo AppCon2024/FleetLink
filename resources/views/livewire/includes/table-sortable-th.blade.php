@@ -1,5 +1,5 @@
-<th scope="col" class="px-4 py-3" wire:click="setSortBy('{{ $tablesadb }}')">
-    <button class="flex items-center text-xs text-gray-700 uppercase bg-gray-50">
+<th scope="col" class="px-2 py-3" wire:click="setSortBy('{{ $tablesadb }}')">
+    <button class="flex items-center text-xs text-gray-700 uppercase bg-gray-200">
         {{ $displayName }}
         @if ($sortBy !== $tablesadb)
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"

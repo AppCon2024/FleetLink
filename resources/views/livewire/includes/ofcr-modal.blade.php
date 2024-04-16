@@ -18,8 +18,8 @@
 
 @if ($isOpen)
     <div class="fixed inset-0 flex items-center justify-center z-50">
-        <div class="absolute inset-0 bg-black opacity-80"></div>
-        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:overflow-auto overflow-scroll"
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:max-w-3xl sm:overflow-auto overflow-scroll"
         style="max-height:88vh;">
             <!-- Modal content goes here -->
             <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">
@@ -427,7 +427,7 @@
                         </h1>
                     </div>
                     <div>
-                        <x-input-label for="employee_id" :value="__('employee_id')" />
+                        <x-input-label for="employee_id" :value="__('EmployeeID')" />
                         <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $employee_id }}
                         </h1>
                     </div>

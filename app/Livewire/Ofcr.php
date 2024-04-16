@@ -55,10 +55,24 @@ class Ofcr extends Component
     public $street;
     public $zip;
 
+    public $dropdownId = null;
 
-    public function create(){
+    public function toggleDropdown($ofcrId)
+    {
+        if ($this->dropdownId === $ofcrId) {
+            $this->dropdownId = null; // Close the dropdown
+        } else {
+            $this->dropdownId = $ofcrId; // Open the dropdown
+        }
+    }
+
+
+
+    public function create()
+    {
         $this->reset('first_name','last_name','employee_id','email','department','position','postId','image', 'newImage','shift','station');
         $this->openModal();
+        $this->dropdownId = null;
     }
 
     public function store()
@@ -127,6 +141,7 @@ class Ofcr extends Component
         $this->postId = $id;
         $this->name = $post->name;
 
+        $this->dropdownId = null;
         $this->deleteOpenModal();
     }
     public function remove()
@@ -147,6 +162,7 @@ class Ofcr extends Component
         $this->image = $post->image;
         $this->name = $post->name;
 
+        $this->dropdownId = null;
         $this->openImageModal();
     }
 
@@ -168,6 +184,7 @@ class Ofcr extends Component
         $this->street = $post->street;
         $this->zip = $post->zip_code;
 
+        $this->dropdownId = null;
         $this->infoModal();
     }
     public function infoModal()
@@ -196,6 +213,7 @@ class Ofcr extends Component
         $this->station = $post->station;
         $this->shift = $post->shift;
 
+        $this->dropdownId = null;
         $this->reset('newImage');
         $this->openModal();
     }
@@ -216,7 +234,7 @@ class Ofcr extends Component
                 'last_name' => 'required|min:2|max:50',
                 'department' => 'required',
                 'position' => 'required',
-                'employee_id' => 'required|numeric|digits:6|unique:users',
+                'employee_id' => 'required|numeric|digits:6|unique:users,employee_id,'.$post->id,
                 'station' => 'required',
                 'shift' => 'required',
             ]);

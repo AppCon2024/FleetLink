@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -49,6 +50,14 @@ class Supv extends Component
     public $supvId;
     public $dropdownId = null;
 
+    public $infoOpen = 0;
+    public $region;
+    public $province;
+    public $city;
+    public $barangay;
+    public $street;
+    public $zip;
+
     public function toggleDropdown($supvId)
     {
         if ($this->dropdownId === $supvId) {
@@ -61,6 +70,7 @@ class Supv extends Component
     public function create()
     {
         $this->reset('first_name','last_name','employee_id','email','department','position','postId', 'image', 'newImage', 'shift','station');
+        $this->dropdownId = null;
         $this->openModal();
     }
     public function store()
@@ -112,6 +122,7 @@ class Supv extends Component
         $this->name = $post->name;
         $this->image = $post->image;
 
+        $this->dropdownId = null;
         $this->deleteOpenModal();
     }
     public function remove()
@@ -132,6 +143,7 @@ class Supv extends Component
         $this->image = $post->image;
         $this->name = $post->name;
 
+        $this->dropdownId = null;
         $this->openImageModal();
     }
     public function edit($id)
@@ -150,6 +162,8 @@ class Supv extends Component
         $this->station = $post->station;
         $this->shift = $post->shift;
 
+        $this->infoModalClose();
+        $this->dropdownId = null;
         $this->reset('newImage');
         $this->openModal();
     }
@@ -220,6 +234,35 @@ class Supv extends Component
     {
         $this->imageOpen = false;
     }
+    public function preview($id)
+    {
+        $post = User::find($id);
+        $this->postId = $id;
+        $this->image = $post->image;
+        $this->name = $post->name;
+        $this->department = $post->department;
+        $this->position = $post->position;
+        $this->employee_id = $post->employee_id;
+        $this->email = $post->email;
+        $this->shift = $post->shift;
+        $this->region = $post->region_text;
+        $this->province = $post->province_text;
+        $this->city = $post->city_text;
+        $this->barangay = $post->barangay_text;
+        $this->street = $post->street;
+        $this->zip = $post->zip_code;
+
+        $this->dropdownId = null;
+        $this->infoModal();
+    }
+    public function infoModal()
+    {
+        $this->infoOpen = true;
+    }
+    public function infoModalClose()
+    {
+        $this->infoOpen = false;
+    }
     public function updatedSearch()
     {
         $this->resetPage();
@@ -246,8 +289,12 @@ class Supv extends Component
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
 
-        return view('livewire.tables.supv',
-        ['data' => $data]);
+        $title = Auth::user()->station;
+
+        return view('livewire.tables.supv',[
+            'data' => $data,
+            'title' => $title,
+        ]);
     }
 
     public function status($supvId)

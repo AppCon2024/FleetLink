@@ -19,7 +19,7 @@
 @if ($isOpen)
     <div class="fixed inset-0 flex items-center justify-center z-50">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:overflow-auto overflow-scroll"
+        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:max-w-2xl sm:overflow-auto overflow-scroll"
         style="max-height:88vh;">
             <!-- Modal content goes here -->
             <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">

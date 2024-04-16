@@ -16,24 +16,25 @@
                                         class="ri-add-line text-sm"></i>
                                     Add Supervisor
                                 </button>
-                                {{-- <button
-                                    class="text-white border border-gray-300 bg-blue-600 uppercase rounded-lg text-xs p-2  text-center">
-                                    Export
-                                </button> --}}
+                                <button onclick="printTable()"
+                                class="text-white border border-gray-300 bg-gray-800 uppercase rounded-lg text-xs px-4 py-2  text-center">
+                                <i class="ri-printer-line text-sm pr-1"></i>
+                                Print
+                            </button>
                             </div>
                         </div>
                         <div class="overflow-x-auto relative">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <table id="myTable" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                     <tr>
                                         @include('livewire.includes.table-sortable-th', [
-                                            'tablesadb' => 'station',
-                                            'displayName' => 'Station',
+                                            'tablesadb' => 'name',
+                                            'displayName' => 'Name',
                                         ])
                                         <th scope="col" class="px-4 py-3 ml-1">Image</th>
                                         @include('livewire.includes.table-sortable-th', [
-                                            'tablesadb' => 'name',
-                                            'displayName' => 'Name',
+                                            'tablesadb' => 'station',
+                                            'displayName' => 'Station',
                                         ])
                                         @include('livewire.includes.table-sortable-th', [
                                             'tablesadb' => 'department',
@@ -55,7 +56,7 @@
                                             'tablesadb' => 'status',
                                             'displayName' => 'Account',
                                         ])
-                                        <th scope="col" class="px-4 py-3">
+                                        <th class="px-4 py-3">
                                             <span class="sr-only">Actions</span>
                                         </th>
                                     </tr>
@@ -64,15 +65,15 @@
                                     @forelse ($data as $supv)
                                         <tr wire:key="{{ $supv->id }}" class="border-b dark:border-gray-700">
                                             <th scope="row"
-                                                class="px-4 py-3 text-xs capitalize font-medium text-red-600 whitespace-nowrap">
-                                                {{ $supv->station }}</th>
+                                                class="px-4 py-3 text-xs capitalize font-medium text-blue-600 whitespace-nowrap">
+                                                {{ $supv->name }}</th>
                                             <td class="px-4" style="text-align: center;">
                                                 <button wire:click="view({{ $supv->id }})">
                                                     <img src="{{ asset($supv->image) }}" width='35' height="35"
-                                                        class="rounded-md border border-black">
+                                                        class="rounded-md border border-black mt-1">
                                                 </button>
                                             </td>
-                                            <td class="px-4 py-3 capitalize text-xs text-blue-700">{{ $supv->name }}
+                                            <td class="px-4 py-3 capitalize text-xs text-blue-700">{{ $supv->station }}
                                             </td>
                                             <td class="px-4 py-3 text-xs">{{ $supv->department }}</td>
                                             <td class="px-4 py-3 text-xs">{{ $supv->position }}</td>
@@ -92,13 +93,13 @@
                                                     {{ $supv->status ? 'Enabled' : 'Disabled' }}
                                                 </a>
                                             </td>
-                                            <td class="px-1 py-3 text-center">
+                                            <td class="px-4 py-2 text-center ">
                                                 <div class="relative">
                                                     <button wire:click="toggleDropdown({{ $supv->id }})"
                                                         class="focus:outline-none">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="w-6 h-6">
+                                                            class="w-6 h-6 mt-1">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
                                                         </svg>
@@ -108,7 +109,7 @@
                                                             class="absolute z-30 right-0 bg-white shadow-lg rounded-md border">
                                                             <div class="py-1 px-1">
                                                                 <a href=""
-                                                                    wire:click.prevent="edit({{ $supv->id }})"
+                                                                    wire:click.prevent="preview({{ $supv->id }})"
                                                                     class="block px-2 py-2 text-xs text-gray-800 hover:bg-gray-200">
                                                                     <div class="flex items-center">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -233,3 +234,61 @@
         </div>
     </div>
 </div>
+
+<script>
+    function printTable() {
+        var table = document.getElementById("myTable");
+        var newWindow = window.open("", "", "width=1300,height=1000");
+        newWindow.document.write("<html><head><title>FleetLink</title>");
+        newWindow.document.write("<style>");
+        newWindow.document.write("body { background-color: white; }");
+        newWindow.document.write("h1 { font-size: 28px; text-align: center; padding: 20px; font-family: abnes; }");
+        newWindow.document.write("table { width: 100%; }");
+        newWindow.document.write("th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }");
+        newWindow.document.write("</style>");
+        newWindow.document.write("</head><body>");
+
+        // Create a new table element to hold the selected columns
+        var printTable = newWindow.document.createElement("table");
+
+        // Create a new table header row
+        var headerRow = printTable.insertRow();
+
+        // Define the custom header text for each column
+        var customHeaders = ["Name", "Name", "Station", "Department", "Position", "Shift"];
+
+        // Loop through the header cells of the original table
+        for (var j = 1; j < table.rows[1].cells.length; j++) {
+            // Check if the column index is in the list of columns you want to print
+            if ([1, 2, 3, 4, 5].includes(j)) {
+                var headerCell = headerRow.insertCell();
+                headerCell.innerHTML = customHeaders[j];
+                headerCell.style.width = "20%";
+            }
+        }
+
+        // Loop through the rows of the original table
+        for (var i = 1; i < table.rows.length; i++) {
+            var row = printTable.insertRow();
+
+            // Loop through the cells of the current row
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                // Check if the column index is in the list of columns you want to print
+                if ([2, 0, 3, 4, 5].includes(j)) {
+                    var cell = row.insertCell();
+                    cell.innerHTML = table.rows[i].cells[j].innerHTML;
+                    cell.style.width = "20%";
+                }
+            }
+        }
+
+        // Add a title to the printed output
+        newWindow.document.write("<h1>Supervisors of FleetLink</h1>");
+        newWindow.document.write(printTable.outerHTML);
+        newWindow.document.write("</body></html>");
+        newWindow.document.close();
+        newWindow.print();
+        newWindow.close();
+    }
+
+</script>

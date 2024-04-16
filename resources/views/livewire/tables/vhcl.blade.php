@@ -26,7 +26,7 @@
                             </div>
                             <div class="overflow-x-auto relative">
                                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                         <tr>
                                             <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">ID</th>
                                             @include('livewire.includes.table-sortable-th', [
@@ -53,7 +53,7 @@
                                                 'tablesadb' => 'status',
                                                 'displayName' => 'Status',
                                             ])
-                                            <th scope="col" class="px-4 py-3 text-center ">
+                                            <th scope="col" class="px-2 py-3">
                                                 <span>QRCODE</span>
                                             </th>
 
@@ -70,7 +70,7 @@
                                                     {{ $vhcl->id }}</th>
                                                 <td class="px-4 py-3 text-red-500">
                                                     {{ $vhcl->station }}</td>
-                                                <td class="px-4 py-3 text-blue-500">
+                                                <td class="px-4 py-3 text-blue-500 bg-red-200">
                                                     {{ $vhcl->plate }}</td>
                                                 <td class="px-4 py-3">
                                                     {{ $vhcl->brand }}</td>
@@ -78,20 +78,20 @@
                                                     {{ $vhcl->model }}</td>
                                                 <td class="px-4 py-3">
                                                     {{ $vhcl->type }}</td>
-                                                <td class="px-4 py-3">
+                                                <td class="px-1 py-3">
                                                     <span
                                                         class="bg-{{ $vhcl->status == 1 ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-xs">
                                                         {{ $vhcl->status == 1 ? 'Available' : 'Unavailable' }}
                                                     </span>
                                                 </td>
-                                                <td class="px-4 py-1" style="text-align: center">
-                                                    <button wire:click="view({{ $vhcl->id }})">
+                                                <td class="px-4 py-1">
+                                                    <button wire:click="view({{ $vhcl->id }})" class="flex items-center" style="text-align: center">
                                                         <img src="{{ asset($vhcl->qrcode) }}" width='30'
                                                             height="30">
                                                     </button>
                                                 </td>
 
-                                                <td class="px-1 py-3">
+                                                <td class="px-1">
                                                     <button>
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"

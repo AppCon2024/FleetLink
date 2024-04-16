@@ -19,7 +19,7 @@
 @if ($isOpen)
     <div class="absolute inset-0 flex items-center justify-center z-50">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:overflow-auto overflow-scroll"
+        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:max-w-3xl sm:overflow-auto overflow-scroll"
         style="max-height:88vh;">
             <!-- Modal content goes here -->
             <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">
@@ -351,5 +351,185 @@
         </div>
     </div>
 @endif
+
+@if ($infoOpen)
+    <div class="fixed inset-0 flex items-center justify-center z-50">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="relative bg-white p-4 rounded-xl shadow-lg w-11/12 sm:overflow-auto overflow-scroll"
+            style="max-height:88vh;">
+            <!-- header -->
+            <div class="flex items-center justify-between pb-2 md:pb-3 border-b border-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6 ml-2 ">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                </svg>
+                <h2 class="ml-2 sm:text-xl text-sm font-semibold text-gray-900 dark:text-white">
+                    {{ $name }}'s Information
+                </h2>
+                <button wire:click.prevent="$set('infoOpen', false)"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    title="Close Modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span></button>
+            </div>
+            <!-- header -->
+
+            <!--Body-->
+            <div class="grid gap-5 mb-4 mt-4 sm:grid-cols-2">
+                <div class="grid gap-3 mb-4 sm:grid-cols-2 ">
+                    <div class="flex justify-center col-span-2 border-b-2 border-black  ">
+                        <h2 class="flex flex-row items-center text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" class="w-6 h-6 mr-2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+
+                            {{ __('Profile Information') }}
+                        </h2>
+                    </div>
+                    <div>
+                        <x-input-label for="name" :value="__('Name')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $name }}
+                        </h1>
+                    </div>
+                    <div>
+                        <x-input-label for="department" :value="__('Depatrment')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $department }}
+                        </h1>
+                    </div>
+                    <div>
+                        <x-input-label for="position" :value="__('Position')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $position }}
+                        </h1>
+                    </div>
+                    <div>
+                        <x-input-label for="employee_id" :value="__('EmployeeID')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $employee_id }}
+                        </h1>
+                    </div>
+                    <div>
+                        <x-input-label for="position" :value="__('Email')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $email }}
+                        </h1>
+                    </div>
+                    <div>
+                        <x-input-label for="position" :value="__('shift')" />
+                        <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">{{ $shift }}
+                        </h1>
+                    </div>
+                </div>
+                <div class="grid gap-3 mb-4 sm:grid-cols-2">
+                    <div class="flex justify-center col-span-2 border-b-2 border-black  ">
+                        <h2 class="flex flex-row items-center text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" class="w-6 h-6 mr-2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+
+                            {{ __('Main Address') }}
+                        </h2>
+                    </div>
+                    <div>
+                        <x-input-label for="region" :value="__('region')" />
+                        @if ($region)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $region }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                    <div>
+                        <x-input-label for="province" :value="__('Province')" />
+                        @if ($province)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $province }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                    <div>
+                        <x-input-label for="city" :value="__('City')" />
+                        @if ($city)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $city }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                    <div>
+                        <x-input-label for="barangay" :value="__('Barangay')" />
+                        @if ($barangay)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $barangay }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                    <div>
+                        <x-input-label for="street" :value="__('Street')" />
+                        @if ($street)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $street }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                    <div>
+                        <x-input-label for="zip" :value="__('Zip Code')" />
+                        @if ($zip)
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm">
+                                {{ $zip }}
+                            </h1>
+                        @else
+                            <h1 class="w-full bg-gray-100 border border-gray-200 px-4 py-2 rounded-md text-xs sm:text-sm text-red-500">No Information
+                                available.
+                            </h1>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <!--Body-->
+
+            <!--Buttons-->
+            <div class="flex justify-end items-center space-x-4">
+                <button wire:click.prevent="$set('infoOpen', false)"
+                    class="py-2 px-5 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                    Close
+                </button>
+                <button wire:click="edit({{ $postId }})"
+                    class="py-2 px-5 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-900">
+                    Edit
+                </button>
+            </div>
+            <!--Buttons-->
+
+        </div>
+    </div>
+@endif
+
 
 
