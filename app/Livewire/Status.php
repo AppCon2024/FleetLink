@@ -65,12 +65,10 @@ class Status extends Component
         $currentDate = now();
         $dateOnly = $currentDate->toDateString();
         $data = Borrows::search($this->search)
-
         ->when($this->start && $this->end, function($query) {
             $query->whereDate('time_in', '>=', $this->start)
                   ->whereDate('time_in', '<=', $this->end);
         })
-
         ->when($this->start && $this->end && $this->search, function($query) {
             $query->whereDate('time_in', '>=', $this->start)
                   ->whereDate('time_in', '<=', $this->end);
@@ -78,6 +76,9 @@ class Status extends Component
         ->when(empty($this->start) && empty($this->end), function($query) use ($dateOnly) {
             $query->whereDate('created_at', $dateOnly);
         })
+        // ->when($this->search, function($query) {
+        //     $query->search($this->search);
+        // })
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
 

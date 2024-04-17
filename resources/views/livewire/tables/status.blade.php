@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="overflow-x-auto relative">
-                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <table id="myTable" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                         <tr>
                                             {{-- <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">ID</th> --}}
@@ -273,3 +273,61 @@
         </div>
     </div>
 </div>
+
+<script>
+    function printTable() {
+        var table = document.getElementById("myTable");
+        var newWindow = window.open("", "", "width=1300,height=1000");
+        newWindow.document.write("<html><head><title>FleetLink</title>");
+        newWindow.document.write("<style>");
+        newWindow.document.write("body { background-color: white; }");
+        newWindow.document.write("h1 { font-size: 28px; text-align: center; padding: 20px; font-family: abnes; }");
+        newWindow.document.write("table { width: 100%; }");
+        newWindow.document.write("th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }");
+        newWindow.document.write("</style>");
+        newWindow.document.write("</head><body>");
+
+        // Create a new table element to hold the selected columns
+        var printTable = newWindow.document.createElement("table");
+
+        // Create a new table header row
+        var headerRow = printTable.insertRow();
+
+        // Define the custom header text for each column
+        var customHeaders = ["Name", "NAME", "PLATE", "MODEL", "TIMEIN", "TIMEOUT"];
+
+        // Loop through the header cells of the original table
+        for (var j = 1; j < table.rows[1].cells.length; j++) {
+            // Check if the column index is in the list of columns you want to print
+            if ([1, 2, 3, 4, 5].includes(j)) {
+                var headerCell = headerRow.insertCell();
+                headerCell.innerHTML = customHeaders[j];
+                headerCell.style.width = "20%";
+            }
+        }
+
+        // Loop through the rows of the original table
+        for (var i = 1; i < table.rows.length; i++) {
+            var row = printTable.insertRow();
+
+            // Loop through the cells of the current row
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                // Check if the column index is in the list of columns you want to print
+                if ([2, 0, 3, 4, 5].includes(j)) {
+                    var cell = row.insertCell();
+                    cell.innerHTML = table.rows[i].cells[j].innerHTML;
+                    cell.style.width = "20%";
+                }
+            }
+        }
+
+        // Add a title to the printed output
+        newWindow.document.write("<h1>FleetLink</h1>");
+        newWindow.document.write(printTable.outerHTML);
+        newWindow.document.write("</body></html>");
+        newWindow.document.close();
+        newWindow.print();
+        newWindow.close();
+    }
+
+</script>
