@@ -1,5 +1,5 @@
 <x-app-layout>
-<x-message />
+    <x-message />
 
     @if (Auth::user()->role == 'admin')
         @include('includes.sidebar.dashboard')
@@ -270,7 +270,6 @@
         </main>
     @endif
 
-
     @if (Auth::user()->role == 'supervisor')
         @include('includes.supv-sidebar.dashboard')
 
@@ -529,7 +528,96 @@
     @endif
 
     @if (Auth::user()->role == 'police')
-        <livewire:db-ofcr />
+        <div>
+            MAP USER LOCATION
+        </div>
+        <div>
+            <button id="track">Start tracking</button>
+        </div>
+        
+        <div id="map" class="h-[350px]"></div>
+        <div id="output"></div>
+
+
+        <script>
+            var officerIcon = L.icon({
+                iconUrl: 'img/officer.png',
+                iconSize: [32, 32],
+                iconAnchor: [15, 20],
+                popupAnchor: [0, -20]
+            });
+            var stationIcon = L.icon({
+                iconUrl: 'img/pin.png',
+                iconSize: [50, 50],
+                iconAnchor: [15, 20],
+                popupAnchor: [9, -20]
+            });
+            var map = L.map('map').setView([14.7750, 121.0621], 15);
+            var userId = {{ Auth::User()->id}};
+
+            var startTrackingBtn = document.getElementById('track');
+                startTrackingBtn.addEventListener('click', function() {
+                    navigator.geolocation.watchPosition(success, error);
+                });
+            const stationLat = 14.750956664768104;
+            const stationLng = 121.05376006756651;
+
+            const station1Marker = L.marker([stationLat, stationLng], {icon: stationIcon}).addTo(map);
+            const station2Marker = L.marker([14.7508947, 121.059609], {icon: stationIcon}).addTo(map);
+
+            station1Marker.bindPopup("Station 1").openPopup().addTo(map);
+            station2Marker.bindPopup("Station 2").addTo(map);
+
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            let marker, circle, zoomed;
+
+            function success(pos) {
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
+                const accuracy = pos.coords.accuracy;
+
+                document.getElementById('output').innerHTML = lat;
+
+                if (marker) {
+                    map.removeLayer(marker);
+                    map.removeLayer(circle);
+                }
+
+                marker = L.marker([lat, lng], {icon: officerIcon}).addTo(map);
+                circle = L.circle([lat, lng], { radius: accuracy }).addTo(map);
+
+                if (!zoomed) {
+                    zoomed = map.fitBounds(circle.getBounds());
+                }
+
+                map.setView([lat, lng]);
+
+                marker.bindPopup("{{Auth()->user()->name}}").openPopup();
+
+                station1Marker.addTo(map);
+                station2Marker.addTo(map);
+                
+
+            }
+
+            function error(err) {
+                if (err.code === 1) {
+                    alert("Please allow geolocation acces");
+                } else {
+                    // alert("Cannot get current location");
+                }
+            }
+        </script>
+
+
+
+<div>
+            {{-- <livewire:db-ofcr />
         <div id="map" class="pt-40"></div>
 
         <div id="details">
@@ -634,6 +722,7 @@
                     }
                 });
             }
-        </script>
+        </script> --}}
+        </div>
     @endif
 </x-app-layout>

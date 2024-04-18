@@ -64,6 +64,9 @@ Route::get('/employees/{employeeId}/location', [UserLocation::class, 'saveGeoloc
 Route::post('/user-data/update', [savelocation::class, 'saveGeolocation']);
 
 
+Route::post('/save-location',[LocationController::class, 'store']);
+
+
 Route::controller(SupervisorsController::class)->group(function(){
     Route::get('/supervisors','index')->middleware(['auth', 'verified'])->name('supervisors');
     Route::patch('/supervisors/update/{id}','update')->name('supervisors.update');

@@ -211,7 +211,7 @@
                 <div class="flex-1">
                     <div class="w-full">
                         <div class="bg-white rounded-3xl overflow-hidden p-5">
-                            <h1 class="text-center uppercase text-2xl font-abnes font-bold">Vehicles of {{ Auth::user()->station }}</h1>
+                            <h1 class="uppercase text-xl font-bold border-b ">{{ Auth::user()->station }} Vehicles</h1>
                             <div class="flex items-center justify-between p-4">
                                 @include('livewire.includes.search-bar')
                                 <div class="flex space-x-3">
@@ -229,7 +229,7 @@
                             </div>
                             <div class="overflow-x-auto relative">
                                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                         <tr>
                                             <th scope="col" class="px-4 py-3" wire:click="setSortBy('id')">ID</th>
                                             @include('livewire.includes.table-sortable-th', [

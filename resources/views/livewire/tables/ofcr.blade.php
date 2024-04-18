@@ -215,13 +215,13 @@
 
             @if (Auth::user()->role == 'supervisor')
                 <div class="pr-3 hidden sm:block">
-                    @include('includes.ofcr-sidebar.officer')
+                    @include('includes.sidebar.officer')
                 </div>
                 <div class="flex-1">
                     <div class="w-full">
                         <div class="bg-white border border-blue-300 rounded-3xl overflow-hidden p-5 shadow-md">
-                            <h1 class="text-center uppercase text-2xl font-abnes font-bold">officers of
-                                {{ Auth::user()->station }}</h1>
+                            <h1 class="font-poppins uppercase text-xl font-bold">
+                                {{ Auth::user()->station }} officers</h1>
                             <div class="flex items-center justify-between p-4">
                                 @include('livewire.includes.search-bar')
                                 <div class="flex space-x-3">
@@ -241,7 +241,7 @@
                             </div>
                             <div class="overflow-x-auto relative">
                                 <table id="myTable" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                         <tr>
 
                                             <th scope="col" class="px-4 py-3">Image</th>
