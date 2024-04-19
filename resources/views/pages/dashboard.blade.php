@@ -528,16 +528,105 @@
     @endif
 
     @if (Auth::user()->role == 'police')
-        <div>
-            MAP USER LOCATION
+    <div class="pt-2">
+        <div class="w-11/12 mx-auto">
+            <div class="p-4 bg-gradient-to-r from-blue-400 to-blue-300 overflow-hidden shadow-sm rounded-t-xl">
+                <div class=" flex items-center justify-between font-bold text-white">
+                    <label for="user"> Hello, {{ Auth::user()->name }} </label>
+                    <img src="{{ Auth::user()->image }}" alt="" class="rounded-full w-10">
+                </div>
+            </div>
         </div>
+    </div>
+    <div id="map" class="h-[350px] w-11/12 mx-auto border border-blue-400" style="display:none;"></div>
+    <div>
+        <video id="preview" width="100%" class="p-1 w-11/12 mx-auto" style="display:none;">
+        </video>
+        <input type="text" name="plate" id="plate" readonly=""
+                        class="text-black p-0 border border-transparent">
+    </div>
+    <div class="rounded-b-xl w-11/12 mx-auto flex items-center justify-center bg-white">
+        <div class="p-4 w-full overflow-hidden shadow-sm rounded-xl">
+            <div class=" flex items-center justify-between font-bold text-white">
+                <a href="{{ route('chatify') }}">
+                    <div
+                        class="flex flex-col items-center justify-center px-4 p-1  hover:bg-blue-600 bg-blue-200 rounded-lg">
+                        <i class="ri-chat-3-line text-blue-800 text-6xl"></i>
+                        <span class="text-blue-800">Msg</span>
+                    </div>
+                </a>
+                <button onclick="toggleScanner()">
+                    <div class="flex flex-col items-center justify-center px-4 p-1 hover:bg-blue-600 bg-blue-200 rounded-lg">
+                        <i class="ri-qr-scan-2-line text-blue-800 text-6xl"></i>
+                        <span class="text-blue-800">Scan</span>
+                    </div>
+                </button>
+
+                <button id="show-map">
+                    <div
+                        class="flex flex-col items-center justify-center px-4 p-1 hover:bg-blue-600 bg-blue-200 rounded-lg">
+                        <i class="ri-map-2-line text-blue-800 text-6xl"></i>
+                        <span class="text-blue-800">Map</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pt-5">
+        <div class="w-11/12 mx-auto">
+            <div class="p-4 bg-gradient-to-r from-blue-400 to-blue-300 overflow-hidden shadow-sm rounded-t-xl">
+                <div class=" flex items-center justify-between font-bold text-white">
+                    Available Vehicle/s
+                </div>
+            </div>
+        </div>
+    </div>
+
         <div>
             <button id="track">Start tracking</button>
         </div>
-        
-        <div id="map" class="h-[350px]"></div>
-        <div id="output"></div>
+        <div class="w-11/12 mx-auto">
+            <div class="p-1 bg-cyan-100 overflow-hidden shadow-sm flex flex-col items-center justify-center">
 
+                <video id="preview" width="100%" class="p-1" style="border-radius: 25px;">
+                </video>
+            </div>
+
+            <div class="col-md-6 bg-cyan-100 p-1 flex flex-col justify-center">
+                <form action="{{ route('vehicles.borrow') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <label>Plate Number: </label>
+                    <input type="text" name="plate" id="plate" readonly=""
+                        class="text-black p-0 border border-transparent">
+
+                    <div class="hidden">
+                        <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                            <div>
+                                <label>Model: </label>
+                                <input type="text" name="model" id="model" readonly="" placeholder="Model"
+                                    class="text-black">
+                            </div>
+                            <div>
+                                <label>Brand: </label>
+                                <input type="text" name="brand" id="brand" readonly="" placeholder="Brand"
+                                    class="text-black">
+                            </div>
+                            <div>
+                                <label>VIN: </label>
+                                <input type="text" name="vin" id="vin" readonly="" placeholder="vin"
+                                    class="text-black">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </div>
 
         <script>
             var officerIcon = L.icon({
@@ -552,7 +641,22 @@
                 iconAnchor: [15, 20],
                 popupAnchor: [9, -20]
             });
-            var map = L.map('map').setView([14.7750, 121.0621], 15);
+
+            var videoContainer = document.getElementById('preview');
+            var showMapBtn = document.getElementById('show-map');
+            showMapBtn.addEventListener('click', function() {
+            var mapContainer = document.getElementById('map');
+                if (mapContainer.style.display === 'none') {
+                    videoContainer.style.display = 'none';
+                    mapContainer.style.display = 'block';
+                    map.invalidateSize(); // This is important to ensure the map tiles load correctly after being initially hidden
+                } else {
+                    mapContainer.style.display = 'none';
+                }
+            });
+
+
+            var map = L.map('map').setView([14.7508947, 121.059609], 15);
             var userId = {{ Auth::User()->id}};
 
             var startTrackingBtn = document.getElementById('track');
@@ -581,7 +685,22 @@
                 const lng = pos.coords.longitude;
                 const accuracy = pos.coords.accuracy;
 
-                document.getElementById('output').innerHTML = lat;
+            $.ajax({
+                type: 'POST',
+                url: '/tracking',
+                data: {
+                        lat: lat,
+                        lng: lng,
+                        accuracy: accuracy,
+                        _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('Tracking data saved successfully');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error saving tracking data: ' + error.message);
+                }
+            });
 
                 if (marker) {
                     map.removeLayer(marker);
@@ -601,8 +720,6 @@
 
                 station1Marker.addTo(map);
                 station2Marker.addTo(map);
-                
-
             }
 
             function error(err) {
@@ -612,12 +729,61 @@
                     // alert("Cannot get current location");
                 }
             }
+
+            let scanner;
+            let isScannerRunning = false;
+
+            var videoContainer = document.getElementById('preview');
+            var mapContainer = document.getElementById('map');
+            function toggleScanner() {
+                if (isScannerRunning) {
+                    videoContainer.style.display = 'none';
+                    stopScanner();
+                    isScannerRunning = false;
+                } else {
+                    videoContainer.style.display = 'block';
+                    mapContainer.style.display = 'none';
+                    startScanner();
+                    isScannerRunning = true;
+                }
+            }
+            function startScanner() {
+                scanner = new Instascan.Scanner({
+                    video: document.getElementById('preview')
+                });
+                Instascan.Camera.getCameras().then(function(cameras) {
+                    if (cameras.length > 0) {
+                        scanner.start(cameras[1]);
+                        document.getElementById('preview').style.display = 'block'; // Show the video
+                    } else {
+                        alert('No cameras found');
+                    }
+                }).catch(function(e) {
+                    console.error(e);
+                });
+                scanner.addListener('scan', function(c) {
+                    let qrData = c.split(' ');
+                    document.getElementById('plate').value = qrData[0] || '';
+                    document.getElementById('model').value = qrData[1] || '';
+                    document.getElementById('brand').value = qrData[2] || '';
+                    document.getElementById('vin').value = qrData[3] || '';
+
+                    navigator.geolocation.watchPosition(success, error);
+                });
+
+            }
+            function stopScanner() {
+                if (scanner) {
+                    scanner.stop();
+                }
+            }
         </script>
 
 
 
-<div>
-            {{-- <livewire:db-ofcr />
+
+{{-- <div>
+            <livewire:db-ofcr />
         <div id="map" class="pt-40"></div>
 
         <div id="details">
@@ -722,7 +888,7 @@
                     }
                 });
             }
-        </script> --}}
-        </div>
+        </script>
+        </div> --}}
     @endif
 </x-app-layout>

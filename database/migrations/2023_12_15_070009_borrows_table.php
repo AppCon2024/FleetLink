@@ -14,12 +14,7 @@ return new class extends Migration
         //
         Schema::create('borrows', function (Blueprint $table) {
             $table->id();
-            $table->string('last_name');
-            $table->string('first_name');
-            $table->string('employee_id');
-            $table->string('position');
-            $table->string('shift');
-            $table->string('department');
+            $table->string('userId');
             $table->string('vin');
             $table->string('plate');
             $table->string('brand');

@@ -9,21 +9,26 @@ class LocationController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
-            'userId' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
-            'accuracy' => 'required',
-        ]);
+        $lat = $request->input('lat');
+        $lng = $request->input('lng');
+        $accuracy = $request->input('accuracy');
+        $userId = auth()->id();
 
-        // Assuming you have a Location model set up
-        Locations::create([
-            'user_id' => $request->userId,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'accuracy' => $request->accuracy,
-        ]);
+        $updateLoc = Locations::where('userId', $userId)->first();
 
-        return response()->json(['status' => 'Success', 'message' => 'Location saved']);
+        if($updateLoc){
+            $updateLoc->latitude = $lat;
+            $updateLoc->longitude = $lng;
+            $updateLoc->accuracy = $accuracy;
+            $updateLoc->save();
+        } else {
+            $newLoc = new Locations();
+            $newLoc->userId = $userId;
+            $newLoc->latitude = $lat;
+            $newLoc->longitude = $lng;
+            $newLoc->accuracy = $accuracy;
+            $newLoc->save();
+        }
+        return response()->json(['success' => true]);
     }
 }

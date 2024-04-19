@@ -10,12 +10,7 @@ class Borrows extends Model
     use HasFactory;
 
     protected $fillable = [
-        'last_name',
-        'first_name',
-        'employee_id',
-        'position',
-        'shift',
-        'department',
+        'userId',
         'plate',
         'brand',
         'model',
@@ -25,12 +20,17 @@ class Borrows extends Model
     ];
 
     public function scopeSearch($query, $value){
-        $query->where('last_name','like',"%{$value}%")
-        ->orWhere('department','like',"%{$value}%")
+        $query->where('vin','like',"%{$value}%")
         ->orWhere('plate','like',"%{$value}%")
-        ->orWhere('first_name','like',"%{$value}%")
         ->orWhere('model','like',"%{$value}%")
-        ->orWhere('employee_id','like',"%{$value}%")
-        ->orWhere('shift','like',"%{$value}%");
+        ->orWhereHas('user', function($query) use ($value) {
+            $query->where('name', 'like', "%{$value}%")
+            ->orWhere('shift', 'like', "%{$value}%");
+        });
+
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'userId');
     }
 }

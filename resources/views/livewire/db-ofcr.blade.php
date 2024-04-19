@@ -129,8 +129,6 @@
             </div>
         </div>
     </div>
-
-
     @forelse ($available as $ok)
         <div class="">
             <div class="w-11/12 mx-auto">

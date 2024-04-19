@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\SupervisorsController;
 use App\Http\Controllers\VehiclesController;
+use App\Models\Locations;
 use App\Models\Supervisors;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SmsController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\UserLocation;
 use App\Livewire\Ofcr;
 use App\Livewire\Supv;
 use App\Livewire\Vhcl;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -64,8 +66,7 @@ Route::get('/employees/{employeeId}/location', [UserLocation::class, 'saveGeoloc
 Route::post('/user-data/update', [savelocation::class, 'saveGeolocation']);
 
 
-Route::post('/save-location',[LocationController::class, 'store']);
-
+Route::post('tracking',[LocationController::class, 'store'])->middleware('auth');
 
 Route::controller(SupervisorsController::class)->group(function(){
     Route::get('/supervisors','index')->middleware(['auth', 'verified'])->name('supervisors');
