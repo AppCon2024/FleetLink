@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Borrows;
 use App\Models\GeoLocation;
+use App\Models\Locations;
 use App\Models\User;
 use App\Models\UserData;
 use App\Models\UserLocation;
@@ -141,13 +142,15 @@ class VehiclesController extends Controller
         $existingBorrow = Borrows::where('plate', $plate)
         ->where('time_out','- - -')
         ->first();// Check if the plate is already in use
+        $using = Auth::user()->id;
+        $existingUser = Borrows::where('userId',$using)->where('time_out','- - -')->first();
 
         //problem if user done using vehicle then he scan again
 
         if ($existingBorrow)
         {
-            $finish = Auth::user()->employee_id;
-            $update = Borrows::where('employee_id', $finish);
+            $finish = Auth::user()->id;
+            $update = Borrows::where('userId', $finish);
 
             if($update)
             {
@@ -170,15 +173,25 @@ class VehiclesController extends Controller
                 return redirect()->route('dashboard')->with('message', 'This vehicle is currently in use.');
             }
         }
+        else if($existingUser){
+            return redirect()->route('dashboard')->with('message', 'Error! Invalid.');
+        }
         else
         {
             $userId = Auth::user()->id;
-            $data = Borrows::create([
+            $userLoc = Locations::where('userId',$userId)->first();
+            $latitude = $userLoc->latitude;
+            $longitude = $userLoc->longitude;
+            $accuracy = $userLoc->accuracy;
+            Borrows::create([
                 'userId' => $userId,
                 'vin' => $request->input('vin'),
                 'plate' => $plate,
                 'brand' => $request->input('brand'),
                 'model' => $request->input('model'),
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'accuracy' => $accuracy,
                 'time_in' => now(),
                 'time_out' => '- - -',
             ]);

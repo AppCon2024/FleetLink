@@ -20,10 +20,6 @@ class Vehicles extends Model
         'user',
         'status',
         'qrcode',
-        // 'username',
-        // 'phone',
-        // 'emergency_phone',
-        // 'password',
     ];
 
     public function generateQRCode()

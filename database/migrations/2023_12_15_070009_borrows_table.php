@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('model');
             $table->string('time_in');
             $table->string('time_out');
+            $table->string('latitude');
+            $table->string('longitude');
+            $table->string('accuracy');
             $table->rememberToken();
             $table->timestamps();
         });

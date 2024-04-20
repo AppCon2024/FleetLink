@@ -539,11 +539,44 @@
         </div>
     </div>
     <div id="map" class="h-[350px] w-11/12 mx-auto border border-blue-400" style="display:none;"></div>
+    <video id="preview" width="100%" class="p-1 w-11/12 mx-auto" style="display:none;">
+    </video>
+    
+    <div class="w-11/12 mx-auto bg-cyan-100 p-1 flex flex-col justify-center">
+        <form action="{{ route('vehicles.borrow') }}" method="post" enctype="multipart/form-data">
+            @csrf
+            <label>Plate Number: </label>
+            <input type="text" name="plate" id="plate" readonly=""
+                class="text-black p-0 border border-transparent">
+
+            <div class="hidden">
+                <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                    <div>
+                        <label>Model: </label>
+                        <input type="text" name="model" id="model" readonly="" placeholder="Model"
+                            class="text-black">
+                    </div>
+                    <div>
+                        <label>Brand: </label>
+                        <input type="text" name="brand" id="brand" readonly="" placeholder="Brand"
+                            class="text-black">
+                    </div>
+                    <div>
+                        <label>VIN: </label>
+                        <input type="text" name="vin" id="vin" readonly="" placeholder="vin"
+                            class="text-black">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit"
+                class="w-full text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                Submit
+            </button>
+        </form>
+    </div>
     <div>
-        <video id="preview" width="100%" class="p-1 w-11/12 mx-auto" style="display:none;">
-        </video>
-        <input type="text" name="plate" id="plate" readonly=""
-                        class="text-black p-0 border border-transparent">
+        <button id="track">-</button>
     </div>
     <div class="rounded-b-xl w-11/12 mx-auto flex items-center justify-center bg-white">
         <div class="p-4 w-full overflow-hidden shadow-sm rounded-xl">
@@ -582,52 +615,6 @@
             </div>
         </div>
     </div>
-
-        <div>
-            <button id="track">Start tracking</button>
-        </div>
-        <div class="w-11/12 mx-auto">
-            <div class="p-1 bg-cyan-100 overflow-hidden shadow-sm flex flex-col items-center justify-center">
-
-                <video id="preview" width="100%" class="p-1" style="border-radius: 25px;">
-                </video>
-            </div>
-
-            <div class="col-md-6 bg-cyan-100 p-1 flex flex-col justify-center">
-                <form action="{{ route('vehicles.borrow') }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <label>Plate Number: </label>
-                    <input type="text" name="plate" id="plate" readonly=""
-                        class="text-black p-0 border border-transparent">
-
-                    <div class="hidden">
-                        <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                            <div>
-                                <label>Model: </label>
-                                <input type="text" name="model" id="model" readonly="" placeholder="Model"
-                                    class="text-black">
-                            </div>
-                            <div>
-                                <label>Brand: </label>
-                                <input type="text" name="brand" id="brand" readonly="" placeholder="Brand"
-                                    class="text-black">
-                            </div>
-                            <div>
-                                <label>VIN: </label>
-                                <input type="text" name="vin" id="vin" readonly="" placeholder="vin"
-                                    class="text-black">
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit"
-                        class="w-full text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                        Submit
-                    </button>
-                </form>
-            </div>
-        </div>
-
         <script>
             var officerIcon = L.icon({
                 iconUrl: 'img/officer.png',
@@ -663,6 +650,7 @@
                 startTrackingBtn.addEventListener('click', function() {
                     navigator.geolocation.watchPosition(success, error);
                 });
+            
             const stationLat = 14.750956664768104;
             const stationLng = 121.05376006756651;
 
@@ -729,7 +717,9 @@
                     // alert("Cannot get current location");
                 }
             }
+        </script>
 
+        <script>
             let scanner;
             let isScannerRunning = false;
 
@@ -747,10 +737,12 @@
                     isScannerRunning = true;
                 }
             }
+
             function startScanner() {
                 scanner = new Instascan.Scanner({
                     video: document.getElementById('preview')
                 });
+
                 Instascan.Camera.getCameras().then(function(cameras) {
                     if (cameras.length > 0) {
                         scanner.start(cameras[1]);
@@ -761,25 +753,25 @@
                 }).catch(function(e) {
                     console.error(e);
                 });
+
                 scanner.addListener('scan', function(c) {
                     let qrData = c.split(' ');
+
                     document.getElementById('plate').value = qrData[0] || '';
                     document.getElementById('model').value = qrData[1] || '';
                     document.getElementById('brand').value = qrData[2] || '';
                     document.getElementById('vin').value = qrData[3] || '';
 
-                    navigator.geolocation.watchPosition(success, error);
+                    updateStatus(qrData[0]);
                 });
-
             }
+
             function stopScanner() {
                 if (scanner) {
                     scanner.stop();
                 }
             }
         </script>
-
-
 
 
 {{-- <div>

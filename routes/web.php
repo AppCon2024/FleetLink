@@ -17,6 +17,7 @@ use App\Http\Controllers\UserLocation;
 use App\Livewire\Ofcr;
 use App\Livewire\Supv;
 use App\Livewire\Vhcl;
+use App\Models\Borrows;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
@@ -47,7 +48,12 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/tracking', function(){
-    return view('pages.tracking');
+    $userLocs = Borrows::where('time_out','- - -')
+                ->with('user')
+                ->get();
+    return view('pages.tracking',[
+        'userLocs' => $userLocs,
+    ]);
 })->name('tracking');
 
 

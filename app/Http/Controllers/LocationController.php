@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Borrows;
 use App\Models\Locations;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,7 @@ class LocationController extends Controller
         $userId = auth()->id();
 
         $updateLoc = Locations::where('userId', $userId)->first();
+        
 
         if($updateLoc){
             $updateLoc->latitude = $lat;
@@ -30,5 +32,13 @@ class LocationController extends Controller
             $newLoc->save();
         }
         return response()->json(['success' => true]);
+    }
+
+    public function index(){
+
+        $userLocs = Borrows::where('time_out','- - -')->get();
+        return view('livewire.tracking',[
+            'userLoc' => $userLocs
+        ]);
     }
 }

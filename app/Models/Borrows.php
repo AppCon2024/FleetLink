@@ -17,6 +17,9 @@ class Borrows extends Model
         'vin',
         'time_in',
         'time_out',
+        'latitude',
+        'longitude',
+        'accuracy'
     ];
 
     public function scopeSearch($query, $value){
