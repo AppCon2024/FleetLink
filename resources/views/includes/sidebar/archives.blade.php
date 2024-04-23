@@ -10,7 +10,7 @@
                     <span class="font-poppins">Dashboard</span>
                 </a>
             </li>
-            <li class="mb-1 group active">
+            <li class="mb-1 group">
                 <a href="{{ route('supervisors') }}" wire:navigate
                     class="flex items-center py-2 px-4 text-gray-900 hover:bg-blue-400 hover:text-gray-100 rounded-md group-[.active]:bg-blue-700 group-[.active]:text-white group-[.selected]:bg-[#4ECE5D] group-[.selected]:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
@@ -56,7 +56,7 @@
                     <span class="font-poppins">Messages</span>
                 </a>
             </li>
-            <li class="mb-1 group">
+            <li class="mb-1 group active">
                 <a href="{{ route('index.archives') }}"
                     class="flex items-center py-2 px-4 text-gray-900 hover:bg-blue-400 hover:text-gray-100 rounded-md group-[.active]:bg-blue-700 group-[.active]:text-white group-[.selected]:bg-[#4ECE5D] group-[.selected]:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">

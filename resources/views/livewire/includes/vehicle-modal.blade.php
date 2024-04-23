@@ -46,21 +46,49 @@
                 <div class="grid gap-3 mb-4 mt-4 sm:grid-cols-2 px-4">
 
                     <div>
-                        <x-input-label for="plate" :value="__('Plate# :')" />
+                        <x-input-label for="plate" :value="__('Plate Number :')" />
                         <x-text-input wire:model="plate" id="plate" class="block mt-1 w-full" type="text"
-                            name="plate" :value="old('plate')" required autofocus autocomplete="plate" />
+                            name="plate" :value="old('plate')" required autofocus autocomplete="plate" title="Plate number should not contain any special characters." />
                         <x-input-error :messages="$errors->get('plate')" class="mt-2" />
                     </div>
 
                     <div>
-                        <x-input-label for="brand" :value="__('Brand :')" />
+                        <x-input-label for="mv" :value="__('MV File Number :')" />
+                        <x-text-input wire:model="mv" id="mv" class="block mt-1 w-full" type="text"
+                            name="mv" :value="old('mv')" required autofocus autocomplete="mv" />
+                        <x-input-error :messages="$errors->get('mv')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="cr" :value="__('CR Number :')" />
+                        <x-text-input wire:model="cr" id="cr" class="block mt-1 w-full" type="text"
+                            name="cr" :value="old('cr')" required autofocus autocomplete="cr" />
+                        <x-input-error :messages="$errors->get('cr')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="eng" :value="__('Engine Number :')" />
+                        <x-text-input wire:model="eng" id="eng" class="block mt-1 w-full" type="text"
+                            name="eng" :value="old('eng')" required autofocus autocomplete="eng" />
+                        <x-input-error :messages="$errors->get('eng')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="cha" :value="__('Chasis Number :')" />
+                        <x-text-input wire:model="cha" id="cha" class="block mt-1 w-full" type="text"
+                            name="cha" :value="old('cha')" required autofocus autocomplete="cha" />
+                        <x-input-error :messages="$errors->get('cha')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="brand" :value="__('Make :')" />
                         <x-text-input wire:model="brand" id="brand" class="block mt-1 w-full" type="text"
                             name="brand" :value="old('brand')" required autofocus autocomplete="brand" />
                         <x-input-error :messages="$errors->get('brand')" class="mt-2" />
                     </div>
 
                     <div class="mt-2">
-                        <x-input-label for="model" :value="__('Model :')" />
+                        <x-input-label for="model" :value="__('Series :')" />
                         <x-text-input wire:model="model" id="model" class="block mt-1 w-full" type="text"
                             name="model" :value="old('model')" required autocomplete="username" />
                         <x-input-error :messages="$errors->get('model')" class="mt-2" />
@@ -79,10 +107,18 @@
                         <select name="station" wire:model="station"
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                             <option value="" {{ old('station') == '' ? 'selected' : '' }}></option>
-                            <option value="Station 1" {{ old('station') == 'Station 1' ? 'selected' : '' }}>
-                                Station 1</option>
-                            <option value="Station 2" {{ old('station') == 'Station 2' ? 'selected' : '' }}>
-                                Station 2</option>
+                            <option value="Station 1" {{ old('station') == 'Station 1' ? 'selected' : '' }}>Station 1</option>
+                            <option value="Station 2" {{ old('station') == 'Station 2' ? 'selected' : '' }}>Station 2</option>
+                            <option value="Station 3" {{ old('station') == 'Station 3' ? 'selected' : '' }}>Station 3</option>
+                            <option value="Station 4" {{ old('station') == 'Station 4' ? 'selected' : '' }}>Station 4</option>
+                            <option value="Station 5" {{ old('station') == 'Station 5' ? 'selected' : '' }}>Station 5</option>
+                            <option value="Station 6" {{ old('station') == 'Station 6' ? 'selected' : '' }}>Station 6</option>
+                            <option value="Station 7" {{ old('station') == 'Station 7' ? 'selected' : '' }}>Station 7</option>
+                            <option value="Station 8" {{ old('station') == 'Station 8' ? 'selected' : '' }}>Station 8</option>
+                            <option value="Station 9" {{ old('station') == 'Station 9' ? 'selected' : '' }}>Station 9</option>
+                            <option value="Station 10" {{ old('station') == 'Station 10' ? 'selected' : '' }}>Station 10</option>
+                            <option value="Station 11" {{ old('station') == 'Station 11' ? 'selected' : '' }}>Station 11</option>
+                            <option value="Station 12" {{ old('station') == 'Station 12' ? 'selected' : '' }}>Station 12</option>
                         </select>
                         @error('station')
                             <p class="text-red-500 text-xs p-1">
@@ -153,7 +189,7 @@
                     Are you sure you want to delete this Vehicle?
                 </p>
                 <div class="flex justify-center items-center space-x-4">
-                    <button wire:click="deleteCloseModal"
+                    <button wire:click.prevent="$set('deleteOpen', false)"
                         class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                         No, cancel
                     </button>
@@ -170,7 +206,7 @@
 @if ($qrOpen)
     <div class="fixed inset-0 flex items-center justify-center z-50">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="relative bg-white p-4 rounded-xl shadow-lg ">
+        <div class="relative bg-white p-4 rounded-xl shadow-lg w-3/12">
             <!-- Modal content goes here -->
             <p>{{ $plate }}</p>
             <button wire:click.prevent="$set('qrOpen', false)"
@@ -183,9 +219,14 @@
                 </svg>
                 <span class="sr-only">Close modal</span>
             </button>
-            <p class="ml-1 mb-2 text-gray-500 dark:text-gray-300">
-                <img src="{{ $qrcode }}">
-            </p>
+            <div class="flex">
+                <p class="ml-1 mb-2 text-gray-500 dark:text-gray-300">
+                    <img src="{{ $qrcode }}" >
+                </p>
+                <p class="ml-1 mb-2 text-gray-500 dark:text-gray-300">
+                {{ $plate }}
+                </p>
+            </div>
             <div class="flex justify-center items-center space-x-4">
                 <button wire:click="closeQrModal"
                     class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">

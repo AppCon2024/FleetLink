@@ -3,16 +3,14 @@
 namespace App\Livewire;
 
 use App\Models\Archive;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Warehouse;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Attributes\Rule;
-use Livewire\Component;
 use Livewire\Attributes\Url;
-use Livewire\WithFileUploads;
+use Livewire\Component;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\WithPagination;
 
-class Supv extends Component
+class Archives extends Component
 {
     use WithPagination;
     use WithFileUploads;
@@ -96,7 +94,7 @@ class Supv extends Component
             $this->image = 'storage/'.$this->image;
         }
 
-        User::create([
+        Archive::create([
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'name' => $this->first_name . ' ' . $this->last_name,
@@ -118,7 +116,7 @@ class Supv extends Component
     }
     public function delete($id)
     {
-        $post = User::find($id);
+        $post = Archive::find($id);
         $this->postId = $id;
         $this->name = $post->name;
         $this->image = $post->image;
@@ -129,7 +127,7 @@ class Supv extends Component
     public function remove()
     {
         if ($this->postId){
-            $post = User::find($this->postId);
+            $post = Archive::find($this->postId);
 
             Archive::create([
                 'id' => $post->id,
@@ -168,7 +166,7 @@ class Supv extends Component
     }
     public function view($id)
     {
-        $post = User::find($id);
+        $post = Archive::find($id);
         $this->postId = $id;
         $this->image = $post->image;
         $this->name = $post->name;
@@ -179,7 +177,7 @@ class Supv extends Component
     public function edit($id)
     {
 
-        $post = User::findOrFail($id);
+        $post = Archive::findOrFail($id);
         $this->postId = $id;
         $this->first_name = $post->first_name;
         $this->last_name = $post->last_name;
@@ -200,7 +198,7 @@ class Supv extends Component
     public function update()
     {
         if ($this->postId) {
-            $post = User::findOrFail($this->postId);
+            $post = Archive::findOrFail($this->postId);
             $newImage = $post->image;
             if($this->newImage)
             {
@@ -266,7 +264,7 @@ class Supv extends Component
     }
     public function preview($id)
     {
-        $post = User::find($id);
+        $post = Archive::find($id);
         $this->postId = $id;
         $this->image = $post->image;
         $this->name = $post->name;
@@ -311,25 +309,24 @@ class Supv extends Component
     public $status = '';
     public function render()
     {
-        $data = User::search($this->search)
+        $data = Archive::search($this->search)
         ->when($this->status !== '',function($query){
             $query->where('status', $this->status);
         })
-        ->where('role', 'supervisor')
         ->orderBy($this->sortBy,$this->sortDir)
         ->paginate($this->perPage);
 
-        $title = Auth::user()->station;
+        $vhcl = Warehouse::all();
 
-        return view('livewire.tables.supv',[
+        return view('livewire.archives',[
             'data' => $data,
-            'title' => $title,
+            'vhcl' => $vhcl,
         ]);
     }
 
     public function status($supvId)
     {
-        $data = User::find($supvId);
+        $data = Archive::find($supvId);
         if($data){
             if($data->status){
                 $data->status = 0;

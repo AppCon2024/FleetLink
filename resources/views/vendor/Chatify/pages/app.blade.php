@@ -249,6 +249,7 @@
     @endif
 
     @if (Auth::user()->role == 'police')
+    
     <div>
         <div class="w-auto px-3 mx-auto sm:mt-0">
             <div class="flex overflow-hidden h-fit">
@@ -262,7 +263,7 @@
                             {{-- Header and search bar --}}
                             <div class="m-header">
                                 <nav>
-                                    <a href="#"><i class="fas fa-inbox"></i> <span class="messenger-headTitle">MESSAGES</span> </a>
+                                    <a href="{{route('dashboard')}}"><i class="fas fa-inbox"></i><span class="messenger-headTitle">FLEETLINK | MESSAGES</span> </a>
                                     {{-- header buttons --}}
                                     <nav class="m-header-right">
                                         <a href="#"><i class="fas fa-cog settings-btn"></i></a>

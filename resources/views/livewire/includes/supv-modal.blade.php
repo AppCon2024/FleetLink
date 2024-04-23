@@ -235,6 +235,16 @@
                             <option value="" {{ old('station') == '' ? 'selected' : '' }}></option>
                             <option value="Station 1" {{ old('station') == 'Station 1' ? 'selected' : '' }}>Station 1</option>
                             <option value="Station 2" {{ old('station') == 'Station 2' ? 'selected' : '' }}>Station 2</option>
+                            <option value="Station 3" {{ old('station') == 'Station 3' ? 'selected' : '' }}>Station 3</option>
+                            <option value="Station 4" {{ old('station') == 'Station 4' ? 'selected' : '' }}>Station 4</option>
+                            <option value="Station 5" {{ old('station') == 'Station 5' ? 'selected' : '' }}>Station 5</option>
+                            <option value="Station 6" {{ old('station') == 'Station 6' ? 'selected' : '' }}>Station 6</option>
+                            <option value="Station 7" {{ old('station') == 'Station 7' ? 'selected' : '' }}>Station 7</option>
+                            <option value="Station 8" {{ old('station') == 'Station 8' ? 'selected' : '' }}>Station 8</option>
+                            <option value="Station 9" {{ old('station') == 'Station 9' ? 'selected' : '' }}>Station 9</option>
+                            <option value="Station 10" {{ old('station') == 'Station 10' ? 'selected' : '' }}>Station 10</option>
+                            <option value="Station 11" {{ old('station') == 'Station 11' ? 'selected' : '' }}>Station 11</option>
+                            <option value="Station 12" {{ old('station') == 'Station 12' ? 'selected' : '' }}>Station 12</option>
                         </select>
                         @error('station')
                             <p class="text-red-500 text-xs p-1">

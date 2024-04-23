@@ -127,17 +127,7 @@
                 <x-input-error :messages="$errors->get('password_confirmation')" class="p-1" />
             </div>
 
-            <!--Upload Image-->
-            <div>
-                <x-input-label for="password_confirmation" :value="__('Your Photo')" class="sm:text-sm text-xs mb-[2px]" />
-                <input class=" sm:text-sm text-xs rounded-md w-full border border-gray-200 bg-gray-50" name="image" type="file" id="image">
-                @error('image')
-                    <p class="text-red-500 text-xs p-1">
-                        {{ $message }}
-                    </p>
-                @enderror
-            </div>
-
+           
             <!--Station-->
             <div>
                 <label for="station" class="block mb-[2px] w-full sm:text-sm text-xs font-medium text-gray-900">Station</label>
@@ -146,6 +136,16 @@
                     <option value="" {{ old('station') == '' ? 'selected' : '' }}></option>
                     <option value="Station 1" {{ old('station') == 'Station 1' ? 'selected' : '' }}>Station 1</option>
                     <option value="Station 2" {{ old('station') == 'Station 2' ? 'selected' : '' }}>Station 2</option>
+                    <option value="Station 3" {{ old('station') == 'Station 3' ? 'selected' : '' }}>Station 3</option>
+                    <option value="Station 4" {{ old('station') == 'Station 4' ? 'selected' : '' }}>Station 4</option>
+                    <option value="Station 5" {{ old('station') == 'Station 5' ? 'selected' : '' }}>Station 5</option>
+                    <option value="Station 6" {{ old('station') == 'Station 6' ? 'selected' : '' }}>Station 6</option>
+                    <option value="Station 7" {{ old('station') == 'Station 7' ? 'selected' : '' }}>Station 7</option>
+                    <option value="Station 8" {{ old('station') == 'Station 8' ? 'selected' : '' }}>Station 8</option>
+                    <option value="Station 9" {{ old('station') == 'Station 9' ? 'selected' : '' }}>Station 9</option>
+                    <option value="Station 10" {{ old('station') == 'Station 10' ? 'selected' : '' }}>Station 10</option>
+                    <option value="Station 11" {{ old('station') == 'Station 11' ? 'selected' : '' }}>Station 11</option>
+                    <option value="Station 12" {{ old('station') == 'Station 12' ? 'selected' : '' }}>Station 12</option>
                 </select>
                 @error('station')
                     <p class="text-red-500 text-xs p-1">
@@ -173,6 +173,17 @@
                 @enderror
             </div>
 
+        </div>
+
+         <!--Upload Image-->
+         <div>
+            <x-input-label for="password_confirmation" :value="__('Your Photo')" class="sm:text-sm text-xs mb-[2px]" />
+            <input class=" sm:text-sm text-xs rounded-md w-full border border-gray-200 bg-gray-50" name="image" type="file" id="image">
+            @error('image')
+                <p class="text-red-500 text-xs p-1">
+                    {{ $message }}
+                </p>
+            @enderror
         </div>
 
         <div class="flex items-center justify-center mt-4">
