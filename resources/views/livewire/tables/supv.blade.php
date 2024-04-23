@@ -93,8 +93,8 @@
                                                     {{ $supv->status ? 'Enabled' : 'Disabled' }}
                                                 </a>
                                             </td>
-                                            <td class="px-4 py-2 text-center">
-                                                <div class="relative">
+                                            <td class="px-1">
+                                                <div class="relative flex justify-end items-center">
                                                     <button wire:click="toggleDropdown({{ $supv->id }})"
                                                         class="focus:outline-none">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -106,7 +106,7 @@
                                                     </button>
                                                     @if ($dropdownId === $supv->id)
                                                         <div
-                                                            class="absolute z-30 right-0 bg-white shadow-lg rounded-md border">
+                                                            class="absolute z-30 right-5 bg-white shadow-lg rounded-md border">
                                                             <div class="py-1 px-1">
                                                                 <a href=""
                                                                     wire:click.prevent="preview({{ $supv->id }})"

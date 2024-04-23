@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\ArchivesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatusController;
@@ -47,14 +48,13 @@ Route::get('/dashboard', function () {
     return view('pages.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/tracking', function(){
-    $userLocs = Borrows::where('time_out','- - -')
-                ->with('user')
-                ->get();
-    return view('pages.tracking',[
-        'userLocs' => $userLocs,
-    ]);
-})->name('tracking');
+Route::get('/tracking', [LocationController::class, 'index'])->name('tracking');
+
+Route::get('/user-location', [LocationController::class, 'fetchMap']);
+Route::get('/user-location-db', [DashboardController::class, 'fetchMap']);
+
+
+Route::get('/archives', [ArchivesController::class, 'index'])->name('index.archives');
 
 
 Route::middleware('auth')->group(function () {

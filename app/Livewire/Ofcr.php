@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Archive;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -148,6 +149,33 @@ class Ofcr extends Component
     {
         if ($this->postId){
             $post = User::find($this->postId);
+            Archive::create([
+                'id' => $post->id,
+                'status' => $post->status,
+                'role' => $post->role,
+                'first_name' => $post->first_name,
+                'last_name' => $post->last_name,
+                'name' => $post->name,
+                'email' => $post->email,
+                'employee_id' => $post->employee_id,
+                'email_verified_at' => $post->email_verified_at,
+                'department' => $post->department,
+                'position' => $post->position,
+                'station' => $post->station,
+                'shift' => $post->shift,
+                'password' => $post->password,
+                'image' => $post->image,
+                'last_seen' => $post->last_seen,
+                'region_text' => $post->region_text,
+                'province_text' => $post->province_text,
+                'city_text' => $post->city_text,
+                'barangay_text' => $post->barangay_text,
+                'street' => $post->street,
+                'zip_code' => $post->zip_code,
+                'remember_token' => $post->remember_token,
+                'created_at' => $post->created_at,
+                'updated_at' => $post->updated_at,
+            ]);
             Storage::delete($post->image);
             $post->delete();
 

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="{{asset('img/iconlogo.png')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('img/iconlogo.png') }}" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('chatify-meta')
@@ -35,12 +35,10 @@
 
     <!--Leaflet-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/>
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     {{-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
         integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" /> --}}
@@ -62,8 +60,11 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-        @include('layouts.navigation')
-
+        @if (Auth::user()->role == 'admin')
+            @include('layouts.navigation')
+        @elseif (Auth::user()->role == 'supervisor')
+            @include('layouts.navigation')
+        @endif
         <!-- Page Heading -->
         @if (isset($header))
             <header class="bg-white dark:bg-gray-800 shadow">
@@ -81,4 +82,5 @@
     @livewireScripts
     @stack('chatify-footer')
 </body>
+
 </html>

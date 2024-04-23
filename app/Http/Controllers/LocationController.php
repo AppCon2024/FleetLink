@@ -16,7 +16,8 @@ class LocationController extends Controller
         $userId = auth()->id();
 
         $updateLoc = Locations::where('userId', $userId)->first();
-        
+        $updateLoc2 = Borrows::where('userId', $userId)->first();
+
 
         if($updateLoc){
             $updateLoc->latitude = $lat;
@@ -31,14 +32,66 @@ class LocationController extends Controller
             $newLoc->accuracy = $accuracy;
             $newLoc->save();
         }
+
+        if($updateLoc2){
+            $updateLoc2->latitude = $lat;
+            $updateLoc2->longitude = $lng;
+            $updateLoc2->accuracy = $accuracy;
+            $updateLoc2->save();
+        }
+
+
+
         return response()->json(['success' => true]);
+    }
+
+    public function getUserLocation(){
+        $userLocs = Borrows::all();
+        $userLocations = [];
+
+        foreach($userLocs as $user){
+            $location = [
+                'userId' => $userLocs->userId,
+                'lat' => $userLocs->latitude,
+                'lng' => $userLocs->longitude,
+                'accuracy' => $userLocs->accuracy,
+            ];
+            $userLocations[] = $location;
+        }
+
+        return response()->json($userLocations);
+    }
+
+    public function fetchMap(){
+        $userLocs = Borrows::where('time_out','- - -')
+                ->with('user')
+                ->get();
+        foreach($userLocs as $user){
+            $location = [
+                'userId' => $user->userId,
+                'lat' => $user->latitude,
+                'lng' => $user->longitude,
+                'accuracy' => $user->accuracy,
+                'plate' => $user->plate,
+                'name' => $user->user->name,
+                'station' => $user->user->station,
+                'brand' => $user->brand,
+                'model' => $user->model
+            ];
+            $userLocations[] = $location;
+        }
+        return response()->json($userLocations);
     }
 
     public function index(){
 
-        $userLocs = Borrows::where('time_out','- - -')->get();
-        return view('livewire.tracking',[
-            'userLoc' => $userLocs
+        $userLocs = Borrows::where('time_out','- - -')
+                ->with('user')
+                ->with('location')
+                ->get();
+
+        return view('pages.tracking',[
+            'userLocs' => $userLocs,
         ]);
     }
 }
