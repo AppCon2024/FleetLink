@@ -200,6 +200,10 @@ class Vhcl extends Component
         $this->openQrModal();
     }
 
+    public function download(){
+        return response()->download(public_path($this->qrcode));
+    }
+
 
     public function edit($id)
     {

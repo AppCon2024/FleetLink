@@ -57,7 +57,7 @@
             </div>
         </div>
     </div>
-    
+
     {{-- <div id="latitude">123</div>
     <div id="longitude">123</div> --}}
 
@@ -263,12 +263,12 @@
             station10Marker.bindPopup("Station 10").addTo(map);
             station11Marker.bindPopup("Station 11").addTo(map);
             station12Marker.bindPopup("Station 12").addTo(map);
-    
+
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 20,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-    
+
         function fetchLat() {
             $.get('/user-location', function(locs) {
                 // Remove all existing markers
@@ -276,7 +276,7 @@
                     map.removeLayer(marker);
                 });
                 markers = [];
-    
+
                 // Add a marker for each location
                 locs.forEach(function(loc) {
                     var newMarker = L.marker([parseFloat(loc.lat), parseFloat(loc.lng)], {icon: officerIcon}).addTo(map);
@@ -294,11 +294,17 @@
             var lng = $(this).data('lng');
             map.setView([lat, lng]);
         });
-    
+
         // Update the value every 2 seconds
         setInterval(fetchLat, 2000);
-    
+
         // Call the function initially to display the current value
         fetchLat();
+
+        setInterval(function(){
+    $('#users').load('your_data_source.php #users');
+}, 2000);
+
+
     </script>
 </x-app-layout>
