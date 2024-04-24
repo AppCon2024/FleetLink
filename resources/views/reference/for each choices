@@ -1,0 +1,5 @@
+<div>
+  @foreach ($products as $product)
+    <input type="text" id="product_{{ $product->id }}" wire:model="products.{{ $product->id }}.name">
+  @endforeach
+</div>
