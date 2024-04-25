@@ -89,8 +89,8 @@
                                             </td>
                                             <td class="px-4 py-3 text-center ">
                                                 <a wire:navigate href="supv/{{ $supv->id }}"
-                                                    class= "bg-{{ $supv->status ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded text-sm hover:bg-gray-200 hover:text-gray-600 border hover:border-blue-800">
-                                                    {{ $supv->status ? 'Enabled' : 'Disabled' }}
+                                                    class= "bg-{{ $supv->status ? 'red' : 'green' }}-500 text-white py-1 px-3 rounded text-sm hover:bg-gray-200 hover:text-gray-600 border hover:border-blue-800">
+                                                    {{ $supv->status ? 'Disable' : 'Enable' }}
                                                 </a>
                                             </td>
                                             <td class="px-1">

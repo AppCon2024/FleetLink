@@ -37,7 +37,7 @@ class VehiclesFactory extends Factory
             'status' => fake()->randomElement([0,1]),
             'station' => fake()->randomElement(['Station 1','Station 2','Station 3','Station 4','Station 5','Station 6','Station 7','Station 8','Station 9','Station 10','Station 11','Station 12']),
             'type' => fake()->randomElement(['Car','Motor']),
-            'qrcode' => '/qrcodes/qrcode_CAL001.svg'
+            'qrcode' => '/qrcodes/CAL001.svg'
         ];
     }
 }

@@ -25,7 +25,7 @@ class VehicleSeeder extends Seeder
             'station' => 'Station 1',
             'type' => 'Car',
             'status' => '1',
-            'qrcode' => '/qrcodes/qrcode_CAL001.svg',
+            'qrcode' => '/qrcodes/CAL001.svg',
         ]);
 
         Vehicles::create([
@@ -40,7 +40,7 @@ class VehicleSeeder extends Seeder
             'station' => 'Station 1',
             'type' => 'Car',
             'status' => '1',
-            'qrcode' => '/qrcodes/qrcode_CAL002.svg',
+            'qrcode' => '/qrcodes/CAL002.svg',
         ]);
 
         Vehicles::create([
@@ -55,7 +55,7 @@ class VehicleSeeder extends Seeder
             'station' => 'Station 1',
             'type' => 'Car',
             'status' => '1',
-            'qrcode' => '/qrcodes/qrcode_CAL003.svg',
+            'qrcode' => '/qrcodes/CAL003.svg',
         ]);
 
         Vehicles::create([
@@ -70,7 +70,7 @@ class VehicleSeeder extends Seeder
             'station' => 'Station 1',
             'type' => 'Car',
             'status' => '1',
-            'qrcode' => '/qrcodes/qrcode_CAL004.svg',
+            'qrcode' => '/qrcodes/CAL004.svg',
         ]);
     }
 }
