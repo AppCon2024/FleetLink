@@ -64,11 +64,11 @@
                                     </thead>
                                     <tbody>
                                         @forelse ($data as $ofcr)
-                                            <tr wire:key="{{ $ofcr->id }}" class="border-b dark:border-gray-700">
+                                            <tr wire:key="{{ $ofcr->id }}" class="border-b dark:border-gray-700 hover:bg-gray-100">
                                                 <th scope="row"
                                                     class="px-4 py-3 text-xs capitalize font-medium text-blue-600 whitespace-nowrap">
                                                     {{ $ofcr->name }}</th>
-                                                <td class="px-2 py-1" style="text-align: center;">
+                                                <td class="px-2" style="text-align: center;">
                                                     <button wire:click="view({{ $ofcr->id }})">
                                                         <img src="{{ asset($ofcr->image) }}" width='35'
                                                             height="35" class="rounded-md border border-black mt-1">
@@ -79,19 +79,37 @@
                                                 <td class="px-4 py-3 text-xs">{{ $ofcr->department }}</td>
                                                 <td class="px-4 py-3 text-xs">{{ $ofcr->position }}</td>
                                                 <td class="px-4 py-3">
-                                                    <span
-                                                        class="bg-gray-200 border border-gray-400 py-1 px-3 text-xs text-gray-900 rounded-full ">{{ $ofcr->shift }}</span>
+                                                    <div class="flex items-center">
+                                                        <div>
+                                                            @if($ofcr->shift === 'Night')
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray" class="w-4 h-4">
+                                                                <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z" clip-rule="evenodd" />
+                                                              </svg>
+                                                            @elseif ($ofcr->shift === 'Morning')
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="orange" class="w-4 h-4">
+                                                                <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" />
+                                                              </svg>
+                                                            @endif
+                                                        </div>
+                                                        <span class="text-xs text-gray-900 ml-1">
+                                                            {{ $ofcr->shift }}
+                                                        </span>
+                                                    </div>
                                                 </td>
-                                                <td class="px-4 py-3 ">
-                                                    <span
-                                                        class="bg-{{ $ofcr->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-xs">
-                                                        {{ $ofcr->last_seen >= now()->subMinutes(2) ? 'Online' : 'Offline' }}
-                                                    </span>
+                                                <td class="px-4 py-3">
+                                                    <div class="flex items-center">
+                                                        <div
+                                                            class="h-2 w-2 rounded-full bg-{{ $ofcr->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 me-1 ">
+                                                        </div>
+                                                        <span class="text-gray-900 text-xs">
+                                                            {{ $ofcr->last_seen >= now()->subMinutes(2) ? 'Online' : 'Offline' }}
+                                                        </span>
+                                                    </div>
                                                 </td>
                                                 <td class="px-4 py-3">
                                                     <a wire:navigate href="ofcr/{{ $ofcr->id }}"
-                                                        class= "bg-{{ $ofcr->status ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded text-sm">
-                                                        {{ $ofcr->status ? 'Enabled' : 'Disabled' }}
+                                                        class= "bg-{{ $ofcr->status ? 'red' : 'green' }}-500 text-white py-1 px-3 rounded text-sm">
+                                                        {{ $ofcr->status ? 'Disable' : 'Enable' }}
                                                     </a>
                                                 </td>
                                                 <td class="px-1">
@@ -99,8 +117,8 @@
                                                         <button wire:click="toggleDropdown({{ $ofcr->id }})"
                                                             class="focus:outline-none">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                                class="w-6 h-6 mt-1">
+                                                                viewBox="0 0 24 24" stroke-width="1.5"
+                                                                stroke="currentColor" class="w-6 h-6 mt-1">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                     d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
                                                             </svg>
@@ -240,7 +258,8 @@
                                 </div>
                             </div>
                             <div class="overflow-x-auto relative">
-                                <table id="myTable1" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <table id="myTable1"
+                                    class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                                         <tr>
 
@@ -291,19 +310,37 @@
                                                 <td class="px-4 py-3 text-xs">{{ $ofcr->department }}</td>
                                                 <td class="px-4 py-3 text-xs">{{ $ofcr->position }}</td>
                                                 <td class="px-4 py-3">
-                                                    <span
-                                                        class="bg-gray-200 border border-gray-400 py-1 px-3 text-xs text-gray-900 rounded-full ">{{ $ofcr->shift }}</span>
+                                                    <div class="flex items-center">
+                                                        <div>
+                                                            @if($ofcr->shift === 'Night')
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray" class="w-4 h-4">
+                                                                <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z" clip-rule="evenodd" />
+                                                              </svg>
+                                                            @elseif ($ofcr->shift === 'Morning')
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="orange" class="w-4 h-4">
+                                                                <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" />
+                                                              </svg>
+                                                            @endif
+                                                        </div>
+                                                        <span class="text-xs text-gray-900 ml-1">
+                                                            {{ $ofcr->shift }}
+                                                        </span>
+                                                    </div>
                                                 </td>
                                                 <td class="px-4 py-3 ">
-                                                    <span
-                                                        class="bg-{{ $ofcr->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-xs">
-                                                        {{ $ofcr->last_seen >= now()->subMinutes(2) ? 'Online' : 'Offline' }}
-                                                    </span>
+                                                    <div class="flex items-center">
+                                                        <div
+                                                            class="h-2 w-2 rounded-full bg-{{ $ofcr->last_seen >= now()->subMinutes(2) ? 'green' : 'red' }}-500 me-1 ">
+                                                        </div>
+                                                        <span class="text-gray-900 text-xs">
+                                                            {{ $ofcr->last_seen >= now()->subMinutes(2) ? 'Online' : 'Offline' }}
+                                                        </span>
+                                                    </div>
                                                 </td>
                                                 <td class="px-4 py-3">
                                                     <a wire:navigate href="ofcr/{{ $ofcr->id }}"
-                                                        class= "bg-{{ $ofcr->status ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded text-sm">
-                                                        {{ $ofcr->status ? 'Enabled' : 'Disabled' }}
+                                                        class= "bg-{{ $ofcr->status ? 'red' : 'green' }}-500 text-white py-1 px-3 rounded text-sm">
+                                                        {{ $ofcr->status ? 'Disable' : 'Enable' }}
                                                     </a>
                                                 </td>
                                                 <td class="px-1">
@@ -311,8 +348,8 @@
                                                         <button wire:click="toggleDropdown({{ $ofcr->id }})"
                                                             class="focus:outline-none">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                                class="w-6 h-6 mt-1">
+                                                                viewBox="0 0 24 24" stroke-width="1.5"
+                                                                stroke="currentColor" class="w-6 h-6 mt-1">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                     d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
                                                             </svg>
@@ -448,12 +485,12 @@
         var headerRow = printTable.insertRow();
 
         // Define the custom header text for each column
-        var customHeaders = ["Name", "NAME", "STATION", "DEPARTMENT", "POSITION", "SHIFT"];
+        var customHeaders = ["Name", "NAME", "STATION", "DEPARTMENT", "POSITION"];
 
         // Loop through the header cells of the original table
         for (var j = 1; j < table.rows[1].cells.length; j++) {
             // Check if the column index is in the list of columns you want to print
-            if ([1, 2, 3, 4, 5].includes(j)) {
+            if ([1, 2, 3, 4].includes(j)) {
                 var headerCell = headerRow.insertCell();
                 headerCell.innerHTML = customHeaders[j];
                 headerCell.style.width = "20%";
@@ -467,7 +504,7 @@
             // Loop through the cells of the current row
             for (var j = 0; j < table.rows[i].cells.length; j++) {
                 // Check if the column index is in the list of columns you want to print
-                if ([0, 2, 3, 4, 5].includes(j)) {
+                if ([0, 2, 3, 4].includes(j)) {
                     var cell = row.insertCell();
                     cell.innerHTML = table.rows[i].cells[j].innerHTML;
                     cell.style.width = "20%";
@@ -483,7 +520,6 @@
         newWindow.print();
         newWindow.close();
     }
-
 </script>
 <script>
     function printTable1() {
@@ -533,12 +569,11 @@
         }
 
         // Add a title to the printed output
-        newWindow.document.write("<h1>Officers of {{$title}}</h1>");
+        newWindow.document.write("<h1>Officers of {{ $title }}</h1>");
         newWindow.document.write(printTable.outerHTML);
         newWindow.document.write("</body></html>");
         newWindow.document.close();
         newWindow.print();
         newWindow.close();
     }
-
 </script>

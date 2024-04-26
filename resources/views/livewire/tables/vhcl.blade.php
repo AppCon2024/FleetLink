@@ -74,12 +74,29 @@
                                                 <td class="px-4 py-1">
                                                     {{ $vhcl->model }}</td>
                                                 <td class="px-4 py-1">
-                                                    {{ $vhcl->type }}</td>
+                                                    @if ($vhcl->type === 'Car')
+                                                    <i class="ri-car-fill text-black"></i>
+                                                    @elseif ($vhcl->type === 'Motor')
+                                                    <i class="ri-motorbike-fill text-black"></i>
+                                                    @endif
+                                                   {{ $vhcl->type }}</td>
                                                 <td class="px-1 py-1">
-                                                    <span
-                                                        class="bg-{{ $vhcl->status == 1 ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-xs">
-                                                        {{ $vhcl->status == 1 ? 'Available' : 'Unavailable' }}
-                                                    </span>
+                                                    <div class="flex items-center">
+                                                        <div>
+                                                            @if($vhcl->status === '1')
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="green" class="w-4 h-4">
+                                                                <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" />
+                                                              </svg>
+                                                            @elseif ($vhcl->status === '0')
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red" class="w-4 h-4">
+                                                                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" clip-rule="evenodd" />
+                                                              </svg>
+                                                            @endif
+                                                        </div>
+                                                        <span class="text-xs text-gray-900 ml-1">
+                                                            {{ $vhcl->status == 1 ? 'Available' : 'Unavailable' }}
+                                                        </span>
+                                                    </div>
                                                 </td>
                                                 <td class="py-2 flex items-center justify-center">
                                                     <button wire:click="view({{ $vhcl->id }})" class="flex items-center justify-center" style="text-align: center">
@@ -87,7 +104,6 @@
                                                             height="30">
                                                     </button>
                                                 </td>
-
                                                 <td class="px-1">
                                                     <div class="relative flex justify-end items-center">
                                                         <button wire:click="toggleDropdown({{ $vhcl->id }})"
@@ -278,8 +294,13 @@
                                                     {{ $vhcl->brand }}</td>
                                                 <td class="px-4 py-1">
                                                     {{ $vhcl->model }}</td>
-                                                <td class="px-4 py-1">
-                                                    {{ $vhcl->type }}</td>
+                                                    <td class="px-4 py-1">
+                                                        @if ($vhcl->type === 'Car')
+                                                        <i class="ri-car-fill text-black"></i>
+                                                        @elseif ($vhcl->type === 'Motor')
+                                                        <i class="ri-motorbike-fill text-black"></i>
+                                                        @endif
+                                                       {{ $vhcl->type }}</td>
                                                 <td class="px-1 py-1">
                                                     <span
                                                         class="bg-{{ $vhcl->status == 1 ? 'green' : 'red' }}-500 text-white py-1 px-3 rounded-full text-xs">
