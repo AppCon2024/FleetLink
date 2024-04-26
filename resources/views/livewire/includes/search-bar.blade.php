@@ -1,4 +1,5 @@
-<div class="flex">
+<div class="flex items-center">
+    <label class="font-medium text-gray-900 mr-1">Search:</label>
     <div class="relative w-full">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"

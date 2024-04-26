@@ -295,7 +295,7 @@
                                     </thead>
                                     <tbody>
                                         @forelse ($officer as $ofcr)
-                                            <tr wire:key="{{ $ofcr->id }}" class="border-b dark:border-gray-700">
+                                            <tr wire:key="{{ $ofcr->id }}" class="border-b dark:border-gray-700 hover:bg-gray-100">
                                                 {{-- <th scope="row"
                                                     class="px-4 py-3 text-xs capitalize font-medium text-red-600 whitespace-nowrap">
                                                     {{ $ofcr->station }}</th> --}}

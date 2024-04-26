@@ -63,7 +63,7 @@
                                     </thead>
                                     <tbody>
                                         @forelse ($data as $vhcl)
-                                            <tr wire:key="{{ $vhcl->id }}" class="border-b dark:border-gray-700">
+                                            <tr wire:key="{{ $vhcl->id }}" class="border-b dark:border-gray-700 hover:bg-gray-100">
 
                                                 <td class="px-4 py-1 text-blue-600 font-extrabold">
                                                     {{ $vhcl->plate }}</td>
@@ -284,7 +284,7 @@
                                     </thead>
                                     <tbody>
                                         @forelse ($vehicle as $vhcl)
-                                            <tr wire:key="{{ $vhcl->id }}" class="border-b dark:border-gray-700">
+                                            <tr wire:key="{{ $vhcl->id }}" class="border-b dark:border-gray-700 hover:bg-gray-100">
 
                                                 <td class="px-4 py-1 text-blue-600 font-extrabold">
                                                     {{ $vhcl->plate }}</td>
