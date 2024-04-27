@@ -52,31 +52,29 @@ Route::get('/dashboard', function () {
     return view('pages.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/tracking', [LocationController::class, 'index'])->name('tracking');
+Route::controller(DashboardController::class)->group(function(){
+    Route::get('/dashboard','countUsersByRole')->name('dashboard');
+    Route::get('/user-location-db','fetchMap');
+});
 
-Route::get('/user-location', [LocationController::class, 'fetchMap']);
-Route::get('/user-location-db', [DashboardController::class, 'fetchMap']);
-
+Route::controller(LocationController::class)->group(function(){
+    Route::get('/user-location','fetchMap');
+    Route::get('/tracking','index')->name('tracking');
+    Route::post('/tracking','store');
+});
 
 Route::get('/archives', [ArchivesController::class, 'index'])->name('index.archives');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
 });
 
+Route::patch('/profile_address', [ProfileController::class, 'addressUpdate'])->name('profile.addressUpdate');
 
 Route::get('supv/{id}',[Supv::class, 'status']);
 Route::get('ofcr/{id}',[Ofcr::class, 'status']);
-Route::post('/geolocations/update', [UserLocation::class, 'saveGeolocation']);
-Route::get('/employees/{employeeId}/location', [UserLocation::class, 'saveGeolocation']);
-Route::post('/user-data/update', [savelocation::class, 'saveGeolocation']);
-
-
-Route::post('tracking',[LocationController::class, 'store'])->middleware('auth');
 
 Route::controller(SupervisorsController::class)->group(function(){
     Route::get('/supervisors','index')->middleware(['auth', 'verified'])->name('supervisors');
@@ -85,7 +83,6 @@ Route::controller(SupervisorsController::class)->group(function(){
     Route::delete('/delete/{supervisor}','supervisor_delete')->name('supervisor_delete');
     Route::get('/sms','App\Http\Controllers\SmsController@sms')->name('sms.sms');
     Route::get('/messenger', 'messenger')->name('messenger.messenger');
-
 });
 
 Route::controller(AccountsController::class)->group(function(){
@@ -95,7 +92,6 @@ Route::controller(AccountsController::class)->group(function(){
     Route::delete('/delete1/{account}','destroy')->name('accounts.delete');
     Route::get('mobile', 'mobile')->name('mobile.mobile');
 });
-
 
 Route::controller(VehiclesController::class)->group(function(){
     Route::get('/vehicles','index')->middleware(['auth', 'verified'])->name('vehicles');
@@ -108,12 +104,11 @@ Route::controller(VehiclesController::class)->group(function(){
     Route::get('/vehicle/{vehicleId}', 'status');
     Route::patch('/vehicle/status/{plate}','updateStatus');
     Route::post('/vehicles/borrow','borrow')->name('vehicles.borrow');
-
 });
 
 Route::get('/status', [StatusController::class, 'index'])->name('vehicle.status');
-Route::get('/dashboard', [DashboardController::class, 'countUsersByRole'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::patch('/profile_address', [ProfileController::class, 'addressUpdate'])->name('profile.addressUpdate');
+
+
 
 require __DIR__.'/auth.php';
 
