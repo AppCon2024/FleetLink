@@ -63,7 +63,7 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($data as $supv)
-                                        <tr wire:key="{{ $supv->id }}" class="border-b dark:border-gray-700">
+                                        <tr wire:key="{{ $supv->id }}" class="border-b dark:border-gray-700 hover:bg-gray-100">
                                             <th scope="row"
                                                 class="px-4 py-3 text-xs capitalize font-medium text-blue-600 whitespace-nowrap">
                                                 {{ $supv->name }}</th>

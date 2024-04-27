@@ -1,8 +1,8 @@
 @if (session()->has('message'))
     <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
-        class="bg-blue-200 fixed m-10 bottom-0 right-0 z-20 border-t-4 border-blue-500 rounded-b text-blue-900 px-4 py-3 shadow-md"
+        class="bg-blue-200 fixed m-10 top-0 right-0 z-50 border-l-4 border-blue-500 rounded-b text-blue-900 px-4 py-3 shadow-md"
         role="alert">
-        <div class="flex">
+        <div class="flex items-center">
             <div class="py-1"><svg class="fill-current h-6 w-6 text-blue-700 mr-4" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20">
                     <path
