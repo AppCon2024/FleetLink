@@ -27,7 +27,7 @@
                 {{-- <a href="/">
                     <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
                 </a> --}}
-                <a href="{{ route('dashboard') }}">
+                <a href="{{ route('home') }}">
                     <h3 name="logo" class="font-abnes font-bold sm:text-4xl text-2xl text-blue-600 ">FLEETLINK</h3>
                     </a>
             </div>

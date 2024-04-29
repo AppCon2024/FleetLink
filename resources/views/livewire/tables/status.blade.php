@@ -7,7 +7,7 @@
                 </div>
                 <div class="flex-1">
                     <div class="w-full">
-                        <div class="bg-white border border-blue-300 rounded-3xl overflow-hidden p-5 shadow-md">
+                        <div class="bg-white h-[580px] rounded-3xl overflow-y-auto shadow-md p-5 border border-blue-300">
                             <div class="flex items-center justify-between p-4">
                                 @include('livewire.includes.search-bar')
                                 {{-- <div class="flex space-x-3">
