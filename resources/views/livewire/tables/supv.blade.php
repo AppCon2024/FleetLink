@@ -6,7 +6,7 @@
             </div>
             <div class="flex-1">
                 <div class="w-full">
-                    <div class="bg-white border border-blue-300 rounded-3xl overflow-hidden p-5 shadow-md">
+                    <div class="bg-white h-[580px] rounded-3xl overflow-y-auto shadow-md p-5 border border-blue-300">
                         <div class="flex items-center justify-between p-4">
                             @include('livewire.includes.search-bar')
                             <div class="flex space-x-3">
@@ -273,12 +273,12 @@
         var headerRow = printTable.insertRow();
 
         // Define the custom header text for each column
-        var customHeaders = ["Name", "Name", "Station", "Department", "Position", "Shift"];
+        var customHeaders = ["Name", "Name", "Station", "Department", "Position"];
 
         // Loop through the header cells of the original table
         for (var j = 1; j < table.rows[1].cells.length; j++) {
             // Check if the column index is in the list of columns you want to print
-            if ([1, 2, 3, 4, 5].includes(j)) {
+            if ([1, 2, 3, 4].includes(j)) {
                 var headerCell = headerRow.insertCell();
                 headerCell.innerHTML = customHeaders[j];
                 headerCell.style.width = "20%";
@@ -292,7 +292,7 @@
             // Loop through the cells of the current row
             for (var j = 0; j < table.rows[i].cells.length; j++) {
                 // Check if the column index is in the list of columns you want to print
-                if ([2, 0, 3, 4, 5].includes(j)) {
+                if ([2, 0, 3, 4].includes(j)) {
                     var cell = row.insertCell();
                     cell.innerHTML = table.rows[i].cells[j].innerHTML;
                     cell.style.width = "20%";

@@ -38,11 +38,11 @@ Route::redirect('/', destination: 'home');
 
 Route::get('/landing-page', function(){
     return view('pages.landing-page');
-});
+})->name('landing');
 
 Route::get('/home', function(){
     return view('pages.home-page');
-});
+})->name('home');
 
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
